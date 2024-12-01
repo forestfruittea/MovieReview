@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
  public class MovieServiceImpl implements MovieService {
             private final MovieRepository movieRepository;
             private final MovieMapperImpl movieMapper;
+
             @Inject
             public MovieServiceImpl(MovieRepository movieRepository, MovieMapperImpl movieMapper) {
                 this.movieRepository = movieRepository;
@@ -24,35 +25,35 @@ import java.util.stream.Collectors;
             }
 
             @Override
-    public MovieDto createMovie(MovieDto movieDto) {
-        MovieEntity movieEntity = movieMapper.toEntity(movieDto);
-        movieEntity = movieRepository.createMovie(movieEntity);
-        return movieMapper.toDto(movieEntity);
-    }
+            public MovieDto createMovie(MovieDto movieDto) {
+                MovieEntity movieEntity = movieMapper.toEntity(movieDto);
+                movieEntity = movieRepository.createMovie(movieEntity);
+                return movieMapper.toDto(movieEntity);
+            }
 
-    @Override
-    public MovieDto updateMovie(MovieDto movieDto) {
-        MovieEntity movieEntity = movieMapper.toEntity(movieDto);
-        movieEntity = movieRepository.updateMovie(movieEntity);
-        return movieMapper.toDto(movieEntity);
-    }
+            @Override
+            public MovieDto updateMovie(MovieDto movieDto) {
+                MovieEntity movieEntity = movieMapper.toEntity(movieDto);
+                movieEntity = movieRepository.updateMovie(movieEntity);
+                return movieMapper.toDto(movieEntity);
+            }
 
-    @Override
-    public void deleteMovie(Long movieId) {
-        movieRepository.deleteMovie(movieId);
-    }
+            @Override
+            public void deleteMovie(Long movieId) {
+                movieRepository.deleteMovie(movieId);
+            }
 
-    @Override
-    public Optional<MovieDto> getMovieById(Long id) {
-        Optional<MovieEntity> movieEntity = movieRepository.findMovieById(id);
-        return movieEntity.map(movieMapper::toDto);
-    }
+            @Override
+            public Optional<MovieDto> getMovieById(Long id) {
+                Optional<MovieEntity> movieEntity = movieRepository.findMovieById(id);
+                return movieEntity.map(movieMapper::toDto);
+            }
 
-    @Override
-    public List<MovieDto> getAllMovies() {
-        List<MovieEntity> movieEntities = movieRepository.findAllMovies();
-        return movieEntities.stream()
-                .map(movieMapper::toDto)
-                .collect(Collectors.toList());
-    }
-}
+            @Override
+            public List<MovieDto> getAllMovies() {
+                List<MovieEntity> movieEntities = movieRepository.findAllMovies();
+                return movieEntities.stream()
+                        .map(movieMapper::toDto)
+                        .collect(Collectors.toList());
+            }
+        }

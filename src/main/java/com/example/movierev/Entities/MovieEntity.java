@@ -1,6 +1,7 @@
 package com.example.movierev.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,14 +21,28 @@ public class MovieEntity {
     private Long id;
 
     @Column(name = "title", nullable = false, length = 255)
+    @NotNull
     private String title;
 
     @Column(name = "description", length = 500)
     private String description;
+    private String country;
+    @Column(name = "starring_role")
+    @NotNull
+    private String starringRole;
+    @NotNull
+    private String director;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Column(name = "genre", length = 50)
+    @Column(name = "genre")
     private String genre;
+    @Column(name = "poster_path")
+    @NotNull
+    private String posterPath;
+    private Long length;
+    private Long budget;
+    @Column(name = "box_office")
+    private Long boxOffice;
 }

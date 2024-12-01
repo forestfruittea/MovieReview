@@ -12,4 +12,5 @@ public interface MovieService {
     void deleteMovie(Long movieId);
     Optional<MovieDto> getMovieById(Long id);
     List<MovieDto> getAllMovies();
+
 }

@@ -29,8 +29,12 @@ public class MovieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<MovieDto> movies = movieService.getAllMovies();
+        for (MovieDto movie : movies) {
+            if (movie.getPosterPath() != null && !movie.getPosterPath().isEmpty()) {
+                movie.setPosterPath("/MovieRev-1.0-SNAPSHOT/uploads/posters/" + movie.getPosterPath());
+            }
+        }
         req.setAttribute("movies", movies);
-        System.out.println(movies);
         req.getRequestDispatcher("/WEB-INF/movies.jsp").forward(req, resp);  // assuming you have a JSP to display movies
 
     }
@@ -41,21 +45,33 @@ public class MovieServlet extends HttpServlet {
         objectMapper.registerModule(new JavaTimeModule());
         MovieDto movieRequest = objectMapper.readValue(req.getReader(), MovieDto.class);
 
-        String title = movieRequest.getTitle();
-        String description = movieRequest.getDescription();
-        String genre = movieRequest.getGenre();
-        String releaseDateStr = String.valueOf(movieRequest.getReleaseDate());
-
-        LocalDate releaseDate = LocalDate.parse(releaseDateStr);  // Ensure proper date format
+        // Ensure proper date format
 
         MovieDto movieDto = new MovieDto();
-        movieDto.setTitle(title);
-        movieDto.setDescription(description);
-        movieDto.setGenre(genre);
-        movieDto.setReleaseDate(releaseDate);
+        movieDto.setTitle(movieRequest.getTitle());
+        movieDto.setDescription(movieRequest.getDescription());
+        movieDto.setGenre(movieRequest.getGenre());
+        movieDto.setReleaseDate(movieRequest.getReleaseDate());
+        movieDto.setPosterPath(movieRequest.getPosterPath());
+        movieDto.setCountry(movieRequest.getCountry());
+        movieDto.setDirector(movieRequest.getDirector());
+        movieDto.setStarringRole(movieRequest.getStarringRole());
+        movieDto.setLength(movieRequest.getLength());
+        movieDto.setBudget(movieRequest.getBudget());
+        movieDto.setBoxOffice(movieRequest.getBoxOffice());
 
         movieService.createMovie(movieDto);
 
         resp.getWriter().write("Movie created successfully!");
     }
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Long movieId = objectMapper.readValue(req.getReader(), Long.class); // Assuming the body contains just the movieId as a number
+
+        // Call the MovieService to delete the movie
+        movieService.deleteMovie(movieId);
+
+    }
 }
+
