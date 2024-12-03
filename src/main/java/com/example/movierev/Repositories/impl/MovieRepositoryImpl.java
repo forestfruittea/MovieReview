@@ -32,8 +32,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Optional<MovieEntity> findMovieById(Long id) {
-        return Optional.ofNullable(entityManager.find(MovieEntity.class, id));
+    public Optional<MovieEntity> findMovieById(Long movieId) {
+        return Optional.ofNullable(entityManager.find(MovieEntity.class, movieId));
     }
 
     @Override

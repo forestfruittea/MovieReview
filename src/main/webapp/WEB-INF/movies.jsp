@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,11 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 700px; /* Adjust card width */
             text-align: left;
+        }
+
+        .movie:hover{
+            background-color: silver;
+            transform: scale(1.2);
         }
 
         .movie-poster {
@@ -95,9 +101,28 @@
 
                 <!-- Additional Info -->
                 <div class="movie-info">
-                    <p>${movie.country} • ${movie.genre}</p>
-                    <p><span>Director:</span> ${movie.director}</p>
-                    <p><span>Starring role:</span> ${movie.starringRole}</p>
+                    <!-- Genres -->
+                    <p>${movie.country} •
+                        <c:if test="${not empty movie.genres}">
+                            <c:forEach var="genre" items="${movie.genres}" varStatus="status">
+                                ${genre.name}
+                                <c:if test="${!status.last}">,  </c:if>
+                            </c:forEach>
+                        </c:if>
+                    </p>
+                    <!-- Director -->
+                    <p><span>Director:</span> ${movie.director.name}</p>
+
+                    <!-- Starring Roles -->
+                    <p><span>Starring roles:</span>
+                        <c:if test="${not empty movie.actors}">
+                            <c:forEach var="actor" items="${movie.actors}" varStatus="status">
+                                ${actor.name}
+                                <c:if test="${!status.last}">,  </c:if>
+                            </c:forEach>
+                        </c:if>
+                    </p>
+
                 </div>
             </div>
         </div>

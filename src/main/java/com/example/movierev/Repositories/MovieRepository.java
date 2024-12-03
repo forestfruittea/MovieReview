@@ -12,7 +12,7 @@ public interface MovieRepository {
 
     void deleteMovie(Long movieId);
 
-    Optional<MovieEntity> findMovieById(Long id);
+    Optional<MovieEntity> findMovieById(Long movieId);
 
     List<MovieEntity> findAllMovies();
 }

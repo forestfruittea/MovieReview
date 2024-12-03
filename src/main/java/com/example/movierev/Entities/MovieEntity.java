@@ -2,47 +2,77 @@ package com.example.movierev.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
 @Table(name = "movies")
 public class MovieEntity {
+    @ToString.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 255)
+    @ToString.Include
+    @Column(name = "title", nullable = false)
     @NotNull
     private String title;
 
+    @ToString.Include
     @Column(name = "description", length = 500)
     private String description;
-    private String country;
-    @Column(name = "starring_role")
-    @NotNull
-    private String starringRole;
-    @NotNull
-    private String director;
 
+    @ToString.Include
+    @Column(name = "country")
+    private String country;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    private DirectorEntity director;
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<GenreEntity> genres;
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private List<ActorEntity> actors;
+
+    @ToString.Include
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Column(name = "genre")
-    private String genre;
-    @Column(name = "poster_path")
+    @ToString.Include
+    @Column(name = "poster_path", nullable = false)
     @NotNull
     private String posterPath;
+
+    @ToString.Include
+    @Column(name = "length")
     private Long length;
+
+    @ToString.Include
+    @Column(name = "budget")
     private Long budget;
+
+    @ToString.Include
     @Column(name = "box_office")
     private Long boxOffice;
 }

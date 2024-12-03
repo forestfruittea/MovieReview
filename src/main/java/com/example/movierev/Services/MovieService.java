@@ -7,7 +7,7 @@ import jakarta.ejb.EJB;
 import java.util.List;
 import java.util.Optional;
 public interface MovieService {
-    MovieDto createMovie(MovieDto movieDto);
+    void createMovie(MovieDto movieDto);
     MovieDto updateMovie(MovieDto movieDto);
     void deleteMovie(Long movieId);
     Optional<MovieDto> getMovieById(Long id);
