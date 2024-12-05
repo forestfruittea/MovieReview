@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
             private final ActorMapper actorMapper;
             private final GenreMapper genreMapper;
 
+
             @Inject
             public MovieServiceImpl(MovieRepository movieRepository, GenreRepository genreRepository, ActorRepository actorRepository, DirectorRepository directorRepository, MovieMapper movieMapper, DirectorMapper directorMapper, ActorMapper actorMapper, GenreMapper genreMapper) {
                 this.movieRepository = movieRepository;
@@ -87,6 +88,7 @@ import java.util.stream.Collectors;
             @Override
             public List<MovieDto> getAllMovies() {
                 List<MovieEntity> movieEntities = movieRepository.findAllMovies();
+
                 return movieEntities.stream()
                         .map(movieMapper::toDto) // Use the MapStruct mapper to convert each entity
                         .collect(Collectors.toList());

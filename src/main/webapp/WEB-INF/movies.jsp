@@ -42,7 +42,7 @@
 
         .movie:hover{
             background-color: silver;
-            transform: scale(1.2);
+            transform: scale(1.05);
         }
 
         .movie-poster {
@@ -88,10 +88,11 @@
 
 <div class="movie-list">
     <c:forEach var="movie" items="${movies}">
+        <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${movie.id}" class="movie">
         <div class="movie">
             <!-- Movie Poster -->
-            <c:if test="${not empty movie.posterPath}">
-                <img class="movie-poster" src="${movie.posterPath}" alt="${movie.title} Poster"/>
+            <c:if test="${not empty movie.fullPosterPath}">
+                <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title} Poster"/>
             </c:if>
 
             <!-- Movie Details -->
@@ -126,6 +127,7 @@
                 </div>
             </div>
         </div>
+        </a>
     </c:forEach>
 </div>
 

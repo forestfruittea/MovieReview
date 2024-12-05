@@ -75,4 +75,6 @@ public class MovieEntity {
     @ToString.Include
     @Column(name = "box_office")
     private Long boxOffice;
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviews;
 }

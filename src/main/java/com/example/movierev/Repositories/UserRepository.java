@@ -1,18 +1,21 @@
 package com.example.movierev.Repositories;
 
+import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Entities.UserEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-@ApplicationScoped
-public class UserRepository {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+import java.util.List;
+import java.util.Optional;
 
-    @Transactional
-    public void createUser(UserEntity user) {
-        entityManager.persist(user);
-    }
+public interface UserRepository {
+    UserEntity createUser(UserEntity userEntity);
+    UserEntity findUserByName(String username);
+
+    UserEntity updateUser(UserEntity userEntity);
+
+    void deleteUser(Long userId);
+
+    Optional<UserEntity> findUserById(Long userId);
+
+    List<UserEntity> findAllUsers();
+    public boolean existsByUsername(String username);
 }
