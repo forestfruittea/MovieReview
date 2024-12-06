@@ -20,7 +20,7 @@ public class ActorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
     @ManyToMany(mappedBy = "actors")
     @ToString.Exclude

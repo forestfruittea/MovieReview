@@ -1,20 +1,19 @@
 package com.example.movierev.Repositories;
 
 import com.example.movierev.Entities.DirectorEntity;
-import com.example.movierev.Entities.GenreEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface DirectorRepository {
-    DirectorEntity createDirector(DirectorEntity directorEntity);
+    DirectorEntity save(DirectorEntity directorEntity);
 
-    DirectorEntity updateDirector(DirectorEntity directorEntity);
+    DirectorEntity update(DirectorEntity directorEntity);
 
-    void deleteDirector(Long directorId);
+    void delete(Long directorId);
 
-    Optional<DirectorEntity> findDirectorById(Long directorId);
-    Optional<DirectorEntity> findDirectorByName(String name);
+    Optional<DirectorEntity> findById(Long directorId);
+    Optional<DirectorEntity> findByName(String name);
 
-    List<DirectorEntity> findAllDirectors();
+    List<DirectorEntity> findAll();
 }

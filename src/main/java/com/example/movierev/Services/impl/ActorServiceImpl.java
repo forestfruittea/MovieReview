@@ -6,6 +6,8 @@ import com.example.movierev.Mappers.impl.ActorMapper;
 import com.example.movierev.Repositories.ActorRepository;
 import com.example.movierev.Services.ActorService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -23,46 +25,48 @@ public class ActorServiceImpl implements ActorService {
         this.actorMapper = actorMapper;
     }
     @Override
-    public ActorDto createActor(ActorDto actorDto) {
+    public ActorDto save(ActorDto actorDto) {
         ActorEntity actorEntity = actorMapper.toEntity(actorDto);
-        actorEntity = actorRepository.createActor(actorEntity);
+        actorEntity = actorRepository.save(actorEntity);
         return actorMapper.toDto(actorEntity);
     }
 
     @Override
-    public ActorDto updateActor(ActorDto actorDto) {
+    public ActorDto update(ActorDto actorDto) {
         ActorEntity actorEntity = actorMapper.toEntity(actorDto);
-        actorEntity = actorRepository.updateActor(actorEntity);
+        actorEntity = actorRepository.update(actorEntity);
         return actorMapper.toDto(actorEntity);
     }
 
     @Override
-    public void deleteActor(Long actorId) {
-        actorRepository.deleteActor(actorId);
+    public void delete(Long actorId) {
+        actorRepository.delete(actorId);
     }
 
     @Override
-    public Optional<ActorDto> getActorById(Long actorId) {
-        Optional<ActorEntity> actorEntity = actorRepository.findActorById(actorId);
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<ActorDto> findById(Long actorId) {
+        Optional<ActorEntity> actorEntity = actorRepository.findById(actorId);
         return actorEntity.map(actorMapper::toDto);
     }
 
     @Override
-    public List<ActorDto> getAllActors() {
-        List<ActorEntity> actorEntities = actorRepository.findAllActors();
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ActorDto> findAll() {
+        List<ActorEntity> actorEntities = actorRepository.findAll();
         return actorEntities.stream()
                 .map(actorMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ActorDto findOrCreate(ActorDto actorDto) {
-        Optional<ActorEntity> existing = actorRepository.findActorByName(actorDto.getName());
+    public ActorDto findOrSave(ActorDto actorDto) {
+        Optional<ActorEntity> existing = actorRepository.findByName(actorDto.getName());
         if (existing.isPresent()) {
             return actorMapper.toDto(existing.get());
         }
         ActorEntity newActor = actorMapper.toEntity(actorDto);
-        ActorEntity savedActor = actorRepository.createActor(newActor);
+        ActorEntity savedActor = actorRepository.save(newActor);
         return actorMapper.toDto(savedActor);
     }
 }

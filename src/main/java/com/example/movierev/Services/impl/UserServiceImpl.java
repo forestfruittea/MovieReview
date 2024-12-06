@@ -2,17 +2,20 @@ package com.example.movierev.Services.impl;
 
 import com.example.movierev.DTOs.UserDto;
 import com.example.movierev.Entities.UserEntity;
-import com.example.movierev.Mappers.Mapper;
 import com.example.movierev.Mappers.impl.UserMapper;
 import com.example.movierev.Repositories.UserRepository;
 import com.example.movierev.Services.UserService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Stateless
 public class UserServiceImpl implements UserService {
@@ -26,16 +29,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registerUser(UserDto userDto) {
-        // Check if the username already exists
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            return false; // Username already taken
+            return false;
         }
-
-        // Hash the password (use bcrypt for password hashing)
         String hashedPassword = hashPassword(userDto.getPassword());
 
-        // Create a new user entity
         UserEntity newUser = userMapper.toEntity(userDto);
+        newUser.setAvatarPath(ResourceBundle.getBundle("application").getString("base.avatar"));
         newUser.setPassword(hashedPassword);
 
         if (newUser.getRole() == null || newUser.getRole().isEmpty()) {
@@ -43,53 +43,57 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            // Save the new user to the database
-            userRepository.createUser(newUser);
-            return true; // User registration successful
+            userRepository.save(newUser);
+            return true;
         } catch (PersistenceException e) {
-            // Handle database error (e.g., unique constraint violation)
-            return false; // Registration failed
+
+            return false;
         }
     }
-
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Long authenticate(String username, String password) {
-        // Find the user by username
-        UserEntity user = userRepository.findUserByName(username);
+        UserEntity user = userRepository.findByName(username);
 
         if (user != null && verifyPassword(password, user.getPassword())) {
-            // Password matches, return user ID
             return user.getId();
         }
-
-        // Authentication failed
         return null;
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
+    public UserDto update(UserDto userDto) {
         return null;
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void delete(Long userId) {
 
     }
 
     @Override
-    public Optional<UserDto> getUserById(Long id) {
-        Optional<UserEntity> userEntity = userRepository.findUserById(id);
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<UserDto> findById(Long id) {
+        Optional<UserEntity> userEntity = userRepository.findById(id);
         return userEntity.map(userMapper::toDto);
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<UserDto> findAll() {
         return null;
     }
     private String hashPassword(String password) {
-        // Use bcrypt to hash the password with a work factor of 12 (you can adjust this as needed)
-        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // 12 is the strength factor (higher = slower hashing)
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     private boolean verifyPassword(String plaintextPassword, String hashedPassword) {
         return BCrypt.checkpw(plaintextPassword, hashedPassword);
+    }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Long getLoggedInUserId(HttpServletRequest req) {
+        //Mock
+        Long user = 4L;
+        return user;
     }
 }

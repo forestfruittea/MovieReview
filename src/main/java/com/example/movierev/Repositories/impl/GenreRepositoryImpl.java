@@ -17,28 +17,28 @@ public class GenreRepositoryImpl implements GenreRepository {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public GenreEntity createGenre(GenreEntity genreEntity) {
+    public GenreEntity save(GenreEntity genreEntity) {
         entityManager.persist(genreEntity);
         return genreEntity;
     }
 
     @Override
-    public GenreEntity updateGenre(GenreEntity genreEntity) {
+    public GenreEntity update(GenreEntity genreEntity) {
         return entityManager.merge(genreEntity);
     }
 
     @Override
-    public void deleteGenre(Long genreId) {
+    public void delete(Long genreId) {
         GenreEntity genreEntity = entityManager.find(GenreEntity.class, genreId);
         if (genreEntity !=null) entityManager.remove(genreEntity);
     }
 
     @Override
-    public Optional<GenreEntity> findGenreById(Long genreId) {
+    public Optional<GenreEntity> findById(Long genreId) {
         return Optional.ofNullable(entityManager.find(GenreEntity.class, genreId));
     }
     @Override
-    public Optional<GenreEntity> findGenreByName(String name) {
+    public Optional<GenreEntity> findByName(String name) {
         try {
             GenreEntity genreEntity = entityManager
                     .createQuery("SELECT g FROM GenreEntity g WHERE g.name = :name", GenreEntity.class)
@@ -51,7 +51,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     @Override
-    public List<GenreEntity> findAllGenres() {
+    public List<GenreEntity> findAll() {
         return entityManager.createQuery("SELECT g FROM GenreEntity g", GenreEntity.class).getResultList();
     }
 }

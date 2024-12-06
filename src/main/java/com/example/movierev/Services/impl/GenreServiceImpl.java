@@ -6,6 +6,8 @@ import com.example.movierev.Mappers.impl.GenreMapper;
 import com.example.movierev.Repositories.GenreRepository;
 import com.example.movierev.Services.GenreService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -23,46 +25,48 @@ public class GenreServiceImpl implements GenreService {
         this.genreMapper = genreMapper;
     }
     @Override
-    public GenreDto createGenre(GenreDto genreDto) {
+    public GenreDto save(GenreDto genreDto) {
         GenreEntity genreEntity = genreMapper.toEntity(genreDto);
-        genreEntity = genreRepository.createGenre(genreEntity);
+        genreEntity = genreRepository.save(genreEntity);
         return genreMapper.toDto(genreEntity);
     }
 
     @Override
-    public GenreDto updateGenre(GenreDto genreDto) {
+    public GenreDto update(GenreDto genreDto) {
         GenreEntity genreEntity = genreMapper.toEntity(genreDto);
-        genreEntity = genreRepository.updateGenre(genreEntity);
+        genreEntity = genreRepository.update(genreEntity);
         return genreMapper.toDto(genreEntity);
     }
 
     @Override
-    public void deleteGenre(Long genreId) {
-        genreRepository.deleteGenre(genreId);
+    public void delete(Long genreId) {
+        genreRepository.delete(genreId);
     }
 
     @Override
-    public Optional<GenreDto> getGenreById(Long genreId) {
-        Optional<GenreEntity> genreEntity = genreRepository.findGenreById(genreId);
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<GenreDto> findById(Long genreId) {
+        Optional<GenreEntity> genreEntity = genreRepository.findById(genreId);
         return genreEntity.map(genreMapper::toDto);
     }
 
     @Override
-    public List<GenreDto> getAllGenres() {
-        List<GenreEntity> genreEntities = genreRepository.findAllGenres();
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<GenreDto> findAll() {
+        List<GenreEntity> genreEntities = genreRepository.findAll();
         return genreEntities.stream()
                 .map(genreMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GenreDto findOrCreate(GenreDto genreDto) {
-        Optional<GenreEntity> existing = genreRepository.findGenreByName(genreDto.getName());
+    public GenreDto findOrSave(GenreDto genreDto) {
+        Optional<GenreEntity> existing = genreRepository.findByName(genreDto.getName());
         if (existing.isPresent()) {
             return genreMapper.toDto(existing.get());
         }
         GenreEntity newGenre = genreMapper.toEntity(genreDto);
-        GenreEntity savedGenre = genreRepository.createGenre(newGenre);
+        GenreEntity savedGenre = genreRepository.save(newGenre);
         return genreMapper.toDto(savedGenre);
     }
 }

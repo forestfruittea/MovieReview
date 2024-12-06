@@ -20,22 +20,20 @@ import java.util.Optional;
 @WebServlet("/movie")
 public class MovieDetailsServlet extends HttpServlet {
     private final MovieService movieService;
-    @Inject
-    private ReviewService reviewService;
-    @Inject
-    private UserService userService;
+    private final ReviewService reviewService;
+    private final UserService userService;
 
     @Inject
-    public MovieDetailsServlet(MovieService movieService) {
+    public MovieDetailsServlet(MovieService movieService, ReviewService reviewService, UserService userService) {
         this.movieService = movieService;
+        this.reviewService = reviewService;
+        this.userService = userService;
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the review content from the form data
         String content = request.getParameter("content");
 
 
-        // Get the movieId from the form data
         String movieIdParam = request.getParameter("id");
         if (movieIdParam == null || content == null || content.isBlank()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid review data");
@@ -45,26 +43,23 @@ public class MovieDetailsServlet extends HttpServlet {
         try {
             Long movieId = Long.parseLong(movieIdParam);
 
-            // Get the current logged-in user ID
-            Long userId = getLoggedInUserId(request);
+            Long userId = userService.getLoggedInUserId(request);
 
-            // Fetch the UserDto from the UserService
-            Optional<UserDto> userOptional = userService.getUserById(userId);
+            Optional<UserDto> userOptional = userService.findById(userId);
+            Optional<MovieDto> movieDtoOptional = movieService.findById(movieId);
 
-            if (userOptional.isPresent()) {
+            if (userOptional.isPresent()&&movieDtoOptional.isPresent()) {
                 UserDto userDto = userOptional.get();
+                MovieDto movieDto = movieDtoOptional.get();
 
-                // Create and populate the ReviewDto
                 ReviewDto reviewDto = new ReviewDto();
                 reviewDto.setContent(content);
                 reviewDto.setUser(userDto);
-                reviewDto.setMovieId(movieId);
+                reviewDto.setMovie(movieDto);
 
-                // Add the review
-                reviewService.addReview(reviewDto);
+                reviewService.save(reviewDto);
 
-                // Refresh movie details and reviews
-                doGet(request, response); // Forward the updated data to the JSP
+                doGet(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
             }
@@ -79,34 +74,24 @@ public class MovieDetailsServlet extends HttpServlet {
             try {
                 Long id = Long.parseLong(movieId);
 
-                // Get the movie from the service
-                Optional<MovieDto> optionalMovie = movieService.getMovieById(id);
-                List<ReviewDto> reviewDtoList = reviewService.getReviewsForMovie(id);
+                Optional<MovieDto> optionalMovie = movieService.findById(id);
+                List<ReviewDto> reviewDtoList = reviewService.findAllForMovie(id);
 
                 if (optionalMovie.isPresent()) {
 
-                    // Movie found, forward to the JSP
                     request.setAttribute("movie", optionalMovie.get());
                     request.setAttribute("reviews",reviewDtoList);
                     request.getRequestDispatcher("/WEB-INF/movie-details.jsp").forward(request, response);
 
                 } else {
-                    // Movie not found
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Movie not found");
                 }
             } catch (NumberFormatException e) {
-                // Invalid ID format
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid movie ID format");
             }
         } else {
-            // Missing ID
-
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Movie ID is required");
         }
     }
-    private Long getLoggedInUserId(HttpServletRequest req) {
-        // Assuming you're storing the logged-in user in session after they log in
-        Long user = 2L;
-        return user;
-    }
+
 }

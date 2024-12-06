@@ -15,8 +15,11 @@ import java.util.Optional;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    private final UserService userService;
     @Inject
-    private UserService userService;
+    public LoginServlet(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,16 +29,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve login credentials
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Authenticate user
         Long userId = userService.authenticate(username, password);
 
         if (userId != null) {
             // Successful login: Retrieve user details
-            Optional<UserDto> userDtoOpt = userService.getUserById(userId);
+            Optional<UserDto> userDtoOpt = userService.findById(userId);
 
             if (userDtoOpt.isPresent()) {
                 UserDto userDto = userDtoOpt.get();
@@ -56,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "User not found.");
             }
         } else {
-            // Authentication failed: Show error message
+            // Authentication failed
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }

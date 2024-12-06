@@ -15,6 +15,8 @@ import com.example.movierev.Repositories.GenreRepository;
 import com.example.movierev.Repositories.MovieRepository;
 import com.example.movierev.Services.MovieService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -44,18 +46,18 @@ import java.util.stream.Collectors;
                 this.genreMapper = genreMapper;
             }
 
-            public void createMovie(MovieDto movieDto) {
-                DirectorEntity directorEntity = directorRepository.findDirectorByName(movieDto.getDirector().getName())
-                        .orElseGet(() -> directorRepository.createDirector(directorMapper.toEntity(movieDto.getDirector())));
+            public void save(MovieDto movieDto) {
+                DirectorEntity directorEntity = directorRepository.findByName(movieDto.getDirector().getName())
+                        .orElseGet(() -> directorRepository.save(directorMapper.toEntity(movieDto.getDirector())));
 
                 List<ActorEntity> actorEntities = movieDto.getActors().stream()
-                        .map(actorDto -> actorRepository.findActorByName(actorDto.getName())
-                                .orElseGet(() -> actorRepository.createActor(actorMapper.toEntity(actorDto))))
+                        .map(actorDto -> actorRepository.findByName(actorDto.getName())
+                                .orElseGet(() -> actorRepository.save(actorMapper.toEntity(actorDto))))
                         .collect(Collectors.toList());
 
                 List<GenreEntity> genreEntities = movieDto.getGenres().stream()
-                        .map(genreDto -> genreRepository.findGenreByName(genreDto.getName())
-                                .orElseGet(() -> genreRepository.createGenre(genreMapper.toEntity(genreDto))))
+                        .map(genreDto -> genreRepository.findByName(genreDto.getName())
+                                .orElseGet(() -> genreRepository.save(genreMapper.toEntity(genreDto))))
                         .collect(Collectors.toList());
 
                 MovieEntity movieEntity = movieMapper.toEntity(movieDto);
@@ -63,34 +65,36 @@ import java.util.stream.Collectors;
                 movieEntity.setActors(actorEntities);
                 movieEntity.setGenres(genreEntities);
 
-                movieRepository.createMovie(movieEntity);
+                movieRepository.save(movieEntity);
             }
 
 
             @Override
-            public MovieDto updateMovie(MovieDto movieDto) {
+            public MovieDto update(MovieDto movieDto) {
                 MovieEntity movieEntity = movieMapper.toEntity(movieDto);
-                movieEntity = movieRepository.updateMovie(movieEntity);
+                movieEntity = movieRepository.update(movieEntity);
                 return movieMapper.toDto(movieEntity);
             }
 
             @Override
-            public void deleteMovie(Long movieId) {
-                movieRepository.deleteMovie(movieId);
+            public void delete(Long movieId) {
+                movieRepository.delete(movieId);
             }
 
             @Override
-            public Optional<MovieDto> getMovieById(Long id) {
-                Optional<MovieEntity> movieEntity = movieRepository.findMovieById(id);
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public Optional<MovieDto> findById(Long id) {
+                Optional<MovieEntity> movieEntity = movieRepository.findById(id);
                 return movieEntity.map(movieMapper::toDto);
             }
 
             @Override
-            public List<MovieDto> getAllMovies() {
-                List<MovieEntity> movieEntities = movieRepository.findAllMovies();
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public List<MovieDto> findAll() {
+                List<MovieEntity> movieEntities = movieRepository.findAll();
 
                 return movieEntities.stream()
-                        .map(movieMapper::toDto) // Use the MapStruct mapper to convert each entity
+                        .map(movieMapper::toDto)
                         .collect(Collectors.toList());
             }
         }

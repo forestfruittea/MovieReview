@@ -1,21 +1,20 @@
 package com.example.movierev.Repositories;
 
-import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Entities.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    UserEntity createUser(UserEntity userEntity);
-    UserEntity findUserByName(String username);
+    UserEntity save(UserEntity userEntity);
+    UserEntity findByName(String username);
 
-    UserEntity updateUser(UserEntity userEntity);
+    UserEntity update(UserEntity userEntity);
 
-    void deleteUser(Long userId);
+    void delete(Long userId);
 
-    Optional<UserEntity> findUserById(Long userId);
+    Optional<UserEntity> findById(Long userId);
 
-    List<UserEntity> findAllUsers();
+    List<UserEntity> findAll();
     public boolean existsByUsername(String username);
 }

@@ -6,6 +6,8 @@ import com.example.movierev.Mappers.impl.DirectorMapper;
 import com.example.movierev.Repositories.DirectorRepository;
 import com.example.movierev.Services.DirectorService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -22,46 +24,48 @@ public class DirectorServiceImpl implements DirectorService{
         this.directorMapper = directorMapper;
     }
     @Override
-    public DirectorDto createDirector(DirectorDto directorDto) {
+    public DirectorDto save(DirectorDto directorDto) {
         DirectorEntity directorEntity = directorMapper.toEntity(directorDto);
-        directorEntity = directorRepository.createDirector(directorEntity);
+        directorEntity = directorRepository.save(directorEntity);
         return directorMapper.toDto(directorEntity);
     }
 
     @Override
-    public DirectorDto updateDirector(DirectorDto directorDto) {
+    public DirectorDto update(DirectorDto directorDto) {
         DirectorEntity directorEntity = directorMapper.toEntity(directorDto);
-        directorEntity = directorRepository.updateDirector(directorEntity);
+        directorEntity = directorRepository.update(directorEntity);
         return directorMapper.toDto(directorEntity);
     }
 
     @Override
-    public void deleteDirector(Long directorId) {
-        directorRepository.deleteDirector(directorId);
+    public void delete(Long directorId) {
+        directorRepository.delete(directorId);
     }
 
     @Override
-    public Optional<DirectorDto> getDirectorById(Long directorId) {
-        Optional<DirectorEntity> directorEntity = directorRepository.findDirectorById(directorId);
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<DirectorDto> findById(Long directorId) {
+        Optional<DirectorEntity> directorEntity = directorRepository.findById(directorId);
         return directorEntity.map(directorMapper::toDto);
     }
 
     @Override
-    public List<DirectorDto> getAllDirectors() {
-        List<DirectorEntity> directorEntities = directorRepository.findAllDirectors();
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<DirectorDto> findAll() {
+        List<DirectorEntity> directorEntities = directorRepository.findAll();
         return directorEntities.stream()
                 .map(directorMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public DirectorDto findOrCreate(DirectorDto directorDto) {
-        Optional<DirectorEntity> existing = directorRepository.findDirectorByName(directorDto.getName());
+    public DirectorDto findOrSave(DirectorDto directorDto) {
+        Optional<DirectorEntity> existing = directorRepository.findByName(directorDto.getName());
         if (existing.isPresent()) {
             return directorMapper.toDto(existing.get());
         }
         DirectorEntity newDirector = directorMapper.toEntity(directorDto);
-        DirectorEntity savedDirector = directorRepository.createDirector(newDirector);
+        DirectorEntity savedDirector = directorRepository.save(newDirector);
         return directorMapper.toDto(savedDirector);
     }
 }

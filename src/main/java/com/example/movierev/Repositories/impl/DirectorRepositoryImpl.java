@@ -15,28 +15,28 @@ public class DirectorRepositoryImpl implements DirectorRepository {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public DirectorEntity createDirector(DirectorEntity directorEntity) {
+    public DirectorEntity save(DirectorEntity directorEntity) {
         entityManager.persist(directorEntity);
         return directorEntity;
     }
 
     @Override
-    public DirectorEntity updateDirector(DirectorEntity directorEntity) {
+    public DirectorEntity update(DirectorEntity directorEntity) {
         return entityManager.merge(directorEntity);
     }
 
     @Override
-    public void deleteDirector(Long directorId) {
+    public void delete(Long directorId) {
         DirectorEntity directorEntity = entityManager.find(DirectorEntity.class, directorId);
         if (directorEntity !=null) entityManager.remove(directorEntity);
     }
 
     @Override
-    public Optional<DirectorEntity> findDirectorById(Long directorId) {
+    public Optional<DirectorEntity> findById(Long directorId) {
         return Optional.ofNullable(entityManager.find(DirectorEntity.class, directorId));
     }
     @Override
-    public Optional<DirectorEntity> findDirectorByName(String name) {
+    public Optional<DirectorEntity> findByName(String name) {
         try {
             DirectorEntity director = entityManager
                     .createQuery("SELECT d FROM DirectorEntity d WHERE d.name = :name", DirectorEntity.class)
@@ -49,7 +49,7 @@ public class DirectorRepositoryImpl implements DirectorRepository {
     }
 
     @Override
-    public List<DirectorEntity> findAllDirectors() {
+    public List<DirectorEntity> findAll() {
         return entityManager.createQuery("SELECT d FROM DirectorEntity d", DirectorEntity.class).getResultList();
     }
 }

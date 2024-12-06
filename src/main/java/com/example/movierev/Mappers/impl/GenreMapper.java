@@ -13,10 +13,7 @@ import org.modelmapper.ModelMapper;
 public class GenreMapper implements Mapper<GenreEntity, GenreDto> {
     @Inject
     private ModelMapper modelMapper;
-//    @Inject
-//    public GenreMapper(ModelMapper modelMapper){
-//        this.modelMapper = modelMapper;
-//    }
+
     @Override
     public GenreEntity toEntity(GenreDto genreDto) {
         return modelMapper.map(genreDto, GenreEntity.class);

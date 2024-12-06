@@ -17,39 +17,38 @@ public class UserRepositoryImpl implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public UserEntity createUser(UserEntity userEntity) {
+    public UserEntity save(UserEntity userEntity) {
         entityManager.persist(userEntity);
         return userEntity;    }
 
     @Override
-    public UserEntity findUserByName(String username) {
+    public UserEntity findByName(String username) {
         try {
             return entityManager.createQuery("SELECT u FROM UserEntity u WHERE u.username = :username", UserEntity.class)
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (NoResultException e) {
-            // No user found with the given username
             return null;
         }
     }
 
     @Override
-    public UserEntity updateUser(UserEntity userEntity) {
+    public UserEntity update(UserEntity userEntity) {
         return null;
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void delete(Long userId) {
 
     }
 
     @Override
-    public Optional<UserEntity> findUserById(Long userId) {
+    public Optional<UserEntity> findById(Long userId) {
         return Optional.ofNullable(entityManager.find(UserEntity.class, userId));
     }
 
     @Override
-    public List<UserEntity> findAllUsers() {
+    public List<UserEntity> findAll() {
         return null;
     }
     @Override

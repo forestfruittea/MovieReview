@@ -14,10 +14,7 @@ import java.util.Map;
 public class UserMapper implements Mapper<UserEntity, UserDto> {
     @Inject
     private ModelMapper modelMapper;
-    /*@Inject
-    public MovieMapper(ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-    }*/
+
     @Override
     public UserEntity toEntity(UserDto userDto) {
         return modelMapper.map(userDto, UserEntity.class);

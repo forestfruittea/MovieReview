@@ -39,7 +39,7 @@ public class MovieEntity {
     @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private DirectorEntity director;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -47,7 +47,7 @@ public class MovieEntity {
     )
     private List<GenreEntity> genres;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "movie_actor",
             joinColumns = @JoinColumn(name = "movie_id"),

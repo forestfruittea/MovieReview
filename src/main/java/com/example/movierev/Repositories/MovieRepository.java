@@ -6,13 +6,13 @@ import java.util.Optional;
 
 
 public interface MovieRepository {
-    MovieEntity createMovie(MovieEntity movieEntity);
+    MovieEntity save(MovieEntity movieEntity);
 
-    MovieEntity updateMovie(MovieEntity movieEntity);
+    MovieEntity update(MovieEntity movieEntity);
 
-    void deleteMovie(Long movieId);
+    void delete(Long movieId);
 
-    Optional<MovieEntity> findMovieById(Long movieId);
+    Optional<MovieEntity> findById(Long movieId);
 
-    List<MovieEntity> findAllMovies();
+    List<MovieEntity> findAll();
 }

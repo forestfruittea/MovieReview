@@ -13,10 +13,7 @@ import org.modelmapper.ModelMapper;
 public class ReviewMapper implements Mapper<ReviewEntity, ReviewDto> {
     @Inject
     private ModelMapper modelMapper;
-    /*@Inject
-    public MovieMapper(ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-    }*/
+
     @Override
     public ReviewEntity toEntity(ReviewDto reviewDto) {
         return modelMapper.map(reviewDto, ReviewEntity.class);

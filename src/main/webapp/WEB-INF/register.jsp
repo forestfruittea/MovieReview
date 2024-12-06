@@ -1,5 +1,8 @@
 <%-- register.jsp --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/header.jsp" %>
+<h1>Welcome, ${user.username}!</h1>
+<!-- Rest of your page content -->
 <!DOCTYPE html>
 <html>
 <head>

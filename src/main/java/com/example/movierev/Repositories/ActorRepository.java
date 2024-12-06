@@ -1,21 +1,20 @@
 package com.example.movierev.Repositories;
 
 import com.example.movierev.Entities.ActorEntity;
-import com.example.movierev.Entities.MovieEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ActorRepository {
-    ActorEntity createActor(ActorEntity actorEntity);
+    ActorEntity save(ActorEntity actorEntity);
 
-    ActorEntity updateActor(ActorEntity actorEntity);
+    ActorEntity update(ActorEntity actorEntity);
 
-    void deleteActor(Long actorId);
+    void delete(Long actorId);
 
-    Optional<ActorEntity> findActorById(Long actorId);
-    Optional<ActorEntity> findActorByName(String name);
+    Optional<ActorEntity> findById(Long actorId);
+    Optional<ActorEntity> findByName(String name);
 
-    List<ActorEntity> findAllActors();
+    List<ActorEntity> findAll();
 }
 

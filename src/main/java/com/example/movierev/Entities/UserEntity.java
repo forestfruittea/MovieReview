@@ -31,5 +31,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<ReviewEntity> reviews;
 }

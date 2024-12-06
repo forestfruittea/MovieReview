@@ -13,7 +13,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public ReviewEntity createReview(ReviewEntity reviewEntity) {
+    public ReviewEntity save(ReviewEntity reviewEntity) {
         entityManager.persist(reviewEntity);
         return reviewEntity;
     }
@@ -26,22 +26,30 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public ReviewEntity updateReview(ReviewEntity reviewEntity) {
+    public List<ReviewEntity> findByUserId(Long userId) {
+        return entityManager.createQuery(
+                        "SELECT r FROM ReviewEntity r WHERE r.user.id = :userId", ReviewEntity.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    @Override
+    public ReviewEntity update(ReviewEntity reviewEntity) {
         return null;
     }
 
     @Override
-    public void deleteReview(Long reviewId) {
+    public void delete(Long reviewId) {
 
     }
 
     @Override
-    public Optional<ReviewEntity> findReviewById(Long reviewId) {
+    public Optional<ReviewEntity> findById(Long reviewId) {
         return Optional.empty();
     }
 
     @Override
-    public List<ReviewEntity> findAllReviews() {
+    public List<ReviewEntity> findAll() {
         return null;
     }
 }

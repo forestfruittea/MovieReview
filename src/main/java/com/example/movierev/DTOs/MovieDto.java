@@ -51,6 +51,7 @@ public class MovieDto {
     private Long boxOffice;
     private List<ReviewEntity> reviews;
 
+    //Uses in JSPs
     public String getFullPosterPath() {
         String basePath = ResourceBundle.getBundle("application").getString("base.poster.path");
         if (posterPath != null && !posterPath.isEmpty()) {

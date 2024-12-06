@@ -15,29 +15,29 @@ public class MovieRepositoryImpl implements MovieRepository {
     private EntityManager entityManager;
 
     @Override
-    public MovieEntity createMovie(MovieEntity movieEntity) {
+    public MovieEntity save(MovieEntity movieEntity) {
         entityManager.persist(movieEntity);
         return movieEntity;
     }
 
     @Override
-    public MovieEntity updateMovie(MovieEntity movieEntity) {
+    public MovieEntity update(MovieEntity movieEntity) {
         return entityManager.merge(movieEntity);
     }
 
     @Override
-    public void deleteMovie(Long movieId) {
+    public void delete(Long movieId) {
         MovieEntity movie = entityManager.find(MovieEntity.class, movieId);
         if (movie !=null) entityManager.remove(movie);
     }
 
     @Override
-    public Optional<MovieEntity> findMovieById(Long movieId) {
+    public Optional<MovieEntity> findById(Long movieId) {
         return Optional.ofNullable(entityManager.find(MovieEntity.class, movieId));
     }
 
     @Override
-    public List<MovieEntity> findAllMovies() {
+    public List<MovieEntity> findAll() {
         return entityManager.createQuery("SELECT m FROM MovieEntity m", MovieEntity.class).getResultList();
     }
 }

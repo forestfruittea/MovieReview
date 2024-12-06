@@ -11,10 +11,7 @@ import org.modelmapper.ModelMapper;
 public class MovieMapper implements Mapper<MovieEntity, MovieDto> {
     @Inject
     private ModelMapper modelMapper;
-    /*@Inject
-    public MovieMapper(ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-    }*/
+
     @Override
     public MovieEntity toEntity(MovieDto movieDto) {
         return modelMapper.map(movieDto, MovieEntity.class);

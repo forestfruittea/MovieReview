@@ -13,10 +13,7 @@ import org.modelmapper.ModelMapper;
 public class DirectorMapper implements Mapper<DirectorEntity, DirectorDto> {
     @Inject
     private  ModelMapper modelMapper;
-//    @Inject
-//    public DirectorMapper(ModelMapper modelMapper){
-//        this.modelMapper = modelMapper;
-//    }
+
     @Override
     public DirectorEntity toEntity(DirectorDto directorDto) {
         return modelMapper.map(directorDto, DirectorEntity.class);

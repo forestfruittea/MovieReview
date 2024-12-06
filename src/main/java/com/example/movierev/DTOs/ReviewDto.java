@@ -13,6 +13,6 @@ public class ReviewDto {
     private Long id;
     private String content;
     private LocalDateTime createdAt;
-    private UserDto user; // Replacing username and userAvatar with UserDto
-    private Long movieId;
+    private UserDto user;
+    private MovieDto movie;
 }

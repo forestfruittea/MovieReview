@@ -11,6 +11,8 @@ import com.example.movierev.Repositories.ReviewRepository;
 import com.example.movierev.Repositories.UserRepository;
 import com.example.movierev.Services.ReviewService;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import com.example.movierev.DTOs.UserDto;
 
@@ -25,26 +27,24 @@ public class ReviewServiceImpl implements ReviewService {
     private final MovieRepository movieRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
-    private final UserMapper userMapper;
     @Inject
     public ReviewServiceImpl(UserRepository userRepository, MovieRepository movieRepository, ReviewRepository reviewRepository, ReviewMapper reviewMapper, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.reviewRepository = reviewRepository;
         this.reviewMapper = reviewMapper;
-        this.userMapper = userMapper;
     }
 
     @Override
-    public void addReview(ReviewDto reviewDto) {
-        Optional<MovieEntity> movieOptional = movieRepository.findMovieById(reviewDto.getMovieId());
+    public void save(ReviewDto reviewDto) {
+        Optional<MovieEntity> movieOptional = movieRepository.findById(reviewDto.getMovie().getId());
         if (movieOptional.isEmpty()) {
             throw new IllegalArgumentException("Movie not found");
         }
         MovieEntity movieEntity = movieOptional.get();
         UserDto userDto = reviewDto.getUser();
 
-        Optional<UserEntity> userOptional = userRepository.findUserById(userDto.getId());
+        Optional<UserEntity> userOptional = userRepository.findById(userDto.getId());
         if (userOptional.isEmpty()) {
             throw new IllegalArgumentException("User not found");
         }
@@ -55,18 +55,26 @@ public class ReviewServiceImpl implements ReviewService {
         reviewEntity.setCreatedAt(LocalDateTime.now());
         reviewEntity.setMovie(movieEntity);
         reviewEntity.setContent(reviewDto.getContent());
-
-        // Persist the review entity
-        reviewRepository.createReview(reviewEntity);
+        reviewRepository.save(reviewEntity);
         }
 
     @Override
-    public List<ReviewDto> getReviewsForMovie(Long movieId) {
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ReviewDto> findAllForMovie(Long movieId) {
         List<ReviewEntity> reviewEntities = reviewRepository.findByMovieId(movieId);
 
-        // Convert ReviewEntity list to ReviewDto list
         return reviewEntities.stream()
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
     }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ReviewDto> findAllForUser(Long userId) {
+        List<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId);
+
+        return reviewEntities.stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

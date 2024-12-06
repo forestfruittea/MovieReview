@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/header.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +114,7 @@
     <!-- List of reviews -->
     <c:forEach var="review" items="${reviews}">
         <div>
-            <img src="${review.user.avatarPath}" alt="Avatar" width="50" height="50">
+            <img src="${review.user.fullAvatarPath}" alt="Avatar" width="50" height="50">
             <strong>${review.user.username}</strong> <em>${review.createdAt}</em>
             <p>${review.content}</p>
         </div>

@@ -1,20 +1,19 @@
 package com.example.movierev.Repositories;
 
-import com.example.movierev.DTOs.ReviewDto;
-import com.example.movierev.Entities.GenreEntity;
 import com.example.movierev.Entities.ReviewEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ReviewRepository {
-    ReviewEntity createReview(ReviewEntity reviewEntity);
+    ReviewEntity save(ReviewEntity reviewEntity);
     public List<ReviewEntity> findByMovieId(Long movieId);
+    public List<ReviewEntity> findByUserId(Long userId);
 
-    ReviewEntity updateReview(ReviewEntity reviewEntity);
+    ReviewEntity update(ReviewEntity reviewEntity);
 
-    void deleteReview(Long reviewId);
+    void delete(Long reviewId);
 
-    Optional<ReviewEntity> findReviewById(Long reviewId);
-    List<ReviewEntity> findAllReviews();
+    Optional<ReviewEntity> findById(Long reviewId);
+    List<ReviewEntity> findAll();
 }

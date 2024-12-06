@@ -11,32 +11,33 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 @ApplicationScoped
-public class ActorRepositoryImpl implements ActorRepository {
+public class
+ActorRepositoryImpl implements ActorRepository {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public ActorEntity createActor(ActorEntity actorEntity) {
+    public ActorEntity save(ActorEntity actorEntity) {
         entityManager.persist(actorEntity);
         return actorEntity;
     }
 
     @Override
-    public ActorEntity updateActor(ActorEntity actorEntity) {
+    public ActorEntity update(ActorEntity actorEntity) {
         return entityManager.merge(actorEntity);
     }
 
     @Override
-    public void deleteActor(Long actorId) {
+    public void delete(Long actorId) {
         ActorEntity actorEntity = entityManager.find(ActorEntity.class, actorId);
         if (actorEntity !=null) entityManager.remove(actorEntity);
     }
 
     @Override
-    public Optional<ActorEntity> findActorById(Long actorId) {
+    public Optional<ActorEntity> findById(Long actorId) {
         return Optional.ofNullable(entityManager.find(ActorEntity.class, actorId));
     }
     @Override
-    public Optional<ActorEntity> findActorByName(String name) {
+    public Optional<ActorEntity> findByName(String name) {
         try {
             ActorEntity actorEntity = entityManager
                     .createQuery("SELECT a FROM ActorEntity a WHERE a.name = :name", ActorEntity.class)
@@ -49,7 +50,7 @@ public class ActorRepositoryImpl implements ActorRepository {
     }
 
     @Override
-    public List<ActorEntity> findAllActors() {
+    public List<ActorEntity> findAll() {
         return entityManager.createQuery("SELECT a FROM ActorEntity a", ActorEntity.class).getResultList();
     }
 }

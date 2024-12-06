@@ -28,22 +28,17 @@ import java.util.Set;
 public class MovieListServlet extends HttpServlet {
 
     private final MovieService movieService;
-    private final DirectorService directorService;
-    private final GenreService genreService;
-    private final ActorService actorService;
+
     @Inject
     public MovieListServlet(MovieService movieService, DirectorService directorService, GenreService genreService, ActorService actorService, DirectorMapper directorMapper) {
         this.movieService = movieService;
-        this.directorService = directorService;
-        this.genreService = genreService;
-        this.actorService = actorService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<MovieDto> movies = movieService.getAllMovies();
+        List<MovieDto> movies = movieService.findAll();
         req.setAttribute("movies", movies);
-        req.getRequestDispatcher("/WEB-INF/movies.jsp").forward(req, resp);  // assuming you have a JSP to display movies
+        req.getRequestDispatcher("/WEB-INF/movies.jsp").forward(req, resp);
 
     }
 
@@ -52,7 +47,7 @@ public class MovieListServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         try {
-            // Parse JSON body into MovieDto
+
             MovieDto movieDto = mapper.readValue(req.getInputStream(), MovieDto.class);
 
             Validator validator;
@@ -62,7 +57,7 @@ public class MovieListServlet extends HttpServlet {
             Set<ConstraintViolation<MovieDto>> violations = validator.validate(movieDto);
 
             if (!violations.isEmpty()) {
-                // If there are validation violations, send a BAD REQUEST with error details
+
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
                 StringBuilder errorMessage = new StringBuilder();
@@ -77,19 +72,17 @@ public class MovieListServlet extends HttpServlet {
                 resp.getWriter().write("{\"error\":\"" + errorMessage.toString().trim() + "\"}");
                 return;
             }
-            // Call the service to create a movie
-            movieService.createMovie(movieDto);
+            movieService.save(movieDto);
 
-            // Send a success response
             resp.setStatus(HttpServletResponse.SC_CREATED);
             resp.getWriter().write("{\"message\":\"Movie created successfully.\"}");
 
         }  catch (JsonProcessingException e) {
-            // Handle JSON parsing errors
+
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().write("{\"error\":\"Invalid JSON format.\"}");
         } catch (Exception e) {
-            // Handle unexpected errors
+
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
         }
@@ -100,10 +93,9 @@ public class MovieListServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        Long movieId = objectMapper.readValue(req.getReader(), Long.class); // Assuming the body contains just the movieId as a number
+        Long movieId = objectMapper.readValue(req.getReader(), Long.class);
 
-        // Call the MovieService to delete the movie
-        movieService.deleteMovie(movieId);
+        movieService.delete(movieId);
 
     }
 }
