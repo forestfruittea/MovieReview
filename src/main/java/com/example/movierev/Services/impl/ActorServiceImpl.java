@@ -54,6 +54,7 @@ public class ActorServiceImpl implements ActorService {
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ActorDto> findAll() {
         List<ActorEntity> actorEntities = actorRepository.findAll();
+
         return actorEntities.stream()
                 .map(actorMapper::toDto)
                 .collect(Collectors.toList());

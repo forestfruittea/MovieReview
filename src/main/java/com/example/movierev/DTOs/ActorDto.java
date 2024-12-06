@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 
@@ -24,4 +25,15 @@ public class ActorDto {
     private List<MovieDto> movies;
     @Size(max = 1500, message = "Bio must be at most 1500 characters")
     private String bio;
+    private Long yearOfBirth;
+    private String photoPath;
+    private Long height;
+
+    public String getFullPhotoPath() {
+        String basePath = ResourceBundle.getBundle("application").getString("base.photo.path");
+        if (photoPath != null && !photoPath.isEmpty()) {
+            return basePath + photoPath;
+        }
+        return null;
+    }
 }

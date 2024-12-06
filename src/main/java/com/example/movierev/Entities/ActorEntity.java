@@ -22,9 +22,15 @@ public class ActorEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
-    @ManyToMany(mappedBy = "actors")
+    @ManyToMany(mappedBy = "actors", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<MovieEntity> movies;
     @Column(name = "bio", length = 1500)
     private String bio;
+    @Column(name = "year_of_birth")
+    private Long yearOfBirth;
+    @Column(name = "photo_path")
+    private String photoPath;
+    @Column(name ="height")
+    private Long height;
 }

@@ -2,7 +2,10 @@
 CREATE TABLE actors (
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(255) NOT NULL UNIQUE,
-                        bio VARCHAR(1500)
+                        bio VARCHAR(1500),
+                        year_of_birth BIGINT,
+                        photo_path VARCHAR(255),
+                        height BIGINT
 );
 
 -- Directors Table
