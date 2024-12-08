@@ -6,13 +6,14 @@ import lombok.*;
 import java.util.List;
 import java.util.Set;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Builder
-@Entity
+
 @Table(name = "genres")
 public class GenreEntity {
 
@@ -25,4 +26,9 @@ public class GenreEntity {
     @ManyToMany(mappedBy = "genres")
     @ToString.Exclude
     private List<MovieEntity> movies;
+    @Column(name = "image_path")
+    private String imagePath;
+    @Column(name = "description", length = 500)
+    private String description;
 }
+

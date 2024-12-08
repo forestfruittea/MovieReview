@@ -14,6 +14,7 @@ public interface GenreRepository {
 
     Optional<GenreEntity> findById(Long genreId);
     Optional<GenreEntity> findByName(String name);
+    public List<GenreEntity> findAllByMovieId(Long movieId);
 
     List<GenreEntity> findAll();
 }

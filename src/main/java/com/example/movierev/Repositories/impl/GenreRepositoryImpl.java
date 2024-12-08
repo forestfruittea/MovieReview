@@ -1,7 +1,9 @@
 package com.example.movierev.Repositories.impl;
 
 import com.example.movierev.Entities.ActorEntity;
+import com.example.movierev.Entities.DirectorEntity;
 import com.example.movierev.Entities.GenreEntity;
+import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Repositories.GenreRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -32,7 +34,6 @@ public class GenreRepositoryImpl implements GenreRepository {
         GenreEntity genreEntity = entityManager.find(GenreEntity.class, genreId);
         if (genreEntity !=null) entityManager.remove(genreEntity);
     }
-
     @Override
     public Optional<GenreEntity> findById(Long genreId) {
         return Optional.ofNullable(entityManager.find(GenreEntity.class, genreId));
@@ -49,7 +50,15 @@ public class GenreRepositoryImpl implements GenreRepository {
             return Optional.empty();
         }
     }
-
+    @Override
+    public List<GenreEntity> findAllByMovieId(Long movieId) {
+        return entityManager.createQuery(
+                        "SELECT DISTINCT g FROM GenreEntity g " +
+                                "JOIN g.movies m WHERE m.id = :movieId",
+                        GenreEntity.class)
+                .setParameter("movieId", movieId)
+                .getResultList();
+    }
     @Override
     public List<GenreEntity> findAll() {
         return entityManager.createQuery("SELECT g FROM GenreEntity g", GenreEntity.class).getResultList();

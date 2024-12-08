@@ -12,13 +12,18 @@ CREATE TABLE actors (
 CREATE TABLE directors (
                            id SERIAL PRIMARY KEY,
                            name VARCHAR(255) NOT NULL UNIQUE,
-                           bio VARCHAR(1500)
+                           bio VARCHAR(1500),
+                           date_of_birth DATE,
+                           photo_path VARCHAR(255)
 );
 
 -- Genres Table
 CREATE TABLE genres (
                         id SERIAL PRIMARY KEY,
-                        name VARCHAR(100) NOT NULL UNIQUE
+                        name VARCHAR(100) NOT NULL UNIQUE,
+                        photo_path VARCHAR(255),
+                        description VARCHAR(500)
+
 );
 
 -- Movies Table

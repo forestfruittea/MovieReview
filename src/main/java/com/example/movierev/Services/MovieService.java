@@ -9,6 +9,7 @@ public interface MovieService {
     MovieDto update(MovieDto movieDto);
     void delete(Long movieId);
     Optional<MovieDto> findById(Long id);
+    List<MovieDto>findAllByGenreId(Long genreId);
     List<MovieDto> findAll();
 
 }

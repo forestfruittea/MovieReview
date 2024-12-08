@@ -10,6 +10,7 @@ public interface GenreService {
     GenreDto update(GenreDto genreDto);
     void delete(Long genreId);
     Optional<GenreDto> findById(Long genreId);
+    public List<GenreDto> findAllByMovieId(Long movieId);
     List<GenreDto> findAll();
     public GenreDto findOrSave(GenreDto genreDto);
 }

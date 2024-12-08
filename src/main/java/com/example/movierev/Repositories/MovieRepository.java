@@ -14,5 +14,6 @@ public interface MovieRepository {
 
     Optional<MovieEntity> findById(Long movieId);
 
+    List<MovieEntity> findAllByGenreId(Long genreId);
     List<MovieEntity> findAll();
 }

@@ -33,11 +33,33 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public Optional<MovieEntity> findById(Long movieId) {
-        return Optional.ofNullable(entityManager.find(MovieEntity.class, movieId));
+        MovieEntity movie = entityManager.createQuery(
+                        "SELECT m FROM MovieEntity m " +
+                                "LEFT JOIN FETCH m.actors " +
+                                "LEFT JOIN FETCH m.genres " +
+                                "WHERE m.id = :id", MovieEntity.class)
+                .setParameter("id", movieId)
+                .getSingleResult();
+        return Optional.ofNullable(movie);
     }
 
     @Override
+    public List<MovieEntity> findAllByGenreId(Long genreId) {
+        return entityManager.createQuery(
+                        "SELECT DISTINCT m FROM MovieEntity m " +
+                                "LEFT JOIN FETCH m.actors " +
+                                "LEFT JOIN FETCH m.director " +
+                                "JOIN m.genres g WHERE g.id = :genreId",
+                        MovieEntity.class)
+                .setParameter("genreId", genreId)
+                .getResultList();
+    }
+    @Override
     public List<MovieEntity> findAll() {
-        return entityManager.createQuery("SELECT m FROM MovieEntity m", MovieEntity.class).getResultList();
+        return entityManager.createQuery(
+                        "SELECT DISTINCT m FROM MovieEntity m " +
+                                "LEFT JOIN FETCH m.actors " +
+                                "LEFT JOIN FETCH m.genres", MovieEntity.class)
+                .getResultList();
     }
 }
