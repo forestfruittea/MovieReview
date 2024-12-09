@@ -93,6 +93,15 @@ import java.util.stream.Collectors;
             }
             @Override
             @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public List<MovieDto> findByName(String name){
+                List<MovieEntity> movieEntities = movieRepository.findByName(name);
+
+                return movieEntities.stream()
+                        .map(movieMapper::toDto)
+                        .collect(Collectors.toList());
+            }
+            @Override
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
             public List<MovieDto> findAllByGenreId(Long genreId){
                 List<MovieEntity> movieEntities = movieRepository.findAllByGenreId(genreId);
 
@@ -114,5 +123,19 @@ import java.util.stream.Collectors;
                 return movieEntities.stream()
                         .map(movieMapper::toDto)
                         .collect(Collectors.toList());
+            }
+            @Override
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public List<MovieDto> findAllSorted() {
+                List<MovieEntity> movies = movieRepository.findAll();
+                return movies.stream()
+                        .sorted((m1, m2) -> {
+                            String title1 = m1.getTitle().toLowerCase();
+                            String title2 = m2.getTitle().toLowerCase();
+                            return title1.compareTo(title2);
+                        })
+                        .map(movieMapper::toDto)
+                        .collect(Collectors.toList());
+
             }
         }

@@ -55,6 +55,15 @@ public class MovieRepositoryImpl implements MovieRepository {
                 .getResultList();
     }
     @Override
+    public List<MovieEntity> findByName(String name) {
+        return entityManager.createQuery(
+                        "SELECT DISTINCT m FROM MovieEntity m " +
+                                "WHERE m.title LIKE :name",
+                        MovieEntity.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+    @Override
     public List<MovieEntity> findAll() {
         return entityManager.createQuery(
                         "SELECT DISTINCT m FROM MovieEntity m " +

@@ -36,7 +36,7 @@ public class MovieEntity {
     @Column(name = "country")
     private String country;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY, optional = false)
     private DirectorEntity director;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

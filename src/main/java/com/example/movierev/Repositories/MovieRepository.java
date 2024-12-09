@@ -11,6 +11,7 @@ public interface MovieRepository {
     MovieEntity update(MovieEntity movieEntity);
 
     void delete(Long movieId);
+    public List<MovieEntity> findByName(String name);
 
     Optional<MovieEntity> findById(Long movieId);
 
