@@ -88,17 +88,17 @@
         <div class="director-container">
             <div class="director-photo">
                 <h2>
-                    <a href="/MovieRev-1.0-SNAPSHOT/director?id=${director.id}" class="director-link">
+                    <a href="${pageContext.request.contextPath}/director?id=${director.id}" class="director-link">
                         <img src="${director.fullPhotoPath}" alt="${director.name}">
                     </a>
                 </h2>
             </div>
             <div class="director-info">
                 <h2>
-                    <a href="/MovieRev-1.0-SNAPSHOT/director?id=${director.id}" class="director-link">${director.name}</a>
+                    <a href="${pageContext.request.contextPath}/director?id=${director.id}" class="director-link">${director.name}</a>
                 </h2>
                 <c:if test="${not empty director.movies}">
-                    <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${director.movies[0].id}" class="movie">
+                    <a href="${pageContext.request.contextPath}/movie?id=${director.movies[0].id}" class="movie">
                         <p>${director.movies[0].title} (${director.movies[0].releaseDate})</p>
                     </a>
                 </c:if>

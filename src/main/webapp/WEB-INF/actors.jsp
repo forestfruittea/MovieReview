@@ -79,16 +79,16 @@
         <div class="actor-container">
             <div class="actor-photo">
                 <h2>
-                    <a href="/MovieRev-1.0-SNAPSHOT/actor?id=${actor.id}" class="actor-link"><img src="${actor.fullPhotoPath}" alt="${actor.name}"></a>
+                    <a href="${pageContext.request.contextPath}/actor?id=${actor.id}" class="actor-link"><img src="${actor.fullPhotoPath}" alt="${actor.name}"></a>
                 </h2>
 
             </div>
             <div class="actor-info">
                 <h2>
-                    <a href="/MovieRev-1.0-SNAPSHOT/actor?id=${actor.id}" class="actor-link">${actor.name}</a>
+                    <a href="${pageContext.request.contextPath}/actor?id=${actor.id}" class="actor-link">${actor.name}</a>
                 </h2>
                 <c:if test="${not empty actor.movies}">
-                    <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${actor.movies[0].id}" class="movie">
+                    <a href="${pageContext.request.contextPath}/movie?id=${actor.movies[0].id}" class="movie">
                         <p>${actor.movies[0].title} (${actor.movies[0].releaseDate})</p>
                     </a>
                 </c:if>

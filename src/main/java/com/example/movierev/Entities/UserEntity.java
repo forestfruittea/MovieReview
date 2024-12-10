@@ -1,5 +1,6 @@
 package com.example.movierev.Entities;
 
+import com.example.movierev.Config.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,8 +29,9 @@ public class UserEntity {
     private String password;
     @Column(name = "avatar_path")
     private String avatarPath;
+    @Enumerated(EnumType.STRING)  // Ensure Role is stored as a string in the DB
     @Column(nullable = false)
-    private String role;
+    private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ReviewEntity> reviews;

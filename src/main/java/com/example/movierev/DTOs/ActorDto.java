@@ -26,6 +26,7 @@ public class ActorDto {
     @Size(max = 1500, message = "Bio must be at most 1500 characters")
     private String bio;
     private Long yearOfBirth;
+    @NotNull(message = "Actor photo path cannot be null")
     private String photoPath;
     private Long height;
 

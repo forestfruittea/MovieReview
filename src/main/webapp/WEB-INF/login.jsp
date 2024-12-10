@@ -8,7 +8,7 @@
 <body>
 <h2>Login</h2>
 
-<form action="/MovieRev-1.0-SNAPSHOT/login" method="POST">
+<form action="${pageContext.request.contextPath}/login" method="POST">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>
 

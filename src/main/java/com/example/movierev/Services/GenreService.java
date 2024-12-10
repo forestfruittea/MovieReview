@@ -13,4 +13,5 @@ public interface GenreService {
     public List<GenreDto> findAllByMovieId(Long movieId);
     List<GenreDto> findAll();
     public GenreDto findOrSave(GenreDto genreDto);
+    public List<GenreDto> findAllSorted();
 }

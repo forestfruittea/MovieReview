@@ -1,3 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: maxim
+  Date: 10.12.2024
+  Time: 11:27
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ include file="/WEB-INF/header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,12 +30,11 @@
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            margin: 20px auto 0;
         }
 
         label {
@@ -187,7 +195,7 @@
         if (!isValid) return;
 
         // Send the data as JSON to the server
-        fetch('/MovieRev-1.0-SNAPSHOT/admin/movies', {
+        fetch('${pageContext.request.contextPath}/admin/tool/movies/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -265,3 +273,4 @@
 </script>
 </body>
 </html>
+

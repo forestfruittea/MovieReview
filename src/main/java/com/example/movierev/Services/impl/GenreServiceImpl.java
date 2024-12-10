@@ -1,7 +1,9 @@
 package com.example.movierev.Services.impl;
 
+import com.example.movierev.DTOs.DirectorDto;
 import com.example.movierev.DTOs.GenreDto;
 import com.example.movierev.DTOs.MovieDto;
+import com.example.movierev.Entities.DirectorEntity;
 import com.example.movierev.Entities.GenreEntity;
 import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Mappers.impl.GenreMapper;
@@ -68,6 +70,20 @@ public class GenreServiceImpl implements GenreService {
         return genreEntities.stream()
                 .map(genreMapper::toDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<GenreDto> findAllSorted() {
+        List<GenreEntity> genreEntities = genreRepository.findAll();
+        return genreEntities.stream()
+                .sorted((m1, m2) -> {
+                    String title1 = m1.getName().toLowerCase();
+                    String title2 = m2.getName().toLowerCase();
+                    return title1.compareTo(title2);
+                })
+                .map(genreMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override

@@ -11,5 +11,6 @@ public interface DirectorService {
     void delete(Long directorId);
     Optional<DirectorDto> findById(Long directorId);
     List<DirectorDto> findAll();
+    public List<DirectorDto> findAllSorted();
     public DirectorDto findOrSave(DirectorDto directorDto);
 }

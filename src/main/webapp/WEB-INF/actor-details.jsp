@@ -101,7 +101,7 @@
         <ul class="movies-list">
             <c:forEach var="movie" items="${actor.movies}">
                 <li>
-                    <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${movie.id}">
+                    <a href="${pageContext.request.contextPath}/movie?id=${movie.id}">
                         <img class="movie-poster" src="${movie.fullPosterPath}"
                         <p class="info-item"> ${movie.title} (${movie.releaseDate})</p>
                     </a>

@@ -89,7 +89,7 @@
 
 <div class="movie-list">
     <c:forEach var="movie" items="${movies}">
-        <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${movie.id}" class="movie">
+        <a href="${pageContext.request.contextPath}/movie?id=${movie.id}" class="movie">
         <div class="movie">
             <!-- Movie Poster -->
             <c:if test="${not empty movie.fullPosterPath}">

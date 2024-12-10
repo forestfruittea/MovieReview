@@ -1,6 +1,9 @@
 package com.example.movierev.Services.impl;
 
+import com.example.movierev.Config.Role;
+import com.example.movierev.DTOs.ActorDto;
 import com.example.movierev.DTOs.UserDto;
+import com.example.movierev.Entities.ActorEntity;
 import com.example.movierev.Entities.UserEntity;
 import com.example.movierev.Mappers.impl.UserMapper;
 import com.example.movierev.Repositories.UserRepository;
@@ -11,11 +14,13 @@ import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Stateless
 public class UserServiceImpl implements UserService {
@@ -38,15 +43,11 @@ public class UserServiceImpl implements UserService {
         newUser.setAvatarPath(ResourceBundle.getBundle("application").getString("base.avatar"));
         newUser.setPassword(hashedPassword);
 
-        if (newUser.getRole() == null || newUser.getRole().isEmpty()) {
-            newUser.setRole("CUSTOMER");
-        }
 
         try {
             userRepository.save(newUser);
             return true;
         } catch (PersistenceException e) {
-
             return false;
         }
     }
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long userId) {
-
+        userRepository.delete(userId);
     }
 
     @Override
@@ -83,6 +84,20 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAll() {
         return null;
     }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<UserDto> findAllSorted() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return userEntities.stream()
+                .sorted((m1, m2) -> {
+                    String title1 = m1.getUsername().toLowerCase();
+                    String title2 = m2.getUsername().toLowerCase();
+                    return title1.compareTo(title2);
+                })
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+
+    }
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
@@ -92,8 +107,18 @@ public class UserServiceImpl implements UserService {
     }
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Long getLoggedInUserId(HttpServletRequest req) {
-        //Mock
-        Long user = 4L;
-        return user;
+        // Retrieve the session
+        HttpSession session = req.getSession(false); // Use false to avoid creating a new session if none exists
+
+        if (session != null) {
+            // Get the user ID from the session attributes
+            Object userId = session.getAttribute("userId");
+
+            if (userId != null) {
+                return (Long) userId; // Return the user ID if present
+            }
+        }
+
+        return null; // Return null if no user is logged in
     }
 }

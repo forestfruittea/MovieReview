@@ -37,6 +37,7 @@ public class MovieRepositoryImpl implements MovieRepository {
                         "SELECT m FROM MovieEntity m " +
                                 "LEFT JOIN FETCH m.actors " +
                                 "LEFT JOIN FETCH m.genres " +
+                                "LEFT JOIN FETCH m.director " +
                                 "WHERE m.id = :id", MovieEntity.class)
                 .setParameter("id", movieId)
                 .getSingleResult();
@@ -68,7 +69,8 @@ public class MovieRepositoryImpl implements MovieRepository {
         return entityManager.createQuery(
                         "SELECT DISTINCT m FROM MovieEntity m " +
                                 "LEFT JOIN FETCH m.actors " +
-                                "LEFT JOIN FETCH m.genres", MovieEntity.class)
+                                "LEFT JOIN FETCH m.genres " +
+                                "LEFT JOIN FETCH m.director", MovieEntity.class)
                 .getResultList();
     }
 }

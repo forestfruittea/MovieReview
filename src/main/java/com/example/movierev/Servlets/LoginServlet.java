@@ -48,12 +48,11 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("role", userDto.getRole());
 
                 // Redirect based on role
-                if ("ADMIN".equals(userDto.getRole())) {
-                    response.sendRedirect("/MovieRev-1.0-SNAPSHOT/admin/dashboard");
-                } else {
-                    response.sendRedirect("/MovieRev-1.0-SNAPSHOT");
-                }
-            }else {
+
+
+                response.sendRedirect("/MovieRev-1.0-SNAPSHOT/movies");
+            }
+            else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "User not found.");
             }
         } else {

@@ -8,4 +8,6 @@ public interface ReviewService {
     void save(ReviewDto reviewDto);
     List<ReviewDto> findAllForMovie(Long movieId);
     public List<ReviewDto> findAllForUser(Long userId);
+    public List<ReviewDto> findAllSortedByUsernameAndMovieTitle();
+    public void delete(Long reviewId);
 }

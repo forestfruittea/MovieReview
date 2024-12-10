@@ -1,6 +1,7 @@
 package com.example.movierev.DTOs;
 
 
+import com.example.movierev.Config.Role;
 import com.example.movierev.Entities.ReviewEntity;
 import lombok.*;
 
@@ -17,7 +18,7 @@ public class UserDto {
     private String username;
     private String password;
     private String avatarPath;
-    private String role;
+    private Role role;
     private List<ReviewEntity> reviews;
 
     //Uses in JSPs

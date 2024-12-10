@@ -1,7 +1,10 @@
 package com.example.movierev.Repositories.impl;
 
+import com.example.movierev.Entities.ActorEntity;
+import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Entities.ReviewEntity;
 import com.example.movierev.Repositories.ReviewRepository;
+import com.example.movierev.Services.ReviewService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -40,7 +43,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public void delete(Long reviewId) {
-
+        ReviewEntity reviewEntity = entityManager.find(ReviewEntity.class, reviewId);
+        if (reviewEntity !=null) entityManager.remove(reviewEntity);
     }
 
     @Override
@@ -50,6 +54,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<ReviewEntity> findAll() {
-        return null;
+        return entityManager.createQuery(
+                "SELECT DISTINCT r FROM ReviewEntity r " +
+                "LEFT JOIN FETCH r.user " +
+                "LEFT JOIN FETCH r.movie", ReviewEntity.class)
+                .getResultList();
     }
 }

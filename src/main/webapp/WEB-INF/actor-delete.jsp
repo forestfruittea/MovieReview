@@ -1,3 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: maxim
+  Date: 10.12.2024
+  Time: 11:47
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ include file="/WEB-INF/header.jsp" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -5,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
+    <title>Delete Actor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,31 +77,32 @@
 </head>
 <body>
 <div class="container">
-    <h1>All Movies</h1>
+    <h1>All Actors</h1>
+    <div class="delete-container">
+        <form action="${pageContext.request.contextPath}/admin/tool/actors/delete" method="POST">
+            <input type="number" name="actorId" placeholder="Enter Actor ID" required>
+            <button type="submit">Delete Actor</button>
+        </form>
+    </div>
     <table>
         <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
+            <th>Name</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="movie" items="${movies}">
+        <c:forEach var="actor" items="${actors}">
             <tr>
-                <td>${movie.id}</td>
-                <td>${movie.title}</td>
+                <td>${actor.id}</td>
+                <td>${actor.name}</td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 
-    <!-- Delete Movie by ID -->
-    <div class="delete-container">
-        <form action="/MovieRev-1.0-SNAPSHOT/admin/movies/search" method="POST">
-            <input type="number" name="movieId" placeholder="Enter Movie ID" required>
-            <button type="submit">Delete Movie</button>
-        </form>
-    </div>
+    <!-- Delete Actor by ID -->
 </div>
 </body>
 </html>
+

@@ -13,6 +13,7 @@ public interface UserService {
     void delete(Long userId);
     Optional<UserDto> findById(Long id);
     List<UserDto> findAll();
+    public List<UserDto> findAllSorted();
     Long getLoggedInUserId(HttpServletRequest req);
 
 }

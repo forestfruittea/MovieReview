@@ -1,5 +1,6 @@
 package com.example.movierev.Repositories.impl;
 
+import com.example.movierev.Entities.GenreEntity;
 import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Entities.UserEntity;
 import com.example.movierev.Repositories.UserRepository;
@@ -39,7 +40,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void delete(Long userId) {
-
+        UserEntity userEntity = entityManager.find(UserEntity.class, userId);
+        if (userEntity !=null) entityManager.remove(userEntity);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<UserEntity> findAll() {
-        return null;
+        return entityManager.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
     }
     @Override
     public boolean existsByUsername(String username) {

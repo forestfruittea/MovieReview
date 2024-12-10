@@ -1,7 +1,9 @@
 package com.example.movierev.Services.impl;
 
 import com.example.movierev.DTOs.ActorDto;
+import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.Entities.ActorEntity;
+import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Mappers.impl.ActorMapper;
 import com.example.movierev.Repositories.ActorRepository;
 import com.example.movierev.Services.ActorService;
@@ -58,6 +60,20 @@ public class ActorServiceImpl implements ActorService {
         return actorEntities.stream()
                 .map(actorMapper::toDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ActorDto> findAllSorted() {
+        List<ActorEntity> actorEntities = actorRepository.findAll();
+        return actorEntities.stream()
+                .sorted((m1, m2) -> {
+                    String title1 = m1.getName().toLowerCase();
+                    String title2 = m2.getName().toLowerCase();
+                    return title1.compareTo(title2);
+                })
+                .map(actorMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override

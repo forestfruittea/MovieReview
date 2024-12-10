@@ -1,6 +1,8 @@
 package com.example.movierev.Services.impl;
 
+import com.example.movierev.DTOs.ActorDto;
 import com.example.movierev.DTOs.DirectorDto;
+import com.example.movierev.Entities.ActorEntity;
 import com.example.movierev.Entities.DirectorEntity;
 import com.example.movierev.Mappers.impl.DirectorMapper;
 import com.example.movierev.Repositories.DirectorRepository;
@@ -56,6 +58,20 @@ public class DirectorServiceImpl implements DirectorService{
         return directorEntities.stream()
                 .map(directorMapper::toDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<DirectorDto> findAllSorted() {
+        List<DirectorEntity> directorEntities = directorRepository.findAll();
+        return directorEntities.stream()
+                .sorted((m1, m2) -> {
+                    String title1 = m1.getName().toLowerCase();
+                    String title2 = m2.getName().toLowerCase();
+                    return title1.compareTo(title2);
+                })
+                .map(directorMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 
     @Override

@@ -11,5 +11,6 @@ public interface ActorService {
     void delete(Long actorId);
     Optional<ActorDto> findById(Long actorId);
     List<ActorDto> findAll();
+    public List<ActorDto> findAllSorted();
     public ActorDto findOrSave(ActorDto actorDto);
 }

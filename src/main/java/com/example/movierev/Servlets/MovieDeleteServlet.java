@@ -2,8 +2,6 @@ package com.example.movierev.Servlets;
 
 import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.Services.MovieService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.inject.Inject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,22 +12,10 @@ import java.io.IOException;
 import java.util.List;
 
 
-import com.example.movierev.Entities.MovieEntity;
-import com.example.movierev.Repositories.MovieRepository;
-
-import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@WebServlet("/admin/movies/search")
-public class MovieSearchServlet extends HttpServlet {
+@WebServlet("/admin/tool/movies/delete")
+public class MovieDeleteServlet extends HttpServlet {
 
     @Inject
     private MovieService movieService;
@@ -41,7 +27,7 @@ public class MovieSearchServlet extends HttpServlet {
 
         req.setAttribute("movies", movies);
 
-        req.getRequestDispatcher("/WEB-INF/movies-search.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/movie-delete.jsp").forward(req, resp);
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,7 +48,7 @@ public class MovieSearchServlet extends HttpServlet {
 
         req.setAttribute("movies", movies);
 
-        req.getRequestDispatcher("/WEB-INF/movies-search.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/movie-delete.jsp").forward(req, resp);
     }
 }
 

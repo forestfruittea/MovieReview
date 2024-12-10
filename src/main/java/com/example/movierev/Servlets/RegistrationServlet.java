@@ -1,5 +1,6 @@
 package com.example.movierev.Servlets;
 
+import com.example.movierev.Config.Role;
 import com.example.movierev.DTOs.UserDto;
 import com.example.movierev.Services.UserService;
 import jakarta.inject.Inject;
@@ -29,13 +30,11 @@ public class RegistrationServlet extends HttpServlet {
         // Get form data
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String avatarPath = request.getParameter("avatarPath");
-        String role = "CUSTOMER";
+        Role role = Role.CUSTOMER;
 
         UserDto userDto = UserDto.builder()
                 .username(username)
                 .password(password)
-                .avatarPath(avatarPath)
                 .role(role)
                 .build();
 

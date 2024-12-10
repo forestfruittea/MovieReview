@@ -17,9 +17,11 @@ import jakarta.inject.Inject;
 import com.example.movierev.DTOs.UserDto;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Stateless
 public class ReviewServiceImpl implements ReviewService {
@@ -57,7 +59,10 @@ public class ReviewServiceImpl implements ReviewService {
         reviewEntity.setContent(reviewDto.getContent());
         reviewRepository.save(reviewEntity);
         }
-
+    @Override
+    public void delete(Long reviewId) {
+        reviewRepository.delete(reviewId);
+    }
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ReviewDto> findAllForMovie(Long movieId) {
@@ -73,6 +78,18 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId);
 
         return reviewEntities.stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());
+    }
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ReviewDto> findAllSortedByUsernameAndMovieTitle() {
+        return reviewRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing((ReviewEntity review) ->
+                                review.getUser() != null ? review.getUser().getUsername() : "")
+                        .thenComparing(review ->
+                                review.getMovie() != null ? review.getMovie().getTitle() : ""))
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
     }

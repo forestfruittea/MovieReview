@@ -5,6 +5,7 @@
   Time: 15:43
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -147,7 +148,7 @@
 <h2>Movies in this Genre</h2>
 <div class="movie-list">
     <c:forEach var="movies" items="${movies}">
-        <a href="/MovieRev-1.0-SNAPSHOT/movie?id=${movies.id}" class="movie">
+        <a href="${pageContext.request.contextPath}/movie?id=${movies.id}" class="movie">
             <div class="movie">
                 <!-- Movie Poster -->
                 <c:if test="${not empty movies.fullPosterPath}">

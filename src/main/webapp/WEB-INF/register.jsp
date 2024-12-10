@@ -11,7 +11,7 @@
 <body>
 <h2>User Registration</h2>
 
-<form action="/MovieRev-1.0-SNAPSHOT/register" method="POST">
+<form action="${pageContext.request.contextPath}/register" method="POST">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>
 

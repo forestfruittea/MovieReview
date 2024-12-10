@@ -97,14 +97,14 @@
                     ${genre.name}<c:if test="${!status.last}">, </c:if>
                 </c:forEach>--%>
                 <c:forEach var="genre" items="${movie.genres}" varStatus="status">
-                    <a href="/MovieRev-1.0-SNAPSHOT/genre?id=${genre.id}" class="genre-link">${genre.name}</a>
+                    <a href="${pageContext.request.contextPath}/genre?id=${genre.id}" class="genre-link">${genre.name}</a>
                     <c:if test="${!status.last}">, </c:if>
                 </c:forEach>
             </p>
             <p class="info-item"><span>Description:</span> ${movie.description}</p>
             <p class="info-item">
                 <span>Director:</span>
-                <a href="/MovieRev-1.0-SNAPSHOT/director?id=${movie.director.id}" class="director-link">
+                <a href="${pageContext.request.contextPath}/director?id=${movie.director.id}" class="director-link">
                     ${movie.director.name}
                 </a>
             </p>
@@ -112,7 +112,7 @@
             <p class="info-item"><span>Box Office:</span> $${movie.boxOffice}</p>
             <p class="info-item"><span>Starring Roles:</span>
                 <c:forEach var="actor" items="${movie.actors}" varStatus="status">
-                    <a href="/MovieRev-1.0-SNAPSHOT/actor?id=${actor.id}" class="actor-link">${actor.name}</a>
+                    <a href="${pageContext.request.contextPath}/actor?id=${actor.id}" class="actor-link">${actor.name}</a>
                     <c:if test="${!status.last}">, </c:if>
                 </c:forEach>
             </p>
@@ -131,7 +131,7 @@
     </c:forEach>
 
     <!-- Review form -->
-    <form method="post" action="/MovieRev-1.0-SNAPSHOT/movie">
+    <form method="post" action="${pageContext.request.contextPath}/movie">
         <input type="hidden" name="id" value="${movie.id}">
         <textarea name="content" placeholder="Write your review..."></textarea>
         <button type="submit">Submit Review</button>
