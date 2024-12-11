@@ -49,7 +49,7 @@ public class MovieDto {
     private Long budget;
     @Positive(message = "Box office must be a positive number")
     private Long boxOffice;
-    private List<ReviewEntity> reviews;
+    private List<ReviewDto> reviews;
 
     //Uses in JSPs
     public String getFullPosterPath() {

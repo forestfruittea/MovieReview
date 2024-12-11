@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: maxim
-  Date: 06.12.2024
-  Time: 14:36
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="header">
@@ -18,22 +11,42 @@
         <a href="${pageContext.request.contextPath}/account">Account</a>
     </div>
 </div>
+
 <style>
+    /* Header Styling */
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #333;
-        padding: 10px 20px;
+        background-color: #1a1e3f; /* Very dark blue */
+        padding: 15px 20px; /* Increase the padding for a larger header */
         color: white;
+        height: 70px; /* Make the header height 2x bigger */
     }
-    .nav-left a, .nav-right a {
-        margin: 0 10px;
+
+    /* Left navigation styling */
+    .nav-left a {
+        margin: 0 20px; /* Increase space between links */
         text-decoration: none;
         color: white;
+        font-size: 20px; /* Increase font size */
         font-weight: bold;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
     }
+
+    /* Right navigation styling */
+    .nav-right a {
+        margin: 0 20px; /* Increase space between links */
+        text-decoration: none;
+        color: white;
+        font-size: 20px; /* Increase font size */
+        font-weight: bold;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+
+    /* Hover effects */
     .nav-left a:hover, .nav-right a:hover {
+        color: #4fa3f7; /* Change color to a soft blue */
         text-decoration: underline;
     }
 </style>

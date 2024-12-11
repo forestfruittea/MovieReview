@@ -3,6 +3,7 @@ package com.example.movierev.DTOs;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 @Getter
 @Setter
@@ -15,4 +16,8 @@ public class ReviewDto {
     private LocalDateTime createdAt;
     private UserDto user;
     private MovieDto movie;
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return createdAt.format(formatter);
+    }
 }

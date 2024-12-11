@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: maxim
-  Date: 07.12.2024
-  Time: 15:43
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -25,34 +17,34 @@
             background-color: #f4f4f4;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
             margin: 20px 0;
+            color: #333;
         }
 
-        /* Genre container */
+        /* Genre Info Container */
         .genre-container {
             display: flex;
             justify-content: space-between;
-            padding: 20px;
-            margin: 20px;
+            align-items: center;
+            padding: 30px;
+            margin: 20px auto;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
         }
 
         .genre-image {
-            width: 50%;
+            width: 45%;
             height: auto;
             object-fit: cover;
             border-radius: 8px;
         }
 
         .genre-info {
-            width: 45%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            width: 50%;
             padding-left: 20px;
         }
 
@@ -63,74 +55,109 @@
         }
 
         .genre-description {
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 18px;
             color: #555;
         }
 
-        .movie-list {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            margin-left: 20px;
-        }
-
-        .movie {
-            display: flex;
+        /* Movies Section */
+        .movies-section {
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 30px;
             background-color: white;
-            padding: 15px;
-            margin: 10px 0;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 700px; /* Adjust card width */
-            text-align: left;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
-        .movie:hover{
-            background-color: silver;
-            transform: scale(1.05);
-        }
-
-        .movie-poster {
-            width: 150px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 15px;
-        }
-
-        .movie-details {
+        .movies-list {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .movie h2 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
             margin: 0;
         }
 
-        .movie-info {
-            font-size: 14px;
-            color: #555;
+        .movie-card {
+            width: 150px;
+            text-align: center;
+            background: #fafafa;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
         }
 
-        .movie-info span {
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 225px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .movie-title {
+            font-size: 14px;
             font-weight: bold;
             color: #333;
         }
 
-        .movie-info p {
-            margin: 5px 0;
+        .movie-title span {
+            color: #555;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .movie-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .movie-link:hover .movie-title {
+            color: #007BFF;
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .genre-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .genre-image {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+
+            .genre-info {
+                width: 100%;
+                text-align: center;
+            }
+
+            .movies-list {
+                justify-content: center;
+            }
+
+            .movie-card {
+                width: 180px;
+                margin: 10px;
+            }
+
+            .movie-poster {
+                height: 180px;
+            }
         }
     </style>
 </head>
 <body>
-
-<h1>Genre: ${genre.name}</h1>
 
 <!-- Genre Info Section -->
 <div class="genre-container">
@@ -144,52 +171,25 @@
     </div>
 </div>
 
-<!-- Movie List Section -->
-<h2>Movies in this Genre</h2>
-<div class="movie-list">
-    <c:forEach var="movies" items="${movies}">
-        <a href="${pageContext.request.contextPath}/movie?id=${movies.id}" class="movie">
-            <div class="movie">
-                <!-- Movie Poster -->
-                <c:if test="${not empty movies.fullPosterPath}">
-                    <img class="movie-poster" src="${movies.fullPosterPath}" alt="${movies.title} Poster"/>
-                </c:if>
+<!-- Movies Section -->
+<div class="movies-section">
+    <h2>Movies in this Genre</h2>
+    <ul class="movies-list">
+        <c:forEach var="movie" items="${movies}">
+            <li class="movie-card">
+                <a href="${pageContext.request.contextPath}/movie?id=${movie.id}" class="movie-link">
+                    <!-- Movie Poster -->
+                    <c:if test="${not empty movie.fullPosterPath}">
+                        <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title} Poster"/>
+                    </c:if>
 
-                <!-- Movie Details -->
-                <div class="movie-details">
-                    <!-- Title and Main Info -->
-                    <h2>${movies.title}, ${movies.releaseDate}, ${movies.length} min</h2>
-
-                    <!-- Additional Info -->
-                    <div class="movie-info">
-                        <!-- Genres -->
-                        <p>${movies.country} •
-                            <c:if test="${not empty movies.genres}">
-                                <c:forEach var="genre" items="${movies.genres}" varStatus="status">
-                                    ${genre.name}
-                                    <c:if test="${!status.last}">,  </c:if>
-                                </c:forEach>
-                            </c:if>
-                        </p>
-                        <!-- Director -->
-                        <p><span>Director:</span> ${movies.director.name}</p>
-
-                        <!-- Starring Roles -->
-                        <p><span>Starring roles:</span>
-                            <c:if test="${not empty movies.actors}">
-                                <c:forEach var="actor" items="${movies.actors}" varStatus="status">
-                                    ${actor.name}
-                                    <c:if test="${!status.last}">,  </c:if>
-                                </c:forEach>
-                            </c:if>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </c:forEach>
+                    <!-- Movie Title and Release Date -->
+                    <p class="movie-title">${movie.title} <span>(${movie.releaseDate})</span></p>
+                </a>
+            </li>
+        </c:forEach>
+    </ul>
 </div>
 
 </body>
 </html>
-

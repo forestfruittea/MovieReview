@@ -13,7 +13,7 @@ import lombok.*;
 public class RatingDto {
 
     private Long id;
-    private UserEntity user;
-    private MovieEntity movie;
+    private UserDto user;
+    private MovieDto movie;
     private int rating;
 }

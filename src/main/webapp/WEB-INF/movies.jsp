@@ -22,28 +22,30 @@
             margin: 20px 0;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .movie-list {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            padding: 20px;
-            margin-left: 20px;
+            gap: 15px;
         }
 
-        .movie {
+        .movie-card {
             display: flex;
             background-color: white;
-            padding: 15px;
-            margin: 10px 0;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 700px; /* Adjust card width */
-            text-align: left;
+            padding: 15px;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
-        .movie:hover{
-            background-color: silver;
-            transform: scale(1.05);
+        .movie-card:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.02);
         }
 
         .movie-poster {
@@ -51,18 +53,17 @@
             height: 200px;
             object-fit: cover;
             border-radius: 5px;
-            margin-right: 15px;
+            margin-right: 20px;
         }
 
         .movie-details {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%;
         }
 
-        .movie h2 {
-            font-size: 24px;
+        .movie-title {
+            font-size: 20px;
             font-weight: bold;
             color: #333;
             margin: 0;
@@ -85,51 +86,49 @@
 </head>
 <body>
 
-<h1>Movies List</h1>
+<div class="container">
+    <div class="movie-list">
+        <c:forEach var="movie" items="${movies}">
+            <a href="${pageContext.request.contextPath}/movie?id=${movie.id}" class="movie-card">
+                <!-- Movie Poster -->
+                <c:if test="${not empty movie.fullPosterPath}">
+                    <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title} Poster"/>
+                </c:if>
 
-<div class="movie-list">
-    <c:forEach var="movie" items="${movies}">
-        <a href="${pageContext.request.contextPath}/movie?id=${movie.id}" class="movie">
-        <div class="movie">
-            <!-- Movie Poster -->
-            <c:if test="${not empty movie.fullPosterPath}">
-                <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title} Poster"/>
-            </c:if>
+                <!-- Movie Details -->
+                <div class="movie-details">
+                    <!-- Title and Main Info -->
+                    <h2 class="movie-title">${movie.title}, ${movie.releaseDate}, ${movie.length} min</h2>
 
-            <!-- Movie Details -->
-            <div class="movie-details">
-                <!-- Title and Main Info -->
-                <h2>${movie.title}, ${movie.releaseDate}, ${movie.length} min</h2>
+                    <!-- Additional Info -->
+                    <div class="movie-info">
+                        <!-- Country and Genres -->
+                        <p>${movie.country} &#8226;
+                            <c:if test="${not empty movie.genres}">
+                                <c:forEach var="genre" items="${movie.genres}" varStatus="status">
+                                    ${genre.name}
+                                    <c:if test="${!status.last}">, </c:if>
+                                </c:forEach>
+                            </c:if>
+                        </p>
 
-                <!-- Additional Info -->
-                <div class="movie-info">
-                    <!-- Genres -->
-                    <p>${movie.country} •
-                        <c:if test="${not empty movie.genres}">
-                            <c:forEach var="genre" items="${movie.genres}" varStatus="status">
-                                ${genre.name}
-                                <c:if test="${!status.last}">,  </c:if>
-                            </c:forEach>
-                        </c:if>
-                    </p>
-                    <!-- Director -->
-                    <p><span>Director:</span> ${movie.director.name}</p>
+                        <!-- Director -->
+                        <p><span>Director:</span> ${movie.director.name}</p>
 
-                    <!-- Starring Roles -->
-                    <p><span>Starring roles:</span>
-                        <c:if test="${not empty movie.actors}">
-                            <c:forEach var="actor" items="${movie.actors}" varStatus="status">
-                                ${actor.name}
-                                <c:if test="${!status.last}">,  </c:if>
-                            </c:forEach>
-                        </c:if>
-                    </p>
-
+                        <!-- Starring Roles -->
+                        <p><span>Starring Roles:</span>
+                            <c:if test="${not empty movie.actors}">
+                                <c:forEach var="actor" items="${movie.actors}" varStatus="status">
+                                    ${actor.name}
+                                    <c:if test="${!status.last}">, </c:if>
+                                </c:forEach>
+                            </c:if>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        </a>
-    </c:forEach>
+            </a>
+        </c:forEach>
+    </div>
 </div>
 
 </body>

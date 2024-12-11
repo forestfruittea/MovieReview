@@ -41,4 +41,9 @@ public class RatingRepositoryImpl implements RatingRepository {
             return Optional.empty();  // Return an empty Optional if no result is found or if an error occurs
         }
     }
+    @Override
+    public RatingEntity update(RatingEntity rating) {
+        entityManager.merge(rating);
+        return rating;
+    }
 }

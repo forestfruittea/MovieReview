@@ -19,7 +19,7 @@ public class UserDto {
     private String password;
     private String avatarPath;
     private Role role;
-    private List<ReviewEntity> reviews;
+    private List<ReviewDto> reviews;
 
     //Uses in JSPs
     public String getFullAvatarPath() {

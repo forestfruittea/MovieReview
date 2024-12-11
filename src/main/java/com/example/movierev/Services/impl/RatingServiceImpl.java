@@ -1,5 +1,6 @@
 package com.example.movierev.Services.impl;
 
+import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.DTOs.RatingDto;
 import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Entities.RatingEntity;
@@ -48,5 +49,11 @@ public class RatingServiceImpl implements RatingService {
             return 0.0;
         }
         return ratings.stream().mapToDouble(RatingEntity::getRating).average().orElse(0.0);
+    }
+    @Override
+    public RatingDto update(RatingDto ratingDto) {
+        RatingEntity ratingEntity = ratingMapper.toEntity(ratingDto);
+        ratingEntity = ratingRepository.update(ratingEntity);
+        return ratingMapper.toDto(ratingEntity);
     }
 }
