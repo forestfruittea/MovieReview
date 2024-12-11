@@ -4,6 +4,7 @@ import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.DTOs.ReviewDto;
 import com.example.movierev.DTOs.UserDto;
 import com.example.movierev.Services.MovieService;
+import com.example.movierev.Services.RatingService;
 import com.example.movierev.Services.ReviewService;
 import com.example.movierev.Services.UserService;
 import jakarta.inject.Inject;
@@ -22,17 +23,20 @@ public class MovieDetailsServlet extends HttpServlet {
     private final MovieService movieService;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final RatingService ratingService;
+
 
     @Inject
-    public MovieDetailsServlet(MovieService movieService, ReviewService reviewService, UserService userService) {
+    public MovieDetailsServlet(MovieService movieService, ReviewService reviewService, UserService userService, RatingService ratingService) {
         this.movieService = movieService;
         this.reviewService = reviewService;
         this.userService = userService;
+        this.ratingService = ratingService;
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String content = request.getParameter("content");
-
+        String ratingParam = request.getParameter("rating"); // Get rating parameter
 
         String movieIdParam = request.getParameter("id");
         if (movieIdParam == null || content == null || content.isBlank()) {

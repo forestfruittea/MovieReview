@@ -77,4 +77,7 @@ public class MovieEntity {
     private Long boxOffice;
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<ReviewEntity> reviews;
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<RatingEntity> ratings;
+
 }
