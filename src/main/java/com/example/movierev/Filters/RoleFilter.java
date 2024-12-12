@@ -23,6 +23,18 @@ public class RoleFilter implements Filter {
         if (path.startsWith("/MovieRev-1.0-SNAPSHOT/login") ||
                 path.startsWith("/MovieRev-1.0-SNAPSHOT/register") ||
                 path.equals("/MovieRev-1.0-SNAPSHOT/")) {
+            if (role == null) {
+                chain.doFilter(request, response);
+                return; // Allow access for non-logged-in users to login/register pages
+            } else {
+                // Redirect to the homepage or dashboard if already logged in
+                httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT/");
+                return;
+            }
+        }
+
+        // Allow all other pages (excluding account-related pages) for non-logged-in users
+        if (role == null && !path.startsWith("/MovieRev-1.0-SNAPSHOT/account") || !path.startsWith("/MovieRev-1.0-SNAPSHOT/admin")) {
             chain.doFilter(request, response);
             return;
         }

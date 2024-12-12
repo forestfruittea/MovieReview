@@ -5,10 +5,11 @@
   Time: 11:47
   To change this template use File | Settings | File Templates.
 --%>
-<%@ include file="/WEB-INF/header.jsp" %>
+
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
