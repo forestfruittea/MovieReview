@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class RatingServiceImpl implements RatingService {
@@ -28,6 +29,15 @@ public class RatingServiceImpl implements RatingService {
     public Optional<RatingDto> findByUserAndMovie(Long userId, Long movieId) {
         Optional<RatingEntity> ratingEntity = ratingRepository.findByUserAndMovie(userId, movieId);
         return ratingEntity.map(ratingMapper::toDto);
+    }
+
+    @Override
+    public List<RatingDto> findByUser(Long userId) {
+        List<RatingEntity> ratingEntities = ratingRepository.findByUser(userId);
+
+        return ratingEntities.stream()
+                .map(ratingMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     // Save or update rating

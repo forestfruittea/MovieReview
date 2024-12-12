@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService {
         }
         String hashedPassword = hashPassword(userDto.getPassword());
 
+        setAvatarForRole(userDto.getRole(), userDto);
+        userDto.setPassword(hashedPassword);
         UserEntity newUser = userMapper.toEntity(userDto);
-        newUser.setAvatarPath(ResourceBundle.getBundle("application").getString("base.avatar"));
-        newUser.setPassword(hashedPassword);
 
 
         try {
@@ -50,6 +50,26 @@ public class UserServiceImpl implements UserService {
         } catch (PersistenceException e) {
             return false;
         }
+    }
+    public void setAvatarForRole(Role role, UserDto userDto) {
+        String avatarPath;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("application");
+
+        switch (role) {
+            case CUSTOMER:
+                avatarPath = resourceBundle.getString("base.avatar");
+                break;
+            case MODERATOR:
+                avatarPath = resourceBundle.getString("moderator.avatar");
+                break;
+            case ADMIN:
+                avatarPath = resourceBundle.getString("admin.avatar");
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown role: " + role);
+        }
+
+        userDto.setAvatarPath(avatarPath);
     }
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -107,18 +127,15 @@ public class UserServiceImpl implements UserService {
     }
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Long getLoggedInUserId(HttpServletRequest req) {
-        // Retrieve the session
-        HttpSession session = req.getSession(false); // Use false to avoid creating a new session if none exists
-
+        HttpSession session = req.getSession(false);
         if (session != null) {
-            // Get the user ID from the session attributes
             Object userId = session.getAttribute("userId");
 
             if (userId != null) {
-                return (Long) userId; // Return the user ID if present
+                return (Long) userId;
             }
         }
 
-        return null; // Return null if no user is logged in
+        return null;
     }
 }

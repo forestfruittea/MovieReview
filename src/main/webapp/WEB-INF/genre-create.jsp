@@ -1,12 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: maxim
-  Date: 10.12.2024
-  Time: 12:20
-  To change this template use File | Settings | File Templates.
-
---%>
 <%@ include file="/WEB-INF/header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +17,7 @@
 
         h1 {
             text-align: center;
+            color: #444;
             margin-top: 20px;
         }
 
@@ -42,7 +36,9 @@
             font-weight: bold;
         }
 
-        input {
+        input[type="text"],
+        input[type="file"],
+        button {
             width: 100%;
             padding: 10px;
             margin: 5px 0 15px;
@@ -51,70 +47,74 @@
             box-sizing: border-box;
         }
 
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
         button {
-            width: 100%;
-            padding: 10px;
             background-color: #3498db;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            font-size: 16px;
         }
 
         button:hover {
             background-color: #2980b9;
         }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            color: #2ecc71;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 <h1>Create a New Genre</h1>
+
+<!-- Display error messages -->
+<c:if test="${not empty error}">
+    <div class="error">
+        <pre>${error}</pre>
+    </div>
+</c:if>
+
 <div class="container">
-    <form id="genreForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+    <!-- Genre creation form -->
+    <form method="post" action="${pageContext.request.contextPath}/admin/tool/genres/create" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="${param.name}" required>
+        </div>
 
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description">
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="${param.description}">
+        </div>
 
-        <label for="imagePath">Image Path:</label>
-        <input type="text" id="imagePath" name="imagePath">
+        <div class="form-group">
+            <label for="imagePath">Image Path:</label>
+            <input type="file" id="imagePath" name="imagePath" value="${param.imagePath}" required>
+        </div>
 
         <button type="submit">Create Genre</button>
     </form>
+
+    <br>
+    <a href="${pageContext.request.contextPath}/admin/tool/genres">Back to Genre List</a>
 </div>
-
-<script>
-    document.getElementById('genreForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const genreData = {
-            name: document.getElementById('name').value,
-            description: document.getElementById('description').value,
-            imagePath: document.getElementById('imagePath').value
-        };
-
-        fetch('${pageContext.request.contextPath}/admin/tool/genres/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(genreData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    alert('Genre created successfully!');
-                    document.getElementById('genreForm').reset();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to create genre.');
-            });
-    });
-</script>
 </body>
 </html>
-

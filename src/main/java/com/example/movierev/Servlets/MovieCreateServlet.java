@@ -10,20 +10,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @WebServlet("/admin/tool/movies/create")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class MovieCreateServlet extends HttpServlet {
     private final MovieService movieService;
     private final DirectorService directorService;
@@ -51,11 +63,73 @@ public class MovieCreateServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
         try {
+            // Parse form parameters
+            String title = req.getParameter("title");
+            String description = req.getParameter("description");
+            String country = req.getParameter("country");
+            String directorName = req.getParameter("directorName");
+            String actors = req.getParameter("actors");
+            String genres = req.getParameter("genres");
+            String releaseDate = req.getParameter("releaseDate");
+            String lengthStr = req.getParameter("length");
+            String budgetStr = req.getParameter("budget");
+            String boxOfficeStr = req.getParameter("boxOffice");
 
-            MovieDto movieDto = mapper.readValue(req.getInputStream(), MovieDto.class);
+
+            Part posterPart = req.getPart("posterFile");
+            String posterPath = Paths.get(posterPart.getSubmittedFileName()).getFileName().toString();
+            String uploadPath = getServletContext().getRealPath("/uploads/posters");
+
+            // Ensure the upload directory exists
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // Save the file
+            String filePath = uploadPath + File.separator + posterPath;
+            posterPart.write(filePath);
+
+
+            Long length = Long.parseLong(lengthStr);
+            Long budget = Long.parseLong(budgetStr);
+            Long boxOffice = Long.parseLong(boxOfficeStr);
+
+            MovieDto movieDto = new MovieDto();
+            movieDto.setTitle(title);
+            movieDto.setDescription(description);
+            movieDto.setCountry(country);
+
+            DirectorDto directorDto = new DirectorDto();
+            directorDto.setName(directorName);
+            movieDto.setDirector(directorDto);
+
+            List<ActorDto> actorDtos = Arrays.stream(actors.split(","))
+                    .map(String::trim)
+                    .map(actorName -> {
+                        ActorDto actorDto = new ActorDto();
+                        actorDto.setName(actorName);
+                        return actorDto;
+                    })
+                    .collect(Collectors.toList());
+            movieDto.setActors(actorDtos);
+
+            List<GenreDto> genreDtos = Arrays.stream(genres.split(","))
+                    .map(String::trim)
+                    .map(genreName -> {
+                        GenreDto genreDto = new GenreDto();
+                        genreDto.setName(genreName);
+                        return genreDto;
+                    })
+                    .collect(Collectors.toList());
+            movieDto.setGenres(genreDtos);
+
+            movieDto.setReleaseDate(LocalDate.parse(releaseDate));
+            movieDto.setPosterPath(posterPath);
+            movieDto.setLength(length);
+            movieDto.setBudget(budget);
+            movieDto.setBoxOffice(boxOffice);
 
             Validator validator;
             try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
@@ -79,21 +153,17 @@ public class MovieCreateServlet extends HttpServlet {
                 resp.getWriter().write("{\"error\":\"" + errorMessage.toString().trim() + "\"}");
                 return;
             }
+
             movieService.save(movieDto);
 
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.getWriter().write("{\"message\":\"Movie created successfully.\"}");
+            // Redirect on success
+            resp.sendRedirect(req.getContextPath() + "/admin/tool/movies/create");
 
-        }  catch (JsonProcessingException e) {
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"error\":\"Invalid JSON format.\"}");
         } catch (Exception e) {
-
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+            req.setAttribute("error", "An unexpected error occurred: " + e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/movie-create.jsp").forward(req, resp);
         }
-        resp.sendRedirect("/admin/movies/create ");
     }
+
 
 }

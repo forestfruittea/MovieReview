@@ -16,6 +16,7 @@ import lombok.*;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -50,6 +51,7 @@ public class MovieDto {
     @Positive(message = "Box office must be a positive number")
     private Long boxOffice;
     private List<ReviewDto> reviews;
+    private double averageRating;
 
     //Uses in JSPs
     public String getFullPosterPath() {
@@ -58,5 +60,9 @@ public class MovieDto {
             return basePath + posterPath;
         }
         return null;
+    }
+    public String getReleaseYear() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        return releaseDate.format(formatter);
     }
 }

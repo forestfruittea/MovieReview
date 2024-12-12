@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/header.jsp" %>
 <!DOCTYPE html>
@@ -41,6 +42,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 15px;
             transition: background-color 0.3s, transform 0.3s;
+            position: relative; /* To position the rating at the top-right corner */
         }
 
         .movie-card:hover {
@@ -82,6 +84,26 @@
         .movie-info p {
             margin: 5px 0;
         }
+
+        /* Rating Styles */
+        .rating {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1a1e3f; /* Dark background for contrast */
+            color: white;
+            font-size: 2em; /* Large font size for emphasis */
+            padding: 10px 15px;
+            border-radius: 50%; /* Circular background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            height: 50px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -95,10 +117,17 @@
                     <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title} Poster"/>
                 </c:if>
 
+                <!-- Movie Rating -->
+                <c:if test="${not empty movie.averageRating}">
+                    <div class="rating">
+                        <fmt:formatNumber value="${movie.averageRating}" type="number" maxFractionDigits="1" />
+                    </div>
+                </c:if>
+
                 <!-- Movie Details -->
                 <div class="movie-details">
                     <!-- Title and Main Info -->
-                    <h2 class="movie-title">${movie.title}, ${movie.releaseDate}, ${movie.length} min</h2>
+                    <h2 class="movie-title">${movie.title}, ${movie.releaseYear}, ${movie.length} min</h2>
 
                     <!-- Additional Info -->
                     <div class="movie-info">

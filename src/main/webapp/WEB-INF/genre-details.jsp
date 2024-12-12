@@ -38,7 +38,7 @@
 
         .genre-image {
             width: 45%;
-            height: auto;
+            height: 300px;
             object-fit: cover;
             border-radius: 8px;
         }
@@ -184,7 +184,7 @@
                     </c:if>
 
                     <!-- Movie Title and Release Date -->
-                    <p class="movie-title">${movie.title} <span>(${movie.releaseDate})</span></p>
+                    <p class="movie-title">${movie.title} <span>(${movie.releaseYear})</span></p>
                 </a>
             </li>
         </c:forEach>

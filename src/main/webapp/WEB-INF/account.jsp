@@ -112,9 +112,7 @@
 <div class="container">
     <h1>Welcome, ${user.username}!</h1>
     <img class="user-avatar" src="${user.fullAvatarPath}" alt="User Avatar" width="150" height="150" />
-    <div class="user-details">
-        <p><strong>Username:</strong> ${user.username}</p>
-    </div>
+
 
     <ul>
         <li><a href="${pageContext.request.contextPath}/account/reviews">My Reviews</a></li>
@@ -124,9 +122,6 @@
         <li><a class="logout-btn" href="${pageContext.request.contextPath}/logout">Logout</a></li> <!-- Logout button -->
     </ul>
 
-    <div class="footer">
-        <p>Need help? <a href="${pageContext.request.contextPath}/help">Visit our Help Center</a></p>
-    </div>
 </div>
 
 </body>

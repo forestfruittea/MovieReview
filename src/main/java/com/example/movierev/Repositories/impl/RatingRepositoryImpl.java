@@ -41,6 +41,15 @@ public class RatingRepositoryImpl implements RatingRepository {
             return Optional.empty();  // Return an empty Optional if no result is found or if an error occurs
         }
     }
+
+    @Override
+    public List<RatingEntity> findByUser(Long userId) {
+        return entityManager.createQuery(
+                        "SELECT r FROM RatingEntity r WHERE r.user.id = :userId", RatingEntity.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
     @Override
     public RatingEntity update(RatingEntity rating) {
         entityManager.merge(rating);

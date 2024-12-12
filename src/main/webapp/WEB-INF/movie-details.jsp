@@ -186,13 +186,25 @@
     <!-- Ratings Section -->
     <div class="section ratings-section">
         <h3>Average Rating: ${averageRating}</h3>
-        <p>Your Rating: ${userRating != null ? userRating.rating : "Not Rated"}</p>
-        <form method="post" action="${pageContext.request.contextPath}/movie">
-            <input type="hidden" name="id" value="${movie.id}">
-            <label for="rating">Rate the Movie (1-100):</label>
-            <input type="number" id="rating" name="rating" min="1" max="100" value="${userRating != null ? userRating.rating : ''}" required>
-            <button type="submit" name="action" value="rate">Submit Rating</button>
-        </form>
+        <c:choose>
+            <c:when test="${not empty sessionScope.userId}">
+                <p>Your Rating: ${userRating != null ? userRating.rating : "Not Rated"}</p>
+                <form method="post" action="${pageContext.request.contextPath}/movie">
+                    <input type="hidden" name="id" value="${movie.id}">
+                    <label for="rating">Rate the Movie (1-100):</label>
+                    <input type="number" id="rating" name="rating" min="1" max="100"
+                           value="${userRating != null ? userRating.rating : ''}" required>
+                    <button type="submit" name="action" value="rate">Submit Rating</button>
+                </form>
+            </c:when>
+
+            <c:otherwise>
+                <h3>Log in to your account to rate movies and write reviews!</h3>
+                <a href="${pageContext.request.contextPath}/index.jsp">
+                    <button>Login</button>
+                </a>
+            </c:otherwise>
+        </c:choose>
     </div>
 
     <!-- Reviews Section -->
@@ -202,16 +214,19 @@
             <div class="review">
                 <img src="${review.user.fullAvatarPath}" alt="Avatar">
                 <div class="review-content">
-                    <strong>${review.user.username}</strong> <em>${review.formattedCreatedAt}</em>
+                    <a href="${pageContext.request.contextPath}/userprofile?id=${review.user.id}"><strong>${review.user.username}</strong></a> <em>${review.formattedCreatedAt}</em>
                     <p>${review.content}</p>
                 </div>
             </div>
         </c:forEach>
-        <form method="post" action="${pageContext.request.contextPath}/movie">
-            <input type="hidden" name="id" value="${movie.id}">
-            <textarea name="content" placeholder="Write your review..." required></textarea>
-            <button type="submit" name="action" value="review">Submit Review</button>
-        </form>
+
+        <c:if test="${not empty sessionScope.userId}">
+            <form method="post" action="${pageContext.request.contextPath}/movie">
+                <input type="hidden" name="id" value="${movie.id}">
+                <textarea name="content" placeholder="Write your review..." required></textarea>
+                <button type="submit" name="action" value="review">Submit Review</button>
+            </form>
+        </c:if>
     </div>
 </div>
 </body>

@@ -1,4 +1,3 @@
-
 <%@ include file="/WEB-INF/header.jsp" %>
 
 <!DOCTYPE html>
@@ -18,6 +17,7 @@
 
         h1 {
             text-align: center;
+            color: #444;
             margin-top: 20px;
         }
 
@@ -36,7 +36,9 @@
             font-weight: bold;
         }
 
-        input {
+        input[type="text"],
+        input[type="number"],
+        button {
             width: 100%;
             padding: 10px;
             margin: 5px 0 15px;
@@ -45,77 +47,74 @@
             box-sizing: border-box;
         }
 
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
         button {
-            width: 100%;
-            padding: 10px;
             background-color: #3498db;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            font-size: 16px;
         }
 
         button:hover {
             background-color: #2980b9;
         }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            color: #2ecc71;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 <h1>Create a New Actor</h1>
+
+<!-- Display error messages -->
+<c:if test="${not empty error}">
+    <div style="color: red;">
+        <pre>${error}</pre>
+    </div>
+</c:if>
+
 <div class="container">
-    <form id="actorForm">
+    <!-- Actor creation form -->
+    <form method="post" action="${pageContext.request.contextPath}/admin/tool/actors/create" enctype="multipart/form-data">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="${param.name}" required>
 
         <label for="bio">Bio:</label>
-        <input type="text" id="bio" name="bio">
+        <input type="text" id="bio" name="bio" value="${param.bio}">
 
         <label for="yearOfBirth">Year of Birth:</label>
-        <input type="number" id="yearOfBirth" name="yearOfBirth">
+        <input type="number" id="yearOfBirth" name="yearOfBirth" value="${param.yearOfBirth}">
 
         <label for="photoPath">Photo Path:</label>
-        <input type="text" id="photoPath" name="photoPath" required>
+        <input type="file" id="photoPath" name="photoPath" value="${param.photoPath}" required>
 
         <label for="height">Height (cm):</label>
-        <input type="number" id="height" name="height">
+        <input type="number" id="height" name="height" value="${param.height}">
 
         <button type="submit">Create Actor</button>
     </form>
+
+    <br>
+    <a href="${pageContext.request.contextPath}/admin/tool/actors">Back to Actor List</a>
 </div>
-
-<script>
-    document.getElementById('actorForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const actorData = {
-            name: document.getElementById('name').value,
-            bio: document.getElementById('bio').value,
-            yearOfBirth: parseInt(document.getElementById('yearOfBirth').value),
-            photoPath: document.getElementById('photoPath').value,
-            height: parseInt(document.getElementById('height').value)
-        };
-
-        fetch('${pageContext.request.contextPath}/admin/tool/actors/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(actorData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    alert('Actor created successfully!');
-                    document.getElementById('actorForm').reset();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to create actor.');
-            });
-    });
-</script>
 </body>
 </html>

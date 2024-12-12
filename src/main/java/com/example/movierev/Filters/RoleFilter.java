@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @WebFilter("/*")
@@ -26,18 +27,39 @@ public class RoleFilter implements Filter {
             return;
         }
 
-        // Role-based restrictions
-        if (path.startsWith("/MovieRev-1.0-SNAPSHOT/admin") && role != Role.ADMIN) {
+        if (role == null) {
             httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT");
             return;
         }
 
-        if (path.startsWith("/MovieRev-1.0-SNAPSHOT/moderate") && !"MODERATOR".equals(role) && !"ADMIN".equals(role)) {
+        if (!isAuthorized(role, path)) {
             httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT");
             return;
         }
 
         chain.doFilter(request, response);
     }
-}
 
+    private boolean isAuthorized(Role role, String path) {
+        switch (role) {
+            case CUSTOMER:
+                return !path.startsWith("/MovieRev-1.0-SNAPSHOT/admin");
+
+            case MODERATOR:
+                if (path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/movies") ||
+                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/actors") ||
+                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/directors") ||
+                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/genres")) {
+                    return false;
+                }
+                return true; // Allow everything else
+
+            case ADMIN:
+                // ADMIN can access everything
+                return true;
+
+            default:
+                return false; // Block access for undefined roles
+        }
+    }
+}

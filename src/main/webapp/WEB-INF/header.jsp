@@ -8,7 +8,15 @@
         <a href="${pageContext.request.contextPath}/genres">Genres</a>
     </div>
     <div class="nav-right">
-        <a href="${pageContext.request.contextPath}/account">Account</a>
+        <c:choose>
+            <c:when test="${not empty sessionScope.userId}">
+                <a href="${pageContext.request.contextPath}/account">Account</a>
+            </c:when>
+
+            <c:otherwise>
+                <a href="${pageContext.request.contextPath}/index.jsp">Register</a>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 

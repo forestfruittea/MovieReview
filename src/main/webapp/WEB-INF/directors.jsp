@@ -140,7 +140,7 @@
                     </a>
                     <c:if test="${not empty director.movies}">
                         <a href="${pageContext.request.contextPath}/movie?id=${director.movies[0].id}" class="movie-link">
-                            Known for: ${director.movies[0].title} (${director.movies[0].releaseDate})
+                            Known for: ${director.movies[0].title} (${director.movies[0].releaseYear})
                         </a>
                     </c:if>
                     <c:if test="${empty director.movies}">

@@ -154,7 +154,7 @@
                 <li class="movie-card">
                     <a href="${pageContext.request.contextPath}/movie?id=${movie.id}" class="movie-link">
                         <img class="movie-poster" src="${movie.fullPosterPath}" alt="${movie.title}">
-                        <p class="movie-title">${movie.title} <span>(${movie.releaseDate})</span></p>
+                        <p class="movie-title">${movie.title} <span>(${movie.releaseYear})</span></p>
                     </a>
                 </li>
             </c:forEach>

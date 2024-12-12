@@ -1,23 +1,34 @@
 package com.example.movierev.Servlets;
 
+import com.example.movierev.DTOs.DirectorDto;
 import com.example.movierev.DTOs.GenreDto;
 import com.example.movierev.Services.GenreService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Set;
 
 @WebServlet("/admin/tool/genres/create")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class GenreCreateServlet extends HttpServlet {
 
     @Inject
@@ -30,11 +41,29 @@ public class GenreCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            GenreDto genreDto = mapper.readValue(req.getInputStream(), GenreDto.class);
+            String name = req.getParameter("name");
+            String description = req.getParameter("description");
 
-            // Validate the genre data
+            Part photoPart = req.getPart("imagePath");
+            String photoPath = Paths.get(photoPart.getSubmittedFileName()).getFileName().toString();
+            String uploadPath = getServletContext().getRealPath("/uploads/genreImages");
+
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // Save the file
+            String filePath = uploadPath + File.separator + photoPath;
+            photoPart.write(filePath);
+
+            GenreDto genreDto = new GenreDto();
+            genreDto.setName(name);
+            genreDto.setDescription(description);
+            genreDto.setImagePath(photoPath);
+
+            // Validate the actor data
             Validator validator;
             try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
                 validator = factory.getValidator();
@@ -54,7 +83,7 @@ public class GenreCreateServlet extends HttpServlet {
                 return;
             }
 
-            // Save the genre
+            // Save the actor
             genreService.save(genreDto);
 
             resp.setStatus(HttpServletResponse.SC_CREATED);
