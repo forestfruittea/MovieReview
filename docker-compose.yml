@@ -1,41 +1,45 @@
-version: '3.8'
-
 services:
-  # PostgreSQL service
+
   db:
-    image: mypostgres:1.0.0
+    image: postgres:17
     container_name: postgres-db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: postgres
-    ports:
-      - "5431:5432" # Expose PostgreSQL port
-    networks:
-      - app-network
     extra_hosts:
       - "localhost:127.0.0.1"
+    ports:
+      - "5431:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
-
-  # TomEE application service
   app:
+
     image: app:1.0.0
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
     container_name: tomee-app
     depends_on:
-      - db # Ensure the db container is up before the app starts
+      - db
     environment:
-      DB_URL: jdbc:postgresql://db:5431/postgres # PostgreSQL connection URL
-      DB_USER: postgres # Database username
-      DB_PASSWORD: admin # Database password
+      - DATABASE_URL=jdbc:postgresql://db:5431/postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=admin
     ports:
-      - "8080:8080" # Expose TomEE HTTP port
+      - "8080:8080"
     networks:
       - app-network
 
 networks:
   app-network:
-    driver: bridge # Network for communication between containers
+    driver: bridge
 
 volumes:
-  postgres-data:
+  postgres_data:
     driver: local

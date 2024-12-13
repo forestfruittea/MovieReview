@@ -1,2 +1,0 @@
-from postgres:17
-run apt-get update && apt-get install -y postgresql-contrib

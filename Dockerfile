@@ -1,13 +1,17 @@
-# Use the TomEE base image with JRE 17 and Ubuntu
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
 FROM tomee:jre17-Semeru-ubuntu-webprofile
+WORKDIR /usr/local/tomee
+COPY --from=build /app/target/MovieRev-1.0-SNAPSHOT.war ./webapps/MovieRev-1.0-SNAPSHOT.war
 
-WORKDIR /usr/local/tomee/webapps
-
-COPY target/MovieRev-1.0-SNAPSHOT.war /usr/local/tomee/webapps/MovieRev-1.0-SNAPSHOT.war
-
-RUN curl -L https://jdbc.postgresql.org/download/postgresql-42.5.0.jar -o /usr/local/tomee/lib/postgresql-42.5.0.jar
+RUN apt-get update && apt-get install -y curl && \
+    curl -o lib/postgresql-42.6.0.jar https://jdbc.postgresql.org/download/postgresql-42.6.0.jar
 
 
+COPY tomee.xml ./conf/tomee.xml
 EXPOSE 8080
-
 CMD ["catalina.sh", "run"]
