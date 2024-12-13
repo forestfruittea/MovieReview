@@ -1,8 +1,5 @@
 package com.example.movierev.DTOs;
 
-import com.example.movierev.Entities.MovieEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -10,7 +7,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor

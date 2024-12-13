@@ -1,9 +1,7 @@
 package com.example.movierev.Mappers.impl;
 
 import com.example.movierev.DTOs.ReviewDto;
-import com.example.movierev.DTOs.UserDto;
 import com.example.movierev.Entities.ReviewEntity;
-import com.example.movierev.Entities.UserEntity;
 import com.example.movierev.Mappers.Mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

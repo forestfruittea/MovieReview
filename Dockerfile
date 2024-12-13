@@ -1,13 +1,13 @@
-FROM tomee:10-jdk11
+# Use the TomEE base image with JRE 17 and Ubuntu
+FROM tomee:jre17-Semeru-ubuntu-webprofile
 
-# Set the working directory inside the container
 WORKDIR /usr/local/tomee/webapps
 
-# Copy the WAR file into the TomEE webapps directory
 COPY target/MovieRev-1.0-SNAPSHOT.war /usr/local/tomee/webapps/MovieRev-1.0-SNAPSHOT.war
 
-# Expose TomEE HTTP port
+RUN curl -L https://jdbc.postgresql.org/download/postgresql-42.5.0.jar -o /usr/local/tomee/lib/postgresql-42.5.0.jar
+
+
 EXPOSE 8080
 
-# Start TomEE server
 CMD ["catalina.sh", "run"]

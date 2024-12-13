@@ -1,8 +1,5 @@
 package com.example.movierev.DTOs;
 
-import com.example.movierev.Entities.MovieEntity;
-import com.example.movierev.Entities.UserEntity;
-import jakarta.persistence.*;
 import lombok.*;
 
 @Getter

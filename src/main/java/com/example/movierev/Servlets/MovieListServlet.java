@@ -1,8 +1,6 @@
 package com.example.movierev.Servlets;
 
 import com.example.movierev.DTOs.MovieDto;
-import com.example.movierev.DTOs.ReviewDto;
-import com.example.movierev.Mappers.impl.DirectorMapper;
 import com.example.movierev.Services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;

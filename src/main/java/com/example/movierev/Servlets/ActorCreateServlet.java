@@ -3,7 +3,6 @@ package com.example.movierev.Servlets;
 import com.example.movierev.DTOs.ActorDto;
 import com.example.movierev.Services.ActorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

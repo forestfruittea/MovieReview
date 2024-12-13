@@ -1,6 +1,5 @@
 package com.example.movierev.Repositories.impl;
 
-import com.example.movierev.Entities.ActorEntity;
 import com.example.movierev.Entities.DirectorEntity;
 import com.example.movierev.Repositories.DirectorRepository;
 import jakarta.enterprise.context.ApplicationScoped;

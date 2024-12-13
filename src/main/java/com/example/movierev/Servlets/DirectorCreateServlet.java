@@ -1,11 +1,7 @@
 package com.example.movierev.Servlets;
 
-import com.example.movierev.DTOs.ActorDto;
 import com.example.movierev.DTOs.DirectorDto;
 import com.example.movierev.Services.DirectorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

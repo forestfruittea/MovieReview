@@ -1,9 +1,7 @@
 package com.example.movierev.Services.impl;
 
 import com.example.movierev.Config.Role;
-import com.example.movierev.DTOs.ActorDto;
 import com.example.movierev.DTOs.UserDto;
-import com.example.movierev.Entities.ActorEntity;
 import com.example.movierev.Entities.UserEntity;
 import com.example.movierev.Mappers.impl.UserMapper;
 import com.example.movierev.Repositories.UserRepository;

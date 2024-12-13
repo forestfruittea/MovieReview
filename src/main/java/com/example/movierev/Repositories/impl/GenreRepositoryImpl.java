@@ -1,9 +1,6 @@
 package com.example.movierev.Repositories.impl;
 
-import com.example.movierev.Entities.ActorEntity;
-import com.example.movierev.Entities.DirectorEntity;
 import com.example.movierev.Entities.GenreEntity;
-import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Repositories.GenreRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -12,7 +9,6 @@ import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @ApplicationScoped
 public class GenreRepositoryImpl implements GenreRepository {

@@ -15,6 +15,7 @@ import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import com.example.movierev.DTOs.UserDto;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 
 @Stateless
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
@@ -57,16 +59,21 @@ public class ReviewServiceImpl implements ReviewService {
         reviewEntity.setCreatedAt(LocalDateTime.now());
         reviewEntity.setMovie(movieEntity);
         reviewEntity.setContent(reviewDto.getContent());
+        log.debug("saves review");
+
         reviewRepository.save(reviewEntity);
         }
     @Override
     public void delete(Long reviewId) {
         reviewRepository.delete(reviewId);
+        log.debug("deletes review");
+
     }
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ReviewDto> findAllForMovie(Long movieId) {
         List<ReviewEntity> reviewEntities = reviewRepository.findByMovieId(movieId);
+        log.debug("finds all reviews for movie");
 
         return reviewEntities.stream()
                 .map(reviewMapper::toDto)
@@ -76,6 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ReviewDto> findAllForUser(Long userId) {
         List<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId);
+        log.debug("finds all reviews for user");
 
         return reviewEntities.stream()
                 .map(reviewMapper::toDto)
@@ -84,6 +92,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ReviewDto> findAllSortedByUsernameAndMovieTitle() {
+        log.debug("finds all reviews sorted by username and movie title");
+
         return reviewRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing((ReviewEntity review) ->

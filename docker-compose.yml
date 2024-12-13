@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # PostgreSQL service
+  db:
+    image: mypostgres:1.0.0
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    ports:
+      - "5431:5432" # Expose PostgreSQL port
+    networks:
+      - app-network
+    extra_hosts:
+      - "localhost:127.0.0.1"
+
+
+  # TomEE application service
+  app:
+    image: app:1.0.0
+    container_name: tomee-app
+    depends_on:
+      - db # Ensure the db container is up before the app starts
+    environment:
+      DB_URL: jdbc:postgresql://db:5431/postgres # PostgreSQL connection URL
+      DB_USER: postgres # Database username
+      DB_PASSWORD: admin # Database password
+    ports:
+      - "8080:8080" # Expose TomEE HTTP port
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge # Network for communication between containers
+
+volumes:
+  postgres-data:
+    driver: local

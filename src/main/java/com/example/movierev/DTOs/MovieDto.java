@@ -3,11 +3,7 @@ package com.example.movierev.DTOs;
 
 
 
-import com.example.movierev.Entities.ActorEntity;
-import com.example.movierev.Entities.DirectorEntity;
-import com.example.movierev.Entities.GenreEntity;
-import com.example.movierev.Entities.ReviewEntity;
-import jakarta.persistence.*;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,7 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
+
 
 @Getter
 @Setter

@@ -2,7 +2,6 @@ package com.example.movierev.DTOs;
 
 
 import com.example.movierev.Config.Role;
-import com.example.movierev.Entities.ReviewEntity;
 import lombok.*;
 
 import java.util.List;

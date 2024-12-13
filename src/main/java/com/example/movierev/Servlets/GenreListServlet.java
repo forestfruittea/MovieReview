@@ -1,8 +1,6 @@
 package com.example.movierev.Servlets;
 
-import com.example.movierev.DTOs.DirectorDto;
 import com.example.movierev.DTOs.GenreDto;
-import com.example.movierev.Services.DirectorService;
 import com.example.movierev.Services.GenreService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;

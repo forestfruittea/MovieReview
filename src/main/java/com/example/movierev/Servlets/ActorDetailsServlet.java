@@ -1,7 +1,6 @@
 package com.example.movierev.Servlets;
 
 import com.example.movierev.DTOs.ActorDto;
-import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.Services.ActorService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @WebServlet("/actor")

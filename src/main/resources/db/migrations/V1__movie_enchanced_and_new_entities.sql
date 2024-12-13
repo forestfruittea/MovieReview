@@ -1,4 +1,3 @@
--- Actors Table
 CREATE TABLE actors (
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(255) NOT NULL UNIQUE,
@@ -8,7 +7,6 @@ CREATE TABLE actors (
                         height BIGINT
 );
 
--- Directors Table
 CREATE TABLE directors (
                            id SERIAL PRIMARY KEY,
                            name VARCHAR(255) NOT NULL UNIQUE,
@@ -17,7 +15,6 @@ CREATE TABLE directors (
                            photo_path VARCHAR(255)
 );
 
--- Genres Table
 CREATE TABLE genres (
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(100) NOT NULL UNIQUE,
@@ -26,7 +23,6 @@ CREATE TABLE genres (
 
 );
 
--- Movies Table
 CREATE TABLE movies (
                         id SERIAL PRIMARY KEY,
                         title VARCHAR(255) NOT NULL,
@@ -41,7 +37,6 @@ CREATE TABLE movies (
                         FOREIGN KEY (director_id) REFERENCES directors(id) ON DELETE CASCADE
 );
 
--- Movie-Genre Many-to-Many Table
 CREATE TABLE movie_genre (
                              movie_id BIGINT NOT NULL,
                              genre_id BIGINT NOT NULL,
@@ -50,7 +45,6 @@ CREATE TABLE movie_genre (
                              FOREIGN KEY (genre_id) REFERENCES genres(id) -- Removed ON DELETE CASCADE here
 );
 
--- Movie-Actor Many-to-Many Table
 CREATE TABLE movie_actor (
                              movie_id BIGINT NOT NULL,
                              actor_id BIGINT NOT NULL,

@@ -1,9 +1,7 @@
 package com.example.movierev.Servlets;
 
-import com.example.movierev.DTOs.DirectorDto;
 import com.example.movierev.DTOs.GenreDto;
 import com.example.movierev.Services.GenreService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

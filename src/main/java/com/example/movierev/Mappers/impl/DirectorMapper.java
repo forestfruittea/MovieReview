@@ -1,9 +1,7 @@
 package com.example.movierev.Mappers.impl;
 
 import com.example.movierev.DTOs.DirectorDto;
-import com.example.movierev.DTOs.MovieDto;
 import com.example.movierev.Entities.DirectorEntity;
-import com.example.movierev.Entities.MovieEntity;
 import com.example.movierev.Mappers.Mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
