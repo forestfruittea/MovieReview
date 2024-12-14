@@ -6,12 +6,13 @@ services:
     extra_hosts:
       - "localhost:127.0.0.1"
     ports:
-      - "5431:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=postgres
     volumes:
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
@@ -28,7 +29,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=jdbc:postgresql://db:5431/postgres
+      - DATABASE_URL=jdbc:postgresql://db:5432/postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=admin
     ports:

@@ -14,16 +14,15 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
--->
-<tomee>
+--><resources>
   <!-- see https://tomee.apache.org/latest/docs/admin/configuration/containers.html -->
   <Resource id="PostgresDS" type="DataSource">
     JdbcDriver = org.postgresql.Driver
-    JdbcUrl = jdbc:postgresql://db:5431/postgres
+    JdbcUrl = jdbc:postgresql://db:5432/postgres
     UserName = postgres
     Password = admin
     JtaManaged = true
   </Resource>
+</resources>
   <!-- activate next line to be able to deploy applications in apps -->
   <!-- <Deployments dir="C:\Program Files\Apache\apache-tomee-webprofile-10.0.0-M3\webapps" /> -->
-</tomee>

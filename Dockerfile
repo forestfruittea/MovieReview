@@ -12,6 +12,6 @@ RUN apt-get update && apt-get install -y curl && \
     curl -o lib/postgresql-42.6.0.jar https://jdbc.postgresql.org/download/postgresql-42.6.0.jar
 
 
-COPY tomee.xml ./conf/tomee.xml
+COPY src/main/webapp/WEB-INF/resources.xml /usr/local/tomee/conf/resources.xml
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
