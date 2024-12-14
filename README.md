@@ -20,8 +20,9 @@ To get started, follow the steps below:
     docker-compose up
     ```
 4. Visit the application home page:
-   [http://localhost:8080/MovieRev-1.0-SNAPSHOT/](http://localhost:8080/MovieRev-1.0-SNAPSHOT/)
-
+   ```
+   localhost:8080/MovieRev-1.0-SNAPSHOT/
+   ```
 5. To log in as an admin, use the following credentials:
     - **Username:** admin
     - **Password:** 123
