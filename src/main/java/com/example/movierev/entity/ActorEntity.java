@@ -1,4 +1,4 @@
-package com.example.movierev.Entities;
+package com.example.movierev.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

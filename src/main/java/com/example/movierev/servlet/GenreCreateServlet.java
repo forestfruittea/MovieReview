@@ -1,7 +1,7 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
-import com.example.movierev.DTOs.GenreDto;
-import com.example.movierev.Services.GenreService;
+import com.example.movierev.dto.GenreDto;
+import com.example.movierev.service.GenreService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -18,7 +18,6 @@ import jakarta.validation.ValidatorFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.Set;
 
 @WebServlet("/admin/tool/genres/create")

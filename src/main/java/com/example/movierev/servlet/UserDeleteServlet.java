@@ -1,6 +1,6 @@
-package com.example.movierev.Servlets;
-import com.example.movierev.DTOs.UserDto;
-import com.example.movierev.Services.UserService;
+package com.example.movierev.servlet;
+import com.example.movierev.dto.UserDto;
+import com.example.movierev.service.UserService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

@@ -1,13 +1,12 @@
-package com.example.movierev.Mappers.impl;
+package com.example.movierev.mapper.impl;
 
-import com.example.movierev.DTOs.UserDto;
-import com.example.movierev.Entities.UserEntity;
-import com.example.movierev.Mappers.Mapper;
+import com.example.movierev.dto.UserDto;
+import com.example.movierev.entity.UserEntity;
+import com.example.movierev.mapper.Mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 
-import java.util.Map;
 @ApplicationScoped
 public class UserMapper implements Mapper<UserEntity, UserDto> {
     @Inject

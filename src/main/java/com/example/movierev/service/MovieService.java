@@ -1,6 +1,6 @@
-package com.example.movierev.Services;
+package com.example.movierev.service;
 
-import com.example.movierev.DTOs.MovieDto;
+import com.example.movierev.dto.MovieDto;
 
 import java.util.List;
 import java.util.Optional;

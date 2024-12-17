@@ -1,11 +1,11 @@
-package com.example.movierev.Services.impl;
+package com.example.movierev.service.impl;
 
-import com.example.movierev.Config.Role;
-import com.example.movierev.DTOs.UserDto;
-import com.example.movierev.Entities.UserEntity;
-import com.example.movierev.Mappers.impl.UserMapper;
-import com.example.movierev.Repositories.UserRepository;
-import com.example.movierev.Services.UserService;
+import com.example.movierev.config.Role;
+import com.example.movierev.dto.UserDto;
+import com.example.movierev.entity.UserEntity;
+import com.example.movierev.mapper.impl.UserMapper;
+import com.example.movierev.repository.UserRepository;
+import com.example.movierev.service.UserService;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;

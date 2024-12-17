@@ -1,6 +1,6 @@
-package com.example.movierev.Services;
+package com.example.movierev.service;
 
-import com.example.movierev.DTOs.UserDto;
+import com.example.movierev.dto.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;

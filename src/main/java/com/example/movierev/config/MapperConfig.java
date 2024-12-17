@@ -1,4 +1,4 @@
-package com.example.movierev.Config;
+package com.example.movierev.config;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
@@ -12,3 +12,4 @@ public class MapperConfig {
         return new ModelMapper();
     }
 }
+

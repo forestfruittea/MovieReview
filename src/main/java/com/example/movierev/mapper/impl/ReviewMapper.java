@@ -1,8 +1,8 @@
-package com.example.movierev.Mappers.impl;
+package com.example.movierev.mapper.impl;
 
-import com.example.movierev.DTOs.ReviewDto;
-import com.example.movierev.Entities.ReviewEntity;
-import com.example.movierev.Mappers.Mapper;
+import com.example.movierev.dto.ReviewDto;
+import com.example.movierev.entity.ReviewEntity;
+import com.example.movierev.mapper.Mapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;

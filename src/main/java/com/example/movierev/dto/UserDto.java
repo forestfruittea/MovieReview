@@ -1,7 +1,7 @@
-package com.example.movierev.DTOs;
+package com.example.movierev.dto;
 
 
-import com.example.movierev.Config.Role;
+import com.example.movierev.config.Role;
 import lombok.*;
 
 import java.util.List;

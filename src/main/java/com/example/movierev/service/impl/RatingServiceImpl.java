@@ -1,10 +1,10 @@
-package com.example.movierev.Services.impl;
+package com.example.movierev.service.impl;
 
-import com.example.movierev.DTOs.RatingDto;
-import com.example.movierev.Entities.RatingEntity;
-import com.example.movierev.Mappers.impl.RatingMapper;
-import com.example.movierev.Repositories.RatingRepository;
-import com.example.movierev.Services.RatingService;
+import com.example.movierev.dto.RatingDto;
+import com.example.movierev.entity.RatingEntity;
+import com.example.movierev.mapper.impl.RatingMapper;
+import com.example.movierev.repository.RatingRepository;
+import com.example.movierev.service.RatingService;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;

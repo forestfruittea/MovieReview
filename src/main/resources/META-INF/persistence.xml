@@ -6,13 +6,13 @@
     <persistence-unit name="PUnit" transaction-type="JTA">
 
         <jta-data-source>java:openejb/Resource/PostgresDS</jta-data-source>
-        <class>com.example.movierev.Entities.ActorEntity</class>
-        <class>com.example.movierev.Entities.MovieEntity</class>
-        <class>com.example.movierev.Entities.DirectorEntity</class>
-        <class>com.example.movierev.Entities.GenreEntity</class>
-        <class>com.example.movierev.Entities.ReviewEntity</class>
-        <class>com.example.movierev.Entities.RatingEntity</class>
-        <class>com.example.movierev.Entities.UserEntity</class>
+        <class>com.example.movierev.entity.ActorEntity</class>
+        <class>com.example.movierev.entity.MovieEntity</class>
+        <class>com.example.movierev.entity.DirectorEntity</class>
+        <class>com.example.movierev.entity.GenreEntity</class>
+        <class>com.example.movierev.entity.ReviewEntity</class>
+        <class>com.example.movierev.entity.RatingEntity</class>
+        <class>com.example.movierev.entity.UserEntity</class>
         <properties>
             <!-- Hibernate properties -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

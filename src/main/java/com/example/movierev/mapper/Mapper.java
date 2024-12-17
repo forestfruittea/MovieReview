@@ -1,4 +1,4 @@
-package com.example.movierev.Mappers;
+package com.example.movierev.mapper;
 
 public interface Mapper<E,D> {
 

@@ -1,7 +1,7 @@
-package com.example.movierev.Repositories.impl;
+package com.example.movierev.repository.impl;
 
-import com.example.movierev.Entities.UserEntity;
-import com.example.movierev.Repositories.UserRepository;
+import com.example.movierev.entity.UserEntity;
+import com.example.movierev.repository.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;

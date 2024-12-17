@@ -1,7 +1,7 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
-import com.example.movierev.DTOs.ActorDto;
-import com.example.movierev.Services.ActorService;
+import com.example.movierev.dto.ActorDto;
+import com.example.movierev.service.ActorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;

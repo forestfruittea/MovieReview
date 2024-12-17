@@ -1,20 +1,20 @@
-package com.example.movierev.Services.impl;
+package com.example.movierev.service.impl;
 
-import com.example.movierev.DTOs.ReviewDto;
-import com.example.movierev.Entities.MovieEntity;
-import com.example.movierev.Entities.ReviewEntity;
-import com.example.movierev.Entities.UserEntity;
-import com.example.movierev.Mappers.impl.ReviewMapper;
-import com.example.movierev.Mappers.impl.UserMapper;
-import com.example.movierev.Repositories.MovieRepository;
-import com.example.movierev.Repositories.ReviewRepository;
-import com.example.movierev.Repositories.UserRepository;
-import com.example.movierev.Services.ReviewService;
+import com.example.movierev.dto.ReviewDto;
+import com.example.movierev.entity.MovieEntity;
+import com.example.movierev.entity.ReviewEntity;
+import com.example.movierev.entity.UserEntity;
+import com.example.movierev.mapper.impl.ReviewMapper;
+import com.example.movierev.mapper.impl.UserMapper;
+import com.example.movierev.repository.MovieRepository;
+import com.example.movierev.repository.ReviewRepository;
+import com.example.movierev.repository.UserRepository;
+import com.example.movierev.service.ReviewService;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
-import com.example.movierev.DTOs.UserDto;
+import com.example.movierev.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;

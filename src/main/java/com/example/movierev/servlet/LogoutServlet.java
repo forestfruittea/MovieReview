@@ -1,4 +1,4 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

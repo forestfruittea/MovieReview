@@ -1,4 +1,4 @@
-package com.example.movierev.DTOs;
+package com.example.movierev.dto;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
-import com.example.movierev.DTOs.DirectorDto;
-import com.example.movierev.Services.DirectorService;
+import com.example.movierev.dto.DirectorDto;
+import com.example.movierev.service.DirectorService;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

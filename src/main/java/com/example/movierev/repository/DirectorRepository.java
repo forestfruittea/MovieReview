@@ -1,6 +1,6 @@
-package com.example.movierev.Repositories;
+package com.example.movierev.repository;
 
-import com.example.movierev.Entities.DirectorEntity;
+import com.example.movierev.entity.DirectorEntity;
 
 import java.util.List;
 import java.util.Optional;

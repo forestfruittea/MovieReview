@@ -1,6 +1,6 @@
-package com.example.movierev.Entities;
+package com.example.movierev.entity;
 
-import com.example.movierev.Config.Role;
+import com.example.movierev.config.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

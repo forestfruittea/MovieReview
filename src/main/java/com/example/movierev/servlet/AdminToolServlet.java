@@ -1,4 +1,4 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

@@ -1,7 +1,7 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
-import com.example.movierev.DTOs.MovieDto;
-import com.example.movierev.Services.MovieService;
+import com.example.movierev.dto.MovieDto;
+import com.example.movierev.service.MovieService;
 import jakarta.inject.Inject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -51,5 +51,5 @@ public class MovieDeleteServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/movie-delete.jsp").forward(req, resp);
     }
 }
-
+//
 

@@ -1,6 +1,6 @@
-package com.example.movierev.Filters;
+package com.example.movierev.filter;
 
-import com.example.movierev.Config.Role;
+import com.example.movierev.config.Role;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;

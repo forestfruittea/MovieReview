@@ -1,7 +1,7 @@
-package com.example.movierev.Servlets;
+package com.example.movierev.servlet;
 
-import com.example.movierev.DTOs.MovieDto;
-import com.example.movierev.Services.*;
+import com.example.movierev.dto.MovieDto;
+import com.example.movierev.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
