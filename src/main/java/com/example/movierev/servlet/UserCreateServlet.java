@@ -1,6 +1,6 @@
 package com.example.movierev.servlet;
 
-import com.example.movierev.config.Role;
+import com.example.movierev.filter.Role;
 import com.example.movierev.dto.UserDto;
 import com.example.movierev.service.UserService;
 import jakarta.inject.Inject;
@@ -46,7 +46,7 @@ public class UserCreateServlet extends HttpServlet {
 
         if (success) {
             // Redirect to the user creation page or some success page
-            resp.sendRedirect("/MovieRev-1.0-SNAPSHOT/admin/tool/users/create");
+            resp.sendRedirect(req.getContextPath()+"/admin/tool/users/create");
         } else {
             // Set error message and forward to the form again in case of failure
             req.setAttribute("error", "Username is already taken or there was an error during registration.");

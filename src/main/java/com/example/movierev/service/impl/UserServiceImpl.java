@@ -1,6 +1,6 @@
 package com.example.movierev.service.impl;
 
-import com.example.movierev.config.Role;
+import com.example.movierev.filter.Role;
 import com.example.movierev.dto.UserDto;
 import com.example.movierev.entity.UserEntity;
 import com.example.movierev.mapper.impl.UserMapper;

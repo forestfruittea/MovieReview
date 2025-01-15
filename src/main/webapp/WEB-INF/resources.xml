@@ -18,10 +18,22 @@
   <!-- see https://tomee.apache.org/latest/docs/admin/configuration/containers.html -->
   <Resource id="PostgresDS" type="DataSource">
     JdbcDriver = org.postgresql.Driver
-    JdbcUrl = jdbc:postgresql://db:5432/postgres
+    JdbcUrl = jdbc:postgresql://localhost:5432/postgres
     UserName = postgres
     Password = admin
     JtaManaged = true
+
+    maxActive=10
+    maxIdle=10
+    minIdle=2
+    maxWaitMillis=10000
+    validationQuery=SELECT 1
+    validationQueryTimeout=5
+    testOnBorrow=true
+    testWhileIdle=true
+    timeBetweenEvictionRunsMillis=30000
+    numTestsPerEvictionRun=3
+    minEvictableIdleTimeMillis=60000
   </Resource>
 </resources>
   <!-- activate next line to be able to deploy applications in apps -->

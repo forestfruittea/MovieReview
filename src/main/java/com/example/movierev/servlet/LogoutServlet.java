@@ -16,6 +16,6 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             session.invalidate(); // Destroy session
         }
-        response.sendRedirect("/MovieRev-1.0-SNAPSHOT");
+        response.sendRedirect(request.getContextPath());
     }
 }

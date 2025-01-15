@@ -1,4 +1,4 @@
-package com.example.movierev.config;
+package com.example.movierev.filter;
 
 public enum Role {
     CUSTOMER, MODERATOR, ADMIN

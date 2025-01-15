@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
                 // Redirect based on role
 
 
-                response.sendRedirect("/MovieRev-1.0-SNAPSHOT/movies");
+                response.sendRedirect(request.getContextPath()+"/movies");
             }
             else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "User not found.");

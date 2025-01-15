@@ -1,7 +1,7 @@
 package com.example.movierev.dto;
 
 
-import com.example.movierev.config.Role;
+import com.example.movierev.filter.Role;
 import lombok.*;
 
 import java.util.List;

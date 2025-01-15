@@ -26,6 +26,7 @@ public class AccountServlet extends HttpServlet {
             Long userId = userService.getLoggedInUserId(req); // Placeholder logic for now
             Optional<UserDto> userOptional = userService.findById(userId);
 
+
             if (userOptional.isPresent()) {
                 UserDto user = userOptional.get();
                 req.setAttribute("user", user);

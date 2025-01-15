@@ -1,6 +1,5 @@
 package com.example.movierev.filter;
 
-import com.example.movierev.config.Role;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,52 +15,53 @@ public class RoleFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        String contextPath = httpRequest.getContextPath();
         String path = httpRequest.getRequestURI();
         Role role = (Role) httpRequest.getSession().getAttribute("role");
 
         // Publicly accessible paths
-        if (path.startsWith("/MovieRev-1.0-SNAPSHOT/login") ||
-                path.startsWith("/MovieRev-1.0-SNAPSHOT/register") ||
-                path.equals("/MovieRev-1.0-SNAPSHOT/")) {
+        if (path.startsWith(contextPath+"/login") ||
+                path.startsWith(contextPath+"/register") ||
+                path.equals(contextPath+"/")) {
             if (role == null) {
                 chain.doFilter(request, response);
                 return; // Allow access for non-logged-in users to login/register pages
             } else {
                 // Redirect to the homepage or dashboard if already logged in
-                httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT/");
+                httpResponse.sendRedirect(contextPath+"/");
                 return;
             }
         }
 
         // Allow all other pages (excluding account-related pages) for non-logged-in users
-        if (role == null && !path.startsWith("/MovieRev-1.0-SNAPSHOT/account") || !path.startsWith("/MovieRev-1.0-SNAPSHOT/admin")) {
+        if (role == null && !path.startsWith(contextPath+"/account") || !path.startsWith(contextPath+"/admin")) {
             chain.doFilter(request, response);
             return;
         }
 
         if (role == null) {
-            httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT");
+            httpResponse.sendRedirect(contextPath);
             return;
         }
 
-        if (!isAuthorized(role, path)) {
-            httpResponse.sendRedirect("/MovieRev-1.0-SNAPSHOT");
+        if (!isAuthorized(role, path, contextPath)) {
+            httpResponse.sendRedirect(contextPath);
             return;
         }
 
         chain.doFilter(request, response);
     }
 
-    private boolean isAuthorized(Role role, String path) {
+    private boolean isAuthorized(Role role, String path, String contextPath) {
         switch (role) {
             case CUSTOMER:
-                return !path.startsWith("/MovieRev-1.0-SNAPSHOT/admin");
+                return !path.startsWith(contextPath+"/admin");
 
             case MODERATOR:
-                if (path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/movies") ||
-                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/actors") ||
-                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/directors") ||
-                        path.startsWith("/MovieRev-1.0-SNAPSHOT/admin/tool/genres")) {
+                if (path.startsWith(contextPath+"/admin/tool/movies") ||
+                        path.startsWith(contextPath+"/admin/tool/actors") ||
+                        path.startsWith(contextPath+"/admin/tool/directors") ||
+                        path.startsWith(contextPath+"/admin/tool/genres")) {
                     return false;
                 }
                 return true; // Allow everything else

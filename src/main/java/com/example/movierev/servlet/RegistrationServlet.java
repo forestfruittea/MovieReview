@@ -1,6 +1,6 @@
 package com.example.movierev.servlet;
 
-import com.example.movierev.config.Role;
+import com.example.movierev.filter.Role;
 import com.example.movierev.dto.UserDto;
 import com.example.movierev.service.UserService;
 import jakarta.inject.Inject;
@@ -41,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
         boolean success = userService.registerUser(userDto);
 
         if (success) {
-            response.sendRedirect("/MovieRev-1.0-SNAPSHOT/login");
+            response.sendRedirect(request.getContextPath()+"/login");
         } else {
             request.setAttribute("error", "Username is already taken or there was an error during registration.");
             request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);

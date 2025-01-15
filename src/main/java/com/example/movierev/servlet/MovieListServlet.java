@@ -36,11 +36,6 @@ public class MovieListServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/movies.jsp").forward(req, resp);
 
     }
-
-
-
-
-
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
