@@ -173,7 +173,7 @@
 
 <!-- Movies Section -->
 <div class="movies-section">
-    <h2>Movies in this Genre</h2>
+    <h2><fmt:message key="genreMovies" /></h2>
     <ul class="movies-list">
         <c:forEach var="movie" items="${movies}">
             <li class="movie-card">

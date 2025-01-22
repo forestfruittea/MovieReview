@@ -33,25 +33,25 @@ public class ActorServiceImpl implements ActorService {
         log.debug("saves actor");
         return actorMapper.toDto(actorEntity);
     }
+//TODO
+//    @Override
+//    public ActorDto update(ActorDto actorDto) {
+//        ActorEntity actorEntity = actorMapper.toEntity(actorDto);
+//        actorEntity = actorRepository.update(actorEntity);
+//        log.debug("updates an actor");
+//        return actorMapper.toDto(actorEntity);
+//    }
 
     @Override
-    public ActorDto update(ActorDto actorDto) {
-        ActorEntity actorEntity = actorMapper.toEntity(actorDto);
-        actorEntity = actorRepository.update(actorEntity);
-        log.debug("updates an actor");
-        return actorMapper.toDto(actorEntity);
-    }
-
-    @Override
-    public void delete(Long actorId) {
+    public void delete(Long id) {
         log.debug("deletes actor by id");
-        actorRepository.delete(actorId);
+        actorRepository.delete(id);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public Optional<ActorDto> findById(Long actorId) {
-        Optional<ActorEntity> actorEntity = actorRepository.findById(actorId);
+    public Optional<ActorDto> findById(Long id) {
+        Optional<ActorEntity> actorEntity = actorRepository.findById(id);
         log.debug("finds actor sorted by id");
         return actorEntity.map(actorMapper::toDto);
     }
@@ -69,18 +69,10 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ActorDto> findAllSorted() {
-        List<ActorEntity> actorEntities = actorRepository.findAll();
-        log.debug("finds all actors sorted by name");
+        List<ActorEntity> actorEntities = actorRepository.findAllSortedByName();
         return actorEntities.stream()
-                .sorted((m1, m2) -> {
-                    String title1 = m1.getName().toLowerCase();
-                    String title2 = m2.getName().toLowerCase();
-                    return title1.compareTo(title2);
-
-                })
                 .map(actorMapper::toDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override

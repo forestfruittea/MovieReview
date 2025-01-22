@@ -7,13 +7,10 @@ import java.util.Optional;
 
 public interface ReviewRepository {
     ReviewEntity save(ReviewEntity reviewEntity);
-    public List<ReviewEntity> findByMovieId(Long movieId);
-    public List<ReviewEntity> findByUserId(Long userId);
-
-    ReviewEntity update(ReviewEntity reviewEntity);
-
+    List<ReviewEntity> findByMovieId(Long movieId);
+    List<ReviewEntity> findByUserId(Long userId);
     void delete(Long reviewId);
-
     Optional<ReviewEntity> findById(Long reviewId);
     List<ReviewEntity> findAll();
+//TODO    ReviewEntity update(ReviewEntity reviewEntity);
 }

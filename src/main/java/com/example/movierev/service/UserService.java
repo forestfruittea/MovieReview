@@ -9,11 +9,13 @@ import java.util.Optional;
 public interface UserService {
     boolean registerUser(UserDto userDto);
     Long authenticate(String username, String password);
-    UserDto update(UserDto userDto);
     void delete(Long userId);
     Optional<UserDto> findById(Long id);
     List<UserDto> findAll();
-    public List<UserDto> findAllSorted();
+    List<UserDto> findAllSorted();
     Long getLoggedInUserId(HttpServletRequest req);
+
+    //TODO UserDto update(UserDto userDto);
+
 
 }

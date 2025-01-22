@@ -148,15 +148,15 @@
         <img class="actor-photo" src="${actor.fullPhotoPath}" alt="${actor.name} Photo">
         <div class="actor-info">
             <h1 class="actor-name">${actor.name}</h1>
-            <p class="info-item"><span>Height:</span> ${actor.height} cm</p>
-            <p class="info-item"><span>Year of Birth:</span> ${actor.yearOfBirth}</p>
-            <p class="info-item"><span>Bio:</span> ${actor.bio}</p>
+            <p class="info-item"><span><fmt:message key="personHeight" />:</span> ${actor.height} cm</p>
+            <p class="info-item"><span><fmt:message key="personDateOfBirth" />:</span> ${actor.yearOfBirth}</p>
+            <p class="info-item"><span><fmt:message key="personBio" />:</span> ${actor.bio}</p>
         </div>
     </div>
 
     <!-- Movies Section -->
     <div class="section movies-section">
-        <h2>Movies</h2>
+        <h2><fmt:message key="actorMovies" /></h2>
         <ul class="movies-list">
             <c:forEach var="movie" items="${actor.movies}">
                 <li class="movie-card">

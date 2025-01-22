@@ -134,14 +134,14 @@
                     </a>
                     <c:if test="${not empty actor.movies}">
                         <a href="${pageContext.request.contextPath}/movie?id=${actor.movies[0].id}" class="movie-link">
-                            Known for: ${actor.movies[0].title} (${actor.movies[0].releaseYear})
+                            <fmt:message key="personKnownFor" />: ${actor.movies[0].title} (${actor.movies[0].releaseYear})
                         </a>
                     </c:if>
                     <c:if test="${empty actor.movies}">
                         <p>Known for: N/A</p>
                     </c:if>
-                    <p>Height: ${actor.height} cm</p>
-                    <p>Year of Birth: ${actor.yearOfBirth}</p>
+                    <p><fmt:message key="personHeight" />: ${actor.height} cm</p>
+                    <p><fmt:message key="personDateOfBirth" />: ${actor.yearOfBirth}</p>
                     <p class="bio">${actor.bio}</p>
                 </div>
             </div>

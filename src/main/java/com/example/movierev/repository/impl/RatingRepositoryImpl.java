@@ -1,7 +1,12 @@
 package com.example.movierev.repository.impl;
 
+import com.example.movierev.entity.GenreEntity;
 import com.example.movierev.entity.RatingEntity;
+import com.example.movierev.repository.AbstractHibernateRepository;
 import com.example.movierev.repository.RatingRepository;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -9,15 +14,14 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
-public class RatingRepositoryImpl implements RatingRepository {
+@Stateless
+public class RatingRepositoryImpl extends AbstractHibernateRepository<RatingEntity, Long> implements RatingRepository {
     @PersistenceContext
     private EntityManager entityManager;
-    @Override
-    public RatingEntity save(RatingEntity ratingEntity) {
-        entityManager.persist(ratingEntity);
-        return ratingEntity;
+    public RatingRepositoryImpl() {
+        super(RatingEntity.class);
     }
+
     @Override
     public List<RatingEntity> findByMovieId(Long movieId) {
         return entityManager.createQuery(
@@ -48,7 +52,6 @@ public class RatingRepositoryImpl implements RatingRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
-
     @Override
     public RatingEntity update(RatingEntity rating) {
         entityManager.merge(rating);

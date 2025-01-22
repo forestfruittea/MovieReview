@@ -5,7 +5,6 @@
          version="5.0">
     <description>Movie Review App</description>
     <display-name>Movie Review</display-name>
-
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

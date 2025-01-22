@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface MovieRepository {
     MovieEntity save(MovieEntity movieEntity);
-
-    MovieEntity update(MovieEntity movieEntity);
-
     void delete(Long movieId);
-    public List<MovieEntity> findByName(String name);
-
+    List<MovieEntity> findByName(String name);
     Optional<MovieEntity> findById(Long movieId);
-
+    List<MovieEntity> findMoviesByPage(int page, int size);
+    long count();
     List<MovieEntity> findAllByGenreId(Long genreId);
     List<MovieEntity> findAll();
+
+    //TODO    MovieEntity update(MovieEntity movieEntity);
+
 }

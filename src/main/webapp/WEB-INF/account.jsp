@@ -115,11 +115,11 @@
 
 
     <ul>
-        <li><a href="${pageContext.request.contextPath}/account/reviews">My Reviews</a></li>
+        <li><a href="${pageContext.request.contextPath}/account/reviews"><fmt:message key="accountMyReviewsButton" /></a></li>
         <c:if test="${user.role != 'CUSTOMER'}">
-            <li><a href="${pageContext.request.contextPath}/admin/tool">Admin Tool</a></li>
-        </c:if> <!-- Optional link for account settings -->
-        <li><a class="logout-btn" href="${pageContext.request.contextPath}/logout">Logout</a></li> <!-- Logout button -->
+            <li><a href="${pageContext.request.contextPath}/admin/tool"><fmt:message key="accountAdminToolButton" /></a></li>
+        </c:if>
+        <li><a class="logout-btn" href="${pageContext.request.contextPath}/logout"><fmt:message key="accountLogoutButton" /></a></li> <!-- Logout button -->
     </ul>
 
 </div>

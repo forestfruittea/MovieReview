@@ -1,7 +1,12 @@
 package com.example.movierev.repository.impl;
 
+import com.example.movierev.entity.DirectorEntity;
 import com.example.movierev.entity.GenreEntity;
+import com.example.movierev.repository.AbstractHibernateRepository;
 import com.example.movierev.repository.GenreRepository;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -10,41 +15,16 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
-public class GenreRepositoryImpl implements GenreRepository {
+@Stateless
+public class GenreRepositoryImpl extends AbstractHibernateRepository<GenreEntity, Long> implements GenreRepository {
     @PersistenceContext
     private EntityManager entityManager;
-    @Override
-    public GenreEntity save(GenreEntity genreEntity) {
-        entityManager.persist(genreEntity);
-        return genreEntity;
-    }
-
-    @Override
-    public GenreEntity update(GenreEntity genreEntity) {
-        return entityManager.merge(genreEntity);
-    }
-
-    @Override
-    public void delete(Long genreId) {
-        GenreEntity genreEntity = entityManager.find(GenreEntity.class, genreId);
-        if (genreEntity !=null) entityManager.remove(genreEntity);
+    public GenreRepositoryImpl() {
+        super(GenreEntity.class);
     }
     @Override
-    public Optional<GenreEntity> findById(Long genreId) {
-        return Optional.ofNullable(entityManager.find(GenreEntity.class, genreId));
-    }
-    @Override
-    public Optional<GenreEntity> findByName(String name) {
-        try {
-            GenreEntity genreEntity = entityManager
-                    .createQuery("SELECT g FROM GenreEntity g WHERE g.name = :name", GenreEntity.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-            return Optional.of(genreEntity);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+    public List<GenreEntity> findAllSortedByName() {
+        return entityManager.createQuery("SELECT g FROM GenreEntity g ORDER BY g.name", GenreEntity.class).getResultList();
     }
     @Override
     public List<GenreEntity> findAllByMovieId(Long movieId) {
@@ -55,8 +35,5 @@ public class GenreRepositoryImpl implements GenreRepository {
                 .setParameter("movieId", movieId)
                 .getResultList();
     }
-    @Override
-    public List<GenreEntity> findAll() {
-        return entityManager.createQuery("SELECT g FROM GenreEntity g", GenreEntity.class).getResultList();
-    }
+
 }

@@ -7,10 +7,12 @@ import java.util.Optional;
 
 public interface ActorService {
     ActorDto save(ActorDto actorDto);
-    ActorDto update(ActorDto actorDto);
     void delete(Long actorId);
     Optional<ActorDto> findById(Long actorId);
     List<ActorDto> findAll();
-    public List<ActorDto> findAllSorted();
-    public ActorDto findOrSave(ActorDto actorDto);
+    List<ActorDto> findAllSorted();
+    ActorDto findOrSave(ActorDto actorDto);
+
+    //TODO   DirectorDto update(DirectorDto directorDto);
+
 }

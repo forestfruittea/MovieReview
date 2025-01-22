@@ -158,34 +158,34 @@
             </c:if>
             <div class="movie-info">
                 <h1 class="section-title">${movie.title}</h1>
-                <p class="info-item"><span>Release Date:</span> ${movie.releaseDate}</p>
-                <p class="info-item"><span>Country:</span> ${movie.country}</p>
-                <p class="info-item"><span>Genres:</span>
+                <p class="info-item"><span><fmt:message key="movieReleaseDate" />:</span> ${movie.releaseDate}</p>
+                <p class="info-item"><span><fmt:message key="movieCountry" />:</span> ${movie.country}</p>
+                <p class="info-item"><span><fmt:message key="movieGenres" />:</span>
                     <c:forEach var="genre" items="${movie.genres}" varStatus="status">
                         <a href="${pageContext.request.contextPath}/genre?id=${genre.id}" class="genre-link">${genre.name}</a>
                         <c:if test="${!status.last}">, </c:if>
                     </c:forEach>
                 </p>
-                <p class="info-item"><span>Description:</span> ${movie.description}</p>
-                <p class="info-item"><span>Director:</span>
+                <p class="info-item"><span><fmt:message key="movieDescription" />:</span> ${movie.description}</p>
+                <p class="info-item"><span><fmt:message key="movieDirector" />:</span>
                     <a href="${pageContext.request.contextPath}/director?id=${movie.director.id}" class="director-link">${movie.director.name}</a>
                 </p>
-                <p class="info-item"><span>Budget:</span> $${movie.budget}</p>
-                <p class="info-item"><span>Box Office:</span> $${movie.boxOffice}</p>
-                <p class="info-item"><span>Starring Roles:</span>
+                <p class="info-item"><span><fmt:message key="movieBudget" />:</span> $${movie.budget}</p>
+                <p class="info-item"><span><fmt:message key="movieBoxOffice" />:</span> $${movie.boxOffice}</p>
+                <p class="info-item"><span><fmt:message key="movieStarringRoles" />:</span>
                     <c:forEach var="actor" items="${movie.actors}" varStatus="status">
                         <a href="${pageContext.request.contextPath}/actor?id=${actor.id}" class="actor-link">${actor.name}</a>
                         <c:if test="${!status.last}">, </c:if>
                     </c:forEach>
                 </p>
-                <p class="info-item"><span>Duration:</span> ${movie.length} min</p>
+                <p class="info-item"><span><fmt:message key="movieDuration" />:</span> ${movie.length} min</p>
             </div>
         </div>
     </div>
 
     <!-- Ratings Section -->
     <div class="section ratings-section">
-        <h3>Average Rating: ${averageRating}</h3>
+        <h3><fmt:message key="averageRating" />: ${averageRating}</h3>
         <c:choose>
             <c:when test="${not empty sessionScope.userId}">
                 <p>Your Rating: ${userRating != null ? userRating.rating : "Not Rated"}</p>
@@ -199,9 +199,9 @@
             </c:when>
 
             <c:otherwise>
-                <h3>Log in to your account to rate movies and write reviews!</h3>
+                <h3><fmt:message key="loginToRateMovies" />!</h3>
                 <a href="${pageContext.request.contextPath}/index.jsp">
-                    <button>Login</button>
+                    <button><fmt:message key="loginButton" /></button>
                 </a>
             </c:otherwise>
         </c:choose>
@@ -209,7 +209,7 @@
 
     <!-- Reviews Section -->
     <div class="section">
-        <h2 class="section-title">Reviews for ${movie.title}</h2>
+        <h2 class="section-title"><fmt:message key="reviewsForMovie" /> ${movie.title}</h2>
         <c:forEach var="review" items="${reviews}">
             <div class="review">
                 <img src="${review.user.fullAvatarPath}" alt="Avatar">

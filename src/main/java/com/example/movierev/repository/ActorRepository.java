@@ -7,14 +7,13 @@ import java.util.Optional;
 
 public interface ActorRepository {
     ActorEntity save(ActorEntity actorEntity);
-
-    ActorEntity update(ActorEntity actorEntity);
-
-    void delete(Long actorId);
-
-    Optional<ActorEntity> findById(Long actorId);
+    void delete(Long id);
+    Optional<ActorEntity> findById(Long id);
     Optional<ActorEntity> findByName(String name);
-
     List<ActorEntity> findAll();
+    List<ActorEntity> findAllSortedByName();
+
+    //TODO    ActorEntity update(ActorEntity actorEntity);
+
 }
 

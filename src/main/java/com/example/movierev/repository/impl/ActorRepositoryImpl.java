@@ -1,7 +1,11 @@
 package com.example.movierev.repository.impl;
 
 import com.example.movierev.entity.ActorEntity;
+import com.example.movierev.repository.AbstractHibernateRepository;
 import com.example.movierev.repository.ActorRepository;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -9,47 +13,15 @@ import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Optional;
-@ApplicationScoped
-public class
-ActorRepositoryImpl implements ActorRepository {
+@Stateless
+public class ActorRepositoryImpl extends AbstractHibernateRepository<ActorEntity, Long> implements ActorRepository {
     @PersistenceContext
     private EntityManager entityManager;
-    @Override
-    public ActorEntity save(ActorEntity actorEntity) {
-        entityManager.persist(actorEntity);
-        return actorEntity;
-    }
-
-    @Override
-    public ActorEntity update(ActorEntity actorEntity) {
-        return entityManager.merge(actorEntity);
-    }
-
-    @Override
-    public void delete(Long actorId) {
-        ActorEntity actorEntity = entityManager.find(ActorEntity.class, actorId);
-        if (actorEntity !=null) entityManager.remove(actorEntity);
-    }
-
-    @Override
-    public Optional<ActorEntity> findById(Long actorId) {
-        return Optional.ofNullable(entityManager.find(ActorEntity.class, actorId));
+    public ActorRepositoryImpl() {
+        super(ActorEntity.class);
     }
     @Override
-    public Optional<ActorEntity> findByName(String name) {
-        try {
-            ActorEntity actorEntity = entityManager
-                    .createQuery("SELECT a FROM ActorEntity a WHERE a.name = :name", ActorEntity.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-            return Optional.of(actorEntity);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public List<ActorEntity> findAll() {
-        return entityManager.createQuery("SELECT a FROM ActorEntity a", ActorEntity.class).getResultList();
+    public List<ActorEntity> findAllSortedByName() {
+        return entityManager.createQuery("SELECT a FROM ActorEntity a ORDER BY a.name", ActorEntity.class).getResultList();
     }
 }

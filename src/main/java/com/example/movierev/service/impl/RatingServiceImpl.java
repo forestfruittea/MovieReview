@@ -60,12 +60,12 @@ public class RatingServiceImpl implements RatingService {
         }
         return ratings.stream().mapToDouble(RatingEntity::getRating).average().orElse(0.0);
     }
+
     @Override
     public RatingDto update(RatingDto ratingDto) {
         RatingEntity ratingEntity = ratingMapper.toEntity(ratingDto);
         ratingEntity = ratingRepository.update(ratingEntity);
         log.debug("updates rate");
-
         return ratingMapper.toDto(ratingEntity);
     }
 }

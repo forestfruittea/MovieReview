@@ -8,13 +8,11 @@ import java.util.Optional;
 public interface UserRepository {
     UserEntity save(UserEntity userEntity);
     UserEntity findByName(String username);
-
-    UserEntity update(UserEntity userEntity);
-
     void delete(Long userId);
-
     Optional<UserEntity> findById(Long userId);
-
     List<UserEntity> findAll();
-    public boolean existsByUsername(String username);
+    boolean existsByUsername(String username);
+
+    //TODO    UserEntity update(UserEntity userEntity);
+
 }

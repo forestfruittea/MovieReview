@@ -144,9 +144,9 @@
                         </a>
                     </c:if>
                     <c:if test="${empty director.movies}">
-                        <p>Known for: N/A</p>
+                        <p><fmt:message key="personKnownFor" />: N/A</p>
                     </c:if>
-                    <p>Date of Birth: ${director.dateOfBirth}</p>
+                    <p><fmt:message key="personDateOfBirth" />: ${director.dateOfBirth}</p>
                     <p class="bio">${director.bio}</p>
                 </div>
             </div>

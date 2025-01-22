@@ -1,6 +1,9 @@
 package com.example.movierev.service.impl;
 
+import com.example.movierev.dto.ActorDto;
 import com.example.movierev.dto.DirectorDto;
+import com.example.movierev.dto.GenreDto;
+import com.example.movierev.entity.ActorEntity;
 import com.example.movierev.entity.DirectorEntity;
 import com.example.movierev.mapper.impl.DirectorMapper;
 import com.example.movierev.repository.DirectorRepository;
@@ -32,14 +35,14 @@ public class DirectorServiceImpl implements DirectorService{
         log.debug("saves director");
         return directorMapper.toDto(directorEntity);
     }
-
-    @Override
-    public DirectorDto update(DirectorDto directorDto) {
-        DirectorEntity directorEntity = directorMapper.toEntity(directorDto);
-        directorEntity = directorRepository.update(directorEntity);
-        log.debug("updates director");
-        return directorMapper.toDto(directorEntity);
-    }
+//TODO
+//    @Override
+//    public DirectorDto update(DirectorDto directorDto) {
+//        DirectorEntity directorEntity = directorMapper.toEntity(directorDto);
+//        directorEntity = directorRepository.update(directorEntity);
+//        log.debug("updates director");
+//        return directorMapper.toDto(directorEntity);
+//    }
 
     @Override
     public void delete(Long directorId) {
@@ -53,6 +56,14 @@ public class DirectorServiceImpl implements DirectorService{
         log.debug("finds director by id");
         return directorEntity.map(directorMapper::toDto);
     }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @Override
+    public List<DirectorDto> findAllSorted() {
+        List<DirectorEntity> directorEntities = directorRepository.findAllSortedByName();
+        return directorEntities.stream()
+                .map(directorMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -62,21 +73,6 @@ public class DirectorServiceImpl implements DirectorService{
         return directorEntities.stream()
                 .map(directorMapper::toDto)
                 .collect(Collectors.toList());
-    }
-    @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<DirectorDto> findAllSorted() {
-        List<DirectorEntity> directorEntities = directorRepository.findAll();
-        log.debug("finds all directors sorted by name");
-        return directorEntities.stream()
-                .sorted((m1, m2) -> {
-                    String title1 = m1.getName().toLowerCase();
-                    String title2 = m2.getName().toLowerCase();
-                    return title1.compareTo(title2);
-                })
-                .map(directorMapper::toDto)
-                .collect(Collectors.toList());
-
     }
 
     @Override

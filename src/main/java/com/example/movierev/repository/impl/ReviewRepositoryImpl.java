@@ -1,17 +1,25 @@
 package com.example.movierev.repository.impl;
 
+import com.example.movierev.entity.RatingEntity;
 import com.example.movierev.entity.ReviewEntity;
+import com.example.movierev.repository.AbstractHibernateRepository;
 import com.example.movierev.repository.ReviewRepository;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Optional;
-@ApplicationScoped
-public class ReviewRepositoryImpl implements ReviewRepository {
+@Stateless
+public class ReviewRepositoryImpl extends AbstractHibernateRepository<ReviewEntity, Long> implements ReviewRepository {
     @PersistenceContext
     private EntityManager entityManager;
+    public ReviewRepositoryImpl() {
+        super(ReviewEntity.class);
+    }
     @Override
     public ReviewEntity save(ReviewEntity reviewEntity) {
         entityManager.persist(reviewEntity);
@@ -24,7 +32,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 .setParameter("movieId", movieId)
                 .getResultList();
     }
-
     @Override
     public List<ReviewEntity> findByUserId(Long userId) {
         return entityManager.createQuery(
@@ -32,23 +39,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
-
-    @Override
-    public ReviewEntity update(ReviewEntity reviewEntity) {
-        return null;
-    }
-
-    @Override
-    public void delete(Long reviewId) {
-        ReviewEntity reviewEntity = entityManager.find(ReviewEntity.class, reviewId);
-        if (reviewEntity !=null) entityManager.remove(reviewEntity);
-    }
-
     @Override
     public Optional<ReviewEntity> findById(Long reviewId) {
         return Optional.empty();
     }
-
     @Override
     public List<ReviewEntity> findAll() {
         return entityManager.createQuery(

@@ -27,12 +27,24 @@ public class MovieListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<MovieDto> movies = movieService.findAll();
+        String pageParam = req.getParameter("page");
+        int currentPage = pageParam != null ? Integer.parseInt(pageParam) : 1;
+        int pageSize = 2;
+
+
+        List<MovieDto> movies = movieService.findMoviesByPage(currentPage, pageSize);
+
+        long totalMovies = movieService.count();
+        int totalPages = (int) Math.ceil((double) totalMovies / pageSize);
+
         for (MovieDto movie : movies) {
             Double averageRating = ratingService.calculateAverageRating(movie.getId());
             movie.setAverageRating(averageRating);  // Add this line if averageRating is not already part of MovieDto
         }
         req.setAttribute("movies", movies);
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("totalPages", totalPages);
+
         req.getRequestDispatcher("/WEB-INF/movies.jsp").forward(req, resp);
 
     }

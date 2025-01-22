@@ -30,12 +30,6 @@ public class UserRepositoryImpl implements UserRepository {
             return null;
         }
     }
-
-    @Override
-    public UserEntity update(UserEntity userEntity) {
-        return null;
-    }
-
     @Override
     public void delete(Long userId) {
         UserEntity userEntity = entityManager.find(UserEntity.class, userId);

@@ -7,7 +7,10 @@ import java.util.List;
 public interface ReviewService {
     void save(ReviewDto reviewDto);
     List<ReviewDto> findAllForMovie(Long movieId);
-    public List<ReviewDto> findAllForUser(Long userId);
-    public List<ReviewDto> findAllSortedByUsernameAndMovieTitle();
-    public void delete(Long reviewId);
+    List<ReviewDto> findAllForUser(Long userId);
+    List<ReviewDto> findAllSortedByUsernameAndMovieTitle();
+    void delete(Long reviewId);
+
+    //TODO ReviewDto update(ReviewDto reviewDto);
+
 }

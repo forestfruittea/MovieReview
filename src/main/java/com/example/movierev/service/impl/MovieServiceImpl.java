@@ -74,14 +74,14 @@ import java.util.stream.Collectors;
                 movieRepository.save(movieEntity);
             }
 
-
-            @Override
-            public MovieDto update(MovieDto movieDto) {
-                MovieEntity movieEntity = movieMapper.toEntity(movieDto);
-                movieEntity = movieRepository.update(movieEntity);
-                log.debug("updates movie");
-                return movieMapper.toDto(movieEntity);
-            }
+//TODO
+//            @Override
+//            public MovieDto update(MovieDto movieDto) {
+//                MovieEntity movieEntity = movieMapper.toEntity(movieDto);
+//                movieEntity = movieRepository.update(movieEntity);
+//                log.debug("updates movie");
+//                return movieMapper.toDto(movieEntity);
+//            }
 
             @Override
             public void delete(Long movieId) {
@@ -129,6 +129,20 @@ import java.util.stream.Collectors;
                 return movieEntities.stream()
                         .map(movieMapper::toDto)
                         .collect(Collectors.toList());
+            }
+            @Override
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public List<MovieDto> findMoviesByPage(int page, int size) {
+                List<MovieEntity> movieEntities = movieRepository.findMoviesByPage(page, size);
+                log.debug("finds movies for page {} with size {}", page, size);
+                return movieEntities.stream()
+                        .map(movieMapper::toDto)
+                        .collect(Collectors.toList());
+            }
+            @Override
+            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            public long count() {
+                return movieRepository.count();
             }
             @Override
             @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)

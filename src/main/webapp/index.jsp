@@ -1,6 +1,11 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<fmt:setBundle basename="i18n.messages"/>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale :'en'}" />
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,11 +67,11 @@
 </head>
 <body>
 <div>
-    <h1>Welcome to the Movie App</h1>
-    <a href="movies" class="button">Get Started As Guest!</a>
+    <h1><fmt:message key="welcomeWelcomeSign" /></h1>
+    <a href="movies" class="button"><fmt:message key="welcomeStartAsGuestButton" /></a>
     <br />
-    <a href="${pageContext.request.contextPath}/login" class="button secondary">Login</a>
-    <a href="${pageContext.request.contextPath}/register" class="button tertiary">Register</a>
+    <a href="${pageContext.request.contextPath}/login" class="button secondary"><fmt:message key="loginButton" /></a>
+    <a href="${pageContext.request.contextPath}/register" class="button tertiary"><fmt:message key="registerButton" /></a>
 </div>
 </body>
 </html>

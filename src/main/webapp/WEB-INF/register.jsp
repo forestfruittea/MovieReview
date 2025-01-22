@@ -91,7 +91,7 @@
 <!-- Welcome Message -->
 <div class="welcome-message">
     <c:if test="${not empty user}">
-        <h1>Welcome, ${user.username}!</h1>
+        <h1><fmt:message key="accountWelcome" />, ${user.username}!</h1>
     </c:if>
 </div>
 
@@ -101,16 +101,16 @@
 
     <form action="${pageContext.request.contextPath}/register" method="POST">
         <div class="form-group">
-            <label for="username">Username:</label>
+            <label for="username"><fmt:message key="inputUsername" />:</label>
             <input type="text" id="username" name="username" required>
         </div>
 
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password"><fmt:message key="inputPassword" />:</label>
             <input type="password" id="password" name="password" required>
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit"><fmt:message key="registerButton" /></button>
     </form>
 
     <!-- Show error message if any -->

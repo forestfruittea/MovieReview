@@ -141,14 +141,14 @@
         <img class="director-photo" src="${director.fullPhotoPath}" alt="${director.name} Photo">
         <div class="director-info">
             <h1 class="director-name">${director.name}</h1>
-            <p class="info-item"><span>Date of Birth:</span> ${director.dateOfBirth}</p>
-            <p class="info-item"><span>Bio:</span> ${director.bio}</p>
+            <p class="info-item"><span><fmt:message key="personDateOfBirth" />:</span> ${director.dateOfBirth}</p>
+            <p class="info-item"><span><fmt:message key="personBio" />:</span> ${director.bio}</p>
         </div>
     </div>
 
     <!-- Movies Section -->
     <div class="section movies-section">
-        <h2>Movies Directed</h2>
+        <h2><fmt:message key="directorMovies" /></h2>
         <ul class="movies-list">
             <c:forEach var="movie" items="${director.movies}">
                 <li class="movie-card">

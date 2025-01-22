@@ -1,6 +1,8 @@
 package com.example.movierev.service.impl;
 
+import com.example.movierev.dto.DirectorDto;
 import com.example.movierev.dto.GenreDto;
+import com.example.movierev.entity.DirectorEntity;
 import com.example.movierev.entity.GenreEntity;
 import com.example.movierev.mapper.impl.GenreMapper;
 import com.example.movierev.repository.GenreRepository;
@@ -33,14 +35,14 @@ public class GenreServiceImpl implements GenreService {
         log.debug("saves genre");
         return genreMapper.toDto(genreEntity);
     }
-
-    @Override
-    public GenreDto update(GenreDto genreDto) {
-        GenreEntity genreEntity = genreMapper.toEntity(genreDto);
-        genreEntity = genreRepository.update(genreEntity);
-        log.debug("updates genre");
-        return genreMapper.toDto(genreEntity);
-    }
+//TODO
+//    @Override
+//    public GenreDto update(GenreDto genreDto) {
+//        GenreEntity genreEntity = genreMapper.toEntity(genreDto);
+//        genreEntity = genreRepository.update(genreEntity);
+//        log.debug("updates genre");
+//        return genreMapper.toDto(genreEntity);
+//    }
 
     @Override
     public void delete(Long genreId) {
@@ -77,17 +79,10 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<GenreDto> findAllSorted() {
-        List<GenreEntity> genreEntities = genreRepository.findAll();
-        log.debug("finds all genres sorted by name");
+        List<GenreEntity> genreEntities = genreRepository.findAllSortedByName();
         return genreEntities.stream()
-                .sorted((m1, m2) -> {
-                    String title1 = m1.getName().toLowerCase();
-                    String title2 = m2.getName().toLowerCase();
-                    return title1.compareTo(title2);
-                })
                 .map(genreMapper::toDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override

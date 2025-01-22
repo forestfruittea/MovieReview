@@ -5,7 +5,7 @@
              version="3.0">
     <persistence-unit name="PUnit" transaction-type="JTA">
 
-        <jta-data-source>java:openejb/Resource/PostgresDS</jta-data-source>
+        <jta-data-source>java:openejb/Resource/demo</jta-data-source>
 
         <properties>
             <!-- Hibernate properties -->
