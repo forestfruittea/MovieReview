@@ -123,7 +123,7 @@
                 <!-- Actor Photo -->
                 <div class="actor-photo">
                     <a href="${pageContext.request.contextPath}/actor?id=${actor.id}">
-                        <img src="${actor.fullPhotoPath}" alt="${actor.name}">
+                        <img src="${actor.photoPath}" alt="${actor.name}">
                     </a>
                 </div>
 

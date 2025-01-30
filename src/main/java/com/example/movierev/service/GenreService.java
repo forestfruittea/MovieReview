@@ -14,6 +14,8 @@ public interface GenreService {
     GenreDto findOrSave(GenreDto genreDto);
     List<GenreDto> findAllSorted();
 
+    List<GenreDto> getGenresByNames(List<String> genreNames);
+
     //TODO GenreDto update(GenreDto genreDto);
 
 }

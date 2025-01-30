@@ -1,5 +1,6 @@
 package com.example.movierev.dto;
 
+import com.example.movierev.entity.ActorEntity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -32,4 +33,26 @@ public class ActorDto {
         }
         return null;
     }
+
+    public static ActorDto of(ActorEntity actor) {
+        return ActorDto.builder()
+                .id(actor.getId())
+                .name(actor.getName())
+                .bio(actor.getBio())
+                .yearOfBirth(actor.getYearOfBirth())
+                .photoPath(actor.getPhotoPath())
+                .height(actor.getHeight())
+                // Map only movies without their actors to avoid lazy initialization issues
+                .movies(actor.getMovies() != null
+                        ? actor.getMovies().stream()
+                        .map(movie -> MovieDto.builder()
+                                .id(movie.getId())
+                                .title(movie.getTitle())
+                                .releaseDate(movie.getReleaseDate())
+                                .build())
+                        .toList()
+                        : null)
+                .build();
+    }
 }
+

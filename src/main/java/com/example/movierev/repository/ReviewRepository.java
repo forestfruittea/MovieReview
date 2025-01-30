@@ -1,16 +1,18 @@
 package com.example.movierev.repository;
 
 import com.example.movierev.entity.ReviewEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ReviewRepository {
-    ReviewEntity save(ReviewEntity reviewEntity);
+@Repository
+public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findByMovieId(Long movieId);
     List<ReviewEntity> findByUserId(Long userId);
-    void delete(Long reviewId);
-    Optional<ReviewEntity> findById(Long reviewId);
-    List<ReviewEntity> findAll();
-//TODO    ReviewEntity update(ReviewEntity reviewEntity);
+    @Query("SELECT DISTINCT r FROM ReviewEntity r " +
+            "LEFT JOIN FETCH r.user " +
+            "LEFT JOIN FETCH r.movie")
+    List<ReviewEntity> findAllReviewsWithUserAndMovie();
 }

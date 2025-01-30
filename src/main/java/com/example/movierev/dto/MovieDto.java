@@ -4,6 +4,7 @@ package com.example.movierev.dto;
 
 
 
+import com.example.movierev.entity.MovieEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -60,5 +61,51 @@ public class MovieDto {
     public String getReleaseYear() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
         return releaseDate.format(formatter);
+    }
+    public static MovieDto of(MovieEntity movie) {
+        return MovieDto.builder()
+                .id(movie.getId())
+                .title(movie.getTitle())
+                .description(movie.getDescription())
+                .country(movie.getCountry())
+                .director(DirectorDto.ofMovie(movie.getDirector())) // Assuming you have a similar 'of' method for DirectorDto
+                .actors(movie.getActors() != null
+                        ? movie.getActors().stream()
+                        .map(actor -> ActorDto.builder()
+                                .id(actor.getId())
+                                .name(actor.getName())
+                                .photoPath(actor.getPhotoPath())
+                                .build()) // Using ActorDto.of to map each Actor
+                        .toList()
+                        : null)
+                .genres(movie.getGenres() != null
+                        ? movie.getGenres().stream()
+                        .map(genre -> GenreDto.builder()
+                                .id(genre.getId())
+                                .name(genre.getName())
+                                .build()) // Assuming you have a similar 'of' method for GenreDto
+                        .toList()
+                        : null)
+                .releaseDate(movie.getReleaseDate())
+                .posterPath(movie.getPosterPath())
+                .length(movie.getLength())
+                .budget(movie.getBudget())
+                .boxOffice(movie.getBoxOffice())
+                .reviews(movie.getReviews() != null
+                        ? movie.getReviews().stream()
+                        .map(ReviewDto::of) // Assuming you have a similar 'of' method for ReviewDto
+                        .toList()
+                        : null)
+//                .averageRating(movie.getAverageRating())
+                .build();
+    }
+    public static MovieDto ofReview(MovieEntity movie) {
+        return MovieDto.builder()
+                .id(movie.getId())
+                .title(movie.getTitle())
+                .releaseDate(movie.getReleaseDate())
+                .posterPath(movie.getPosterPath())
+                .build();
+
     }
 }

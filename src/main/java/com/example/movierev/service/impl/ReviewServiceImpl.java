@@ -10,12 +10,11 @@ import com.example.movierev.repository.MovieRepository;
 import com.example.movierev.repository.ReviewRepository;
 import com.example.movierev.repository.UserRepository;
 import com.example.movierev.service.ReviewService;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
 import com.example.movierev.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -24,14 +23,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-@Stateless
+@Service
 @Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
-    @Inject
+    @Autowired
     public ReviewServiceImpl(UserRepository userRepository, MovieRepository movieRepository, ReviewRepository reviewRepository, ReviewMapper reviewMapper, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
@@ -65,32 +64,31 @@ public class ReviewServiceImpl implements ReviewService {
         }
     @Override
     public void delete(Long reviewId) {
-        reviewRepository.delete(reviewId);
+        reviewRepository.deleteById(reviewId);
         log.debug("deletes review");
 
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @Transactional(readOnly = true)
     public List<ReviewDto> findAllForMovie(Long movieId) {
         List<ReviewEntity> reviewEntities = reviewRepository.findByMovieId(movieId);
         log.debug("finds all reviews for movie");
 
         return reviewEntities.stream()
-                .map(reviewMapper::toDto)
+                .map(ReviewDto::of)
                 .collect(Collectors.toList());
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @Transactional(readOnly = true)
     public List<ReviewDto> findAllForUser(Long userId) {
         List<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId);
         log.debug("finds all reviews for user");
 
         return reviewEntities.stream()
-                .map(reviewMapper::toDto)
+                .map(ReviewDto::of)
                 .collect(Collectors.toList());
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ReviewDto> findAllSortedByUsernameAndMovieTitle() {
         log.debug("finds all reviews sorted by username and movie title");
 

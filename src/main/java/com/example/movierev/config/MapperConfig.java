@@ -1,13 +1,13 @@
 package com.example.movierev.config;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@ApplicationScoped
+@Configuration
 public class MapperConfig {
 
-    @Produces
+    @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }

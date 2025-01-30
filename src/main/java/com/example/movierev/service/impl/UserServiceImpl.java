@@ -6,25 +6,28 @@ import com.example.movierev.entity.UserEntity;
 import com.example.movierev.mapper.impl.UserMapper;
 import com.example.movierev.repository.UserRepository;
 import com.example.movierev.service.UserService;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
+import com.example.movierev.wrapper.UserDetailsWrapper;
 import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-@Stateless
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    @Inject
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
@@ -35,13 +38,9 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsername(userDto.getUsername())) {
             return false;
         }
-        String hashedPassword = hashPassword(userDto.getPassword());
 
         setAvatarForRole(userDto.getRole(), userDto);
-        userDto.setPassword(hashedPassword);
         UserEntity newUser = userMapper.toEntity(userDto);
-
-
         try {
             userRepository.save(newUser);
             return true;
@@ -70,34 +69,22 @@ public class UserServiceImpl implements UserService {
         userDto.setAvatarPath(avatarPath);
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public Long authenticate(String username, String password) {
-        UserEntity user = userRepository.findByName(username);
-
-        if (user != null && verifyPassword(password, user.getPassword())) {
-            return user.getId();
-        }
-        return null;
-    }
-    @Override
     public void delete(Long userId) {
-        userRepository.delete(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @Transactional(readOnly = true)
     public Optional<UserDto> findById(Long id) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
-        return userEntity.map(userMapper::toDto);
+        return userEntity.map(UserDto::of);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<UserDto> findAll() {
         return null;
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<UserDto> findAllSorted() {
         List<UserEntity> userEntities = userRepository.findAll();
         return userEntities.stream()
@@ -106,28 +93,12 @@ public class UserServiceImpl implements UserService {
                     String title2 = m2.getUsername().toLowerCase();
                     return title1.compareTo(title2);
                 })
-                .map(userMapper::toDto)
+                .map(UserDto::of)
                 .collect(Collectors.toList());
 
     }
-    private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12));
-    }
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    private boolean verifyPassword(String plaintextPassword, String hashedPassword) {
-        return BCrypt.checkpw(plaintextPassword, hashedPassword);
-    }
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public Long getLoggedInUserId(HttpServletRequest req) {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            Object userId = session.getAttribute("userId");
-
-            if (userId != null) {
-                return (Long) userId;
-            }
-        }
-
-        return null;
+    @Override
+    public Optional<UserDto> findByUsername(String username){
+        return userRepository.findByUsername(username).map(UserDto::of);
     }
 }

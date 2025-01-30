@@ -13,6 +13,8 @@ public interface ActorService {
     List<ActorDto> findAllSorted();
     ActorDto findOrSave(ActorDto actorDto);
 
+    List<ActorDto> getActorsByNames(List<String> actorNames);
+
     //TODO   DirectorDto update(DirectorDto directorDto);
 
 }

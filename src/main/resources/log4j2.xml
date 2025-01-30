@@ -11,7 +11,7 @@
     <!-- Loggers -->
     <Loggers>
         <!-- Root logger -->
-        <Root level="trace">
+        <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
 
@@ -27,6 +27,9 @@
 
         <!-- Hibernate connection pool (optional) -->
         <Logger name="org.hibernate.hql.internal.ast" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.springframework.security" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
     </Loggers>

@@ -1,5 +1,7 @@
 package com.example.movierev.dto;
 
+import com.example.movierev.entity.GenreEntity;
+import com.example.movierev.entity.ReviewEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,5 +21,21 @@ public class ReviewDto {
     public String getFormattedCreatedAt() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return createdAt.format(formatter);
+    }
+    public static ReviewDto of(ReviewEntity review) {
+        return ReviewDto.builder()
+                .id(review.getId())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .user(UserDto.of(review.getUser()))
+                .movie(MovieDto.ofReview(review.getMovie()))
+                .build();
+    }
+    public static ReviewDto ofUser(ReviewEntity review) {
+        return ReviewDto.builder()
+                .id(review.getId())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .build();
     }
 }

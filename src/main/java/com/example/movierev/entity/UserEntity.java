@@ -12,6 +12,10 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(
+        name = "User.reviews",
+        attributeNodes = @NamedAttributeNode("reviews")
+)
 @Builder
 @Table(name = "users")
 

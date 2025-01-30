@@ -12,7 +12,10 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
-
+@NamedEntityGraph(
+        name = "Genre.movies",
+        attributeNodes = @NamedAttributeNode("movies")
+)
 @Table(name = "genres")
 public class GenreEntity {
 

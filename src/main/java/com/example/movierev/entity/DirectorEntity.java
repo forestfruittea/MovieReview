@@ -13,6 +13,10 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
+@NamedEntityGraph(
+        name = "Director.movies",
+        attributeNodes = @NamedAttributeNode("movies")
+)
 @Table(name = "directors")
 public class DirectorEntity {
 
@@ -23,7 +27,7 @@ public class DirectorEntity {
     @Column(name = "name", nullable = false)
     private String name;
     @ToString.Exclude
-    @OneToMany(mappedBy = "director", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "director", fetch = FetchType.LAZY)
     private List<MovieEntity> movies;
     @Column(name = "bio", length = 1500)
     private String bio;

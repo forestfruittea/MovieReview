@@ -1,5 +1,7 @@
 package com.example.movierev.dto;
 
+import com.example.movierev.entity.ActorEntity;
+import com.example.movierev.entity.DirectorEntity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -29,5 +31,31 @@ public class DirectorDto {
             return basePath + photoPath;
         }
         return null;
+    }
+    public static DirectorDto of(DirectorEntity director) {
+        return DirectorDto.builder()
+                .id(director.getId())
+                .name(director.getName())
+                .bio(director.getBio())
+                .dateOfBirth(director.getDateOfBirth())
+                .photoPath(director.getPhotoPath())
+                // Map only movies without their actors to avoid lazy initialization issues
+                .movies(director.getMovies() != null
+                        ? director.getMovies().stream()
+                        .map(movie -> MovieDto.builder()
+                                .id(movie.getId())
+                                .title(movie.getTitle())
+                                .releaseDate(movie.getReleaseDate())
+                                .build())
+                        .toList()
+                        : null)
+                .build();
+    }
+    public static DirectorDto ofMovie(DirectorEntity director) {
+        return DirectorDto.builder()
+                .id(director.getId())
+                .name(director.getName())
+                .build();
+
     }
 }

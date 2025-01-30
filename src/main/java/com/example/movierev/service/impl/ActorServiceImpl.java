@@ -5,23 +5,21 @@ import com.example.movierev.entity.ActorEntity;
 import com.example.movierev.mapper.impl.ActorMapper;
 import com.example.movierev.repository.ActorRepository;
 import com.example.movierev.service.ActorService;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-@Stateless
+@Service
 @Slf4j
 public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
     private final ActorMapper actorMapper;
 
-    @Inject
+    @Autowired
     public ActorServiceImpl(ActorRepository actorRepository, ActorMapper actorMapper) {
         this.actorRepository = actorRepository;
         this.actorMapper = actorMapper;
@@ -45,29 +43,26 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public void delete(Long id) {
         log.debug("deletes actor by id");
-        actorRepository.delete(id);
+        actorRepository.deleteById(id);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Optional<ActorDto> findById(Long id) {
         Optional<ActorEntity> actorEntity = actorRepository.findById(id);
         log.debug("finds actor sorted by id");
-        return actorEntity.map(actorMapper::toDto);
+        return actorEntity.map(ActorDto::of);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ActorDto> findAll() {
         List<ActorEntity> actorEntities = actorRepository.findAll();
         log.debug("finds all actors");
 
         return actorEntities.stream()
-                .map(actorMapper::toDto)
+                .map(ActorDto::of)
                 .collect(Collectors.toList());
     }
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ActorDto> findAllSorted() {
         List<ActorEntity> actorEntities = actorRepository.findAllSortedByName();
         return actorEntities.stream()
@@ -85,5 +80,12 @@ public class ActorServiceImpl implements ActorService {
         ActorEntity savedActor = actorRepository.save(newActor);
         log.debug("saves actor if not exist ");
         return actorMapper.toDto(savedActor);
+    }
+    @Override
+    public List<ActorDto> getActorsByNames(List<String> actorNames) {
+        // Find actors by their names
+        return actorRepository.findByNameIn(actorNames).stream()
+                .map(ActorDto::of) // Map Actor to ActorDto
+                .collect(Collectors.toList());
     }
 }

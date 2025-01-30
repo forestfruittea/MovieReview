@@ -8,22 +8,20 @@ import com.example.movierev.entity.DirectorEntity;
 import com.example.movierev.mapper.impl.DirectorMapper;
 import com.example.movierev.repository.DirectorRepository;
 import com.example.movierev.service.DirectorService;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-@Stateless
+@Service
 @Slf4j
 public class DirectorServiceImpl implements DirectorService{
     private final DirectorRepository directorRepository;
     private final DirectorMapper directorMapper;
 
-    @Inject
+    @Autowired
     public DirectorServiceImpl(DirectorRepository directorRepository, DirectorMapper directorMapper) {
         this.directorRepository = directorRepository;
         this.directorMapper = directorMapper;
@@ -46,17 +44,15 @@ public class DirectorServiceImpl implements DirectorService{
 
     @Override
     public void delete(Long directorId) {
-        directorRepository.delete(directorId);
+        directorRepository.deleteById(directorId);
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Optional<DirectorDto> findById(Long directorId) {
         Optional<DirectorEntity> directorEntity = directorRepository.findById(directorId);
         log.debug("finds director by id");
-        return directorEntity.map(directorMapper::toDto);
+        return directorEntity.map(DirectorDto::of);
     }
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     @Override
     public List<DirectorDto> findAllSorted() {
         List<DirectorEntity> directorEntities = directorRepository.findAllSortedByName();
@@ -66,12 +62,11 @@ public class DirectorServiceImpl implements DirectorService{
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<DirectorDto> findAll() {
         List<DirectorEntity> directorEntities = directorRepository.findAll();
         log.debug("finds all directors");
         return directorEntities.stream()
-                .map(directorMapper::toDto)
+                .map(DirectorDto::of)
                 .collect(Collectors.toList());
     }
 

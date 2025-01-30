@@ -1,6 +1,8 @@
 package com.example.movierev.dto;
 
 
+import com.example.movierev.entity.GenreEntity;
+import com.example.movierev.entity.UserEntity;
 import com.example.movierev.filter.Role;
 import lombok.*;
 
@@ -27,5 +29,20 @@ public class UserDto {
             return basePath + avatarPath;
         }
         return null;
+    }
+    public static UserDto of(UserEntity user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .avatarPath(user.getAvatarPath())
+                .role(user.getRole())
+                // Map only movies without their actors to avoid lazy initialization issues
+                .reviews(user.getReviews() != null
+                        ? user.getReviews().stream()
+                        .map(ReviewDto::ofUser)
+                        .toList()
+                        : null)
+                .build();
     }
 }

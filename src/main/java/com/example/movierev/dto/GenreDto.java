@@ -1,6 +1,8 @@
 package com.example.movierev.dto;
 
 
+import com.example.movierev.entity.DirectorEntity;
+import com.example.movierev.entity.GenreEntity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -28,5 +30,23 @@ public class GenreDto {
             return basePath + imagePath;
         }
         return null;
+    }
+    public static GenreDto of(GenreEntity genre) {
+        return GenreDto.builder()
+                .id(genre.getId())
+                .name(genre.getName())
+                .description(genre.getDescription())
+                .imagePath(genre.getImagePath())
+                // Map only movies without their actors to avoid lazy initialization issues
+                .movies(genre.getMovies() != null
+                        ? genre.getMovies().stream()
+                        .map(movie -> MovieDto.builder()
+                                .id(movie.getId())
+                                .title(movie.getTitle())
+                                .releaseDate(movie.getReleaseDate())
+                                .build())
+                        .toList()
+                        : null)
+                .build();
     }
 }

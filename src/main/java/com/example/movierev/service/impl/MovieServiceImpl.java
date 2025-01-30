@@ -16,16 +16,15 @@ import com.example.movierev.repository.GenreRepository;
 import com.example.movierev.repository.MovieRepository;
 import com.example.movierev.service.GenreService;
 import com.example.movierev.service.MovieService;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-        @Stateless
+        @Service
         @Slf4j
  public class MovieServiceImpl implements MovieService {
             private final MovieRepository movieRepository;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
             private final GenreService genreService;
 
 
-            @Inject
+            @Autowired
             public MovieServiceImpl(MovieRepository movieRepository, GenreRepository genreRepository, ActorRepository actorRepository, DirectorRepository directorRepository, MovieMapper movieMapper, DirectorMapper directorMapper, ActorMapper actorMapper, GenreMapper genreMapper, GenreService genreService) {
                 this.movieRepository = movieRepository;
                 this.genreRepository = genreRepository;
@@ -86,27 +85,25 @@ import java.util.stream.Collectors;
             @Override
             public void delete(Long movieId) {
                 log.debug("deletes movie");
-                movieRepository.delete(movieId);
+                movieRepository.deleteById(movieId);
             }
 
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            @Transactional
             public Optional<MovieDto> findById(Long id) {
-                Optional<MovieEntity> movieEntity = movieRepository.findById(id);
+                Optional<MovieEntity> movieEntity = movieRepository.findByIdWithDetails(id);
                 log.debug("finds movie by id");
-                return movieEntity.map(movieMapper::toDto);
+                return movieEntity.map(MovieDto::of);
             }
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
             public List<MovieDto> findByName(String name){
-                List<MovieEntity> movieEntities = movieRepository.findByName(name);
+                List<MovieEntity> movieEntities = movieRepository.findByTitleContainingIgnoreCase(name);
                 log.debug("finds movie by name");
                 return movieEntities.stream()
-                        .map(movieMapper::toDto)
+                        .map(MovieDto::of)
                         .collect(Collectors.toList());
             }
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
             public List<MovieDto> findAllByGenreId(Long genreId){
                 List<MovieEntity> movieEntities = movieRepository.findAllByGenreId(genreId);
                 log.debug("finds all movies by genre id");
@@ -114,38 +111,36 @@ import java.util.stream.Collectors;
                 return movieEntities.stream()
                         .map(movie -> {
                             List<GenreDto> genreDtos = genreService.findAllByMovieId(movie.getId());  // Assuming movie.getId() gives the movie's ID
-                            MovieDto movieDto = movieMapper.toDto(movie);
+                            MovieDto movieDto = MovieDto.of(movie);
                             movieDto.setGenres(genreDtos);
                             return movieDto;
                         })
                         .collect(Collectors.toList());
             }
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+            @Transactional(readOnly = true)
             public List<MovieDto> findAll() {
                 List<MovieEntity> movieEntities = movieRepository.findAll();
                 log.debug("finds all movies");
 
                 return movieEntities.stream()
-                        .map(movieMapper::toDto)
+                        .map(MovieDto::of)
                         .collect(Collectors.toList());
             }
+//            @Override
+//            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+//            public List<MovieDto> findMoviesByPage(int page, int size) {
+//                List<MovieEntity> movieEntities = movieRepository.findMoviesByPage(page, size);
+//                log.debug("finds movies for page {} with size {}", page, size);
+//                return movieEntities.stream()
+//                        .map(movieMapper::toDto)
+//                        .collect(Collectors.toList());
+//            }
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-            public List<MovieDto> findMoviesByPage(int page, int size) {
-                List<MovieEntity> movieEntities = movieRepository.findMoviesByPage(page, size);
-                log.debug("finds movies for page {} with size {}", page, size);
-                return movieEntities.stream()
-                        .map(movieMapper::toDto)
-                        .collect(Collectors.toList());
-            }
-            @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
             public long count() {
                 return movieRepository.count();
             }
             @Override
-            @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
             public List<MovieDto> findAllSorted() {
                 List<MovieEntity> movies = movieRepository.findAll();
                 log.debug("finds all movies sorted by name");
@@ -156,7 +151,7 @@ import java.util.stream.Collectors;
                             String title2 = m2.getTitle().toLowerCase();
                             return title1.compareTo(title2);
                         })
-                        .map(movieMapper::toDto)
+                        .map(MovieDto::of)
                         .collect(Collectors.toList());
 
             }

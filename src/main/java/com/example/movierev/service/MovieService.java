@@ -11,7 +11,7 @@ public interface MovieService {
     Optional<MovieDto> findById(Long id);
     List<MovieDto>findAllByGenreId(Long genreId);
     List<MovieDto> findAllSorted();
-    List<MovieDto> findMoviesByPage(int page, int size);
+//    List<MovieDto> findMoviesByPage(int page, int size);
     long count();
     List<MovieDto> findAll();
 

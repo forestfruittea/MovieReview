@@ -5,39 +5,42 @@ import com.example.movierev.entity.RatingEntity;
 import com.example.movierev.mapper.impl.RatingMapper;
 import com.example.movierev.repository.RatingRepository;
 import com.example.movierev.service.RatingService;
-import jakarta.ejb.Stateless;
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Stateless
+@Component
 @Slf4j
 public class RatingServiceImpl implements RatingService {
-
-    @Inject
-    private RatingRepository ratingRepository;
-
-    @Inject
-    private RatingMapper ratingMapper;
+    private final RatingRepository ratingRepository;
+    private final RatingMapper ratingMapper;
+    @Autowired
+    public RatingServiceImpl(RatingRepository ratingRepository, RatingMapper ratingMapper) {
+        this.ratingRepository = ratingRepository;
+        this.ratingMapper = ratingMapper;
+    }
 
     // Find rating by user and movie
     @Override
     public Optional<RatingDto> findByUserAndMovie(Long userId, Long movieId) {
-        Optional<RatingEntity> ratingEntity = ratingRepository.findByUserAndMovie(userId, movieId);
+        Optional<RatingEntity> ratingEntity = ratingRepository.findByUserIdAndMovieId(userId, movieId);
         log.debug("finds rate by user id and movie id");
-        return ratingEntity.map(ratingMapper::toDto);
+        return ratingEntity.map(RatingDto::of);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RatingDto> findByUser(Long userId) {
-        List<RatingEntity> ratingEntities = ratingRepository.findByUser(userId);
+        List<RatingEntity> ratingEntities = ratingRepository.findByUserId(userId);
         log.debug("finds rate by user id");
 
         return ratingEntities.stream()
-                .map(ratingMapper::toDto)
+                .map(RatingDto::of)
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +67,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public RatingDto update(RatingDto ratingDto) {
         RatingEntity ratingEntity = ratingMapper.toEntity(ratingDto);
-        ratingEntity = ratingRepository.update(ratingEntity);
+        ratingEntity = ratingRepository.save(ratingEntity);
         log.debug("updates rate");
         return ratingMapper.toDto(ratingEntity);
     }

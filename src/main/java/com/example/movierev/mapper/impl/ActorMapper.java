@@ -3,14 +3,18 @@ package com.example.movierev.mapper.impl;
 import com.example.movierev.dto.ActorDto;
 import com.example.movierev.entity.ActorEntity;
 import com.example.movierev.mapper.Mapper;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@ApplicationScoped
+@Component
 public class ActorMapper implements Mapper<ActorEntity, ActorDto> {
-    @Inject
-    private ModelMapper modelMapper;
+
+    private final ModelMapper modelMapper;
+    @Autowired
+    public ActorMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ActorEntity toEntity(ActorDto actorDto) {

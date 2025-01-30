@@ -1,6 +1,13 @@
 package com.example.movierev.filter;
 
-public enum Role {
-    CUSTOMER, MODERATOR, ADMIN
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+    CUSTOMER, MODERATOR, ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
 

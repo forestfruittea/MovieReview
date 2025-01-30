@@ -110,7 +110,7 @@
         <c:forEach var="genre" items="${genres}">
             <div class="genre-item">
                 <a href="${pageContext.request.contextPath}/genre?id=${genre.id}">
-                    <img src="${genre.fullImagePath}" alt="${genre.name}">
+                    <img src="${genre.imagePath}" alt="${genre.name}">
                     <p>${genre.name}</p>
                 </a>
             </div>

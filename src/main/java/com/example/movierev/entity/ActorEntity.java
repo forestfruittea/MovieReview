@@ -12,6 +12,10 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
+@NamedEntityGraph(
+        name = "Actor.movies",
+        attributeNodes = @NamedAttributeNode("movies")
+)
 @Table(name = "actors")
 public class ActorEntity {
 
@@ -21,7 +25,7 @@ public class ActorEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
-    @ManyToMany(mappedBy = "actors", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MovieEntity> movies;
     @Column(name = "bio", length = 1500)
