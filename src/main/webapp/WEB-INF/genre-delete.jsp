@@ -77,7 +77,7 @@
 <div class="container">
     <h1>All Genres</h1>
     <div class="delete-container">
-        <form action="${pageContext.request.contextPath}/admin/tool/genres/delete" method="POST">
+        <form action="${pageContext.request.contextPath}/admin/tool/genres/delete" method="post">
             <input type="number" name="genreId" placeholder="Enter Genre ID" required>
             <button type="submit">Delete Genre</button>
         </form>

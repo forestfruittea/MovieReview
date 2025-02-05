@@ -50,7 +50,8 @@ import java.util.stream.Collectors;
                 this.genreMapper = genreMapper;
                 this.genreService = genreService;
             }
-
+            @Override
+            @Transactional
             public void save(MovieDto movieDto) {
                 DirectorEntity directorEntity = directorRepository.findByName(movieDto.getDirector().getName())
                         .orElseGet(() -> directorRepository.save(directorMapper.toEntity(movieDto.getDirector())));
@@ -83,19 +84,21 @@ import java.util.stream.Collectors;
 //            }
 
             @Override
+            @Transactional(readOnly = true)
             public void delete(Long movieId) {
                 log.debug("deletes movie");
                 movieRepository.deleteById(movieId);
             }
 
             @Override
-            @Transactional
+            @Transactional(readOnly = true)
             public Optional<MovieDto> findById(Long id) {
                 Optional<MovieEntity> movieEntity = movieRepository.findByIdWithDetails(id);
                 log.debug("finds movie by id");
                 return movieEntity.map(MovieDto::of);
             }
             @Override
+            @Transactional(readOnly = true)
             public List<MovieDto> findByName(String name){
                 List<MovieEntity> movieEntities = movieRepository.findByTitleContainingIgnoreCase(name);
                 log.debug("finds movie by name");
@@ -104,6 +107,7 @@ import java.util.stream.Collectors;
                         .collect(Collectors.toList());
             }
             @Override
+            @Transactional(readOnly = true)
             public List<MovieDto> findAllByGenreId(Long genreId){
                 List<MovieEntity> movieEntities = movieRepository.findAllByGenreId(genreId);
                 log.debug("finds all movies by genre id");
@@ -141,6 +145,7 @@ import java.util.stream.Collectors;
                 return movieRepository.count();
             }
             @Override
+            @Transactional(readOnly = true)
             public List<MovieDto> findAllSorted() {
                 List<MovieEntity> movies = movieRepository.findAll();
                 log.debug("finds all movies sorted by name");

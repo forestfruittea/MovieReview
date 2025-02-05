@@ -19,7 +19,7 @@
         <flyway.user>postgres</flyway.user>  <!-- Database username -->
         <flyway.password>admin</flyway.password>  <!-- Database password -->
         <flyway.locations>filesystem:src/main/resources/db/migrations</flyway.locations>
-        <spring.version>6.2.2</spring.version>
+        <spring.version>6.2.0</spring.version>
         <spring-data-jpa.version>3.4.2</spring-data-jpa.version>
         <jakarta.persistence-api>3.2.0</jakarta.persistence-api>
         <spring-security-web>6.4.2</spring-security-web>
@@ -58,12 +58,35 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <version>${jakarta.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>servlet-api</artifactId>-->
+<!--            <version>2.5</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>jakarta.servlet.jsp</groupId>-->
+<!--            <artifactId>jakarta.servlet.jsp-api</artifactId>-->
+<!--            <version>3.1.0</version> &lt;!&ndash; Adjust based on your Tomcat version &ndash;&gt;-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-taglibs</artifactId>-->
+<!--            <version>6.4.2</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>${jakarta.servlet.jsp.jstl.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

@@ -88,12 +88,6 @@
 </head>
 <body>
 
-<!-- Welcome Message -->
-<div class="welcome-message">
-    <c:if test="${not empty user}">
-        <h1><fmt:message key="accountWelcome" />, ${user.username}!</h1>
-    </c:if>
-</div>
 
 <!-- Registration Form -->
 <div class="container">

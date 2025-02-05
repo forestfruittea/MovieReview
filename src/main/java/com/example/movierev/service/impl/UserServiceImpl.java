@@ -53,13 +53,13 @@ public class UserServiceImpl implements UserService {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("application");
 
         switch (role) {
-            case CUSTOMER:
+            case ROLE_CUSTOMER:
                 avatarPath = resourceBundle.getString("base.avatar");
                 break;
-            case MODERATOR:
+            case ROLE_MODERATOR:
                 avatarPath = resourceBundle.getString("moderator.avatar");
                 break;
-            case ADMIN:
+            case ROLE_ADMIN:
                 avatarPath = resourceBundle.getString("admin.avatar");
                 break;
             default:
@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService {
         userDto.setAvatarPath(avatarPath);
     }
     @Override
+    @Transactional(readOnly = true)
     public void delete(Long userId) {
         userRepository.deleteById(userId);
     }
@@ -79,12 +80,13 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> userEntity = userRepository.findById(id);
         return userEntity.map(UserDto::of);
     }
-
+//TODO
+//    @Override
+//    public List<UserDto> findAll() {
+//        return null;
+//    }
     @Override
-    public List<UserDto> findAll() {
-        return null;
-    }
-    @Override
+    @Transactional(readOnly = true)
     public List<UserDto> findAllSorted() {
         List<UserEntity> userEntities = userRepository.findAll();
         return userEntities.stream()
@@ -97,8 +99,23 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
     }
+    @Transactional(readOnly = true)
     @Override
     public Optional<UserDto> findByUsername(String username){
         return userRepository.findByUsername(username).map(UserDto::of);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Long getLoggedInUserId(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            Object userId = session.getAttribute("userId");
+
+            if (userId != null) {
+                return (Long) userId;
+            }
+        }
+
+        return null;
     }
 }

@@ -8,6 +8,7 @@ import com.example.movierev.service.ActorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class ActorServiceImpl implements ActorService {
         this.actorMapper = actorMapper;
     }
     @Override
+    @Transactional
     public ActorDto save(ActorDto actorDto) {
         ActorEntity actorEntity = actorMapper.toEntity(actorDto);
         actorEntity = actorRepository.save(actorEntity);
@@ -41,12 +43,14 @@ public class ActorServiceImpl implements ActorService {
 //    }
 
     @Override
+    @Transactional(readOnly = true)
     public void delete(Long id) {
         log.debug("deletes actor by id");
         actorRepository.deleteById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<ActorDto> findById(Long id) {
         Optional<ActorEntity> actorEntity = actorRepository.findById(id);
         log.debug("finds actor sorted by id");
@@ -54,6 +58,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActorDto> findAll() {
         List<ActorEntity> actorEntities = actorRepository.findAll();
         log.debug("finds all actors");
@@ -63,6 +68,7 @@ public class ActorServiceImpl implements ActorService {
                 .collect(Collectors.toList());
     }
     @Override
+    @Transactional(readOnly = true)
     public List<ActorDto> findAllSorted() {
         List<ActorEntity> actorEntities = actorRepository.findAllSortedByName();
         return actorEntities.stream()
@@ -71,6 +77,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
+    @Transactional
     public ActorDto findOrSave(ActorDto actorDto) {
         Optional<ActorEntity> existing = actorRepository.findByName(actorDto.getName());
         if (existing.isPresent()) {
@@ -82,6 +89,7 @@ public class ActorServiceImpl implements ActorService {
         return actorMapper.toDto(savedActor);
     }
     @Override
+    @Transactional(readOnly = true)
     public List<ActorDto> getActorsByNames(List<String> actorNames) {
         // Find actors by their names
         return actorRepository.findByNameIn(actorNames).stream()

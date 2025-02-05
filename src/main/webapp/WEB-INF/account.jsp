@@ -116,7 +116,7 @@
 
     <ul>
         <li><a href="${pageContext.request.contextPath}/account/reviews"><fmt:message key="accountMyReviewsButton" /></a></li>
-        <c:if test="${user.role != 'CUSTOMER'}">
+        <c:if test="${user.role != 'ROLE_CUSTOMER'}">
             <li><a href="${pageContext.request.contextPath}/admin/tool"><fmt:message key="accountAdminToolButton" /></a></li>
         </c:if>
         <li><a class="logout-btn" href="${pageContext.request.contextPath}/logout"><fmt:message key="accountLogoutButton" /></a></li> <!-- Logout button -->

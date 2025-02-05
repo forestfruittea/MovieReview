@@ -5,7 +5,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebAppConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { JpaConfig.class }; // Root context (e.g., services, repository beans)
+        return null; // Root context (e.g., services, repository beans)
     }
 
     @Override

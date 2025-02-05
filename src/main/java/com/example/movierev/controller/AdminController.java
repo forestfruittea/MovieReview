@@ -1,12 +1,15 @@
 package com.example.movierev.controller;
+
 import com.example.movierev.dto.*;
 import com.example.movierev.filter.Role;
 import com.example.movierev.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -25,6 +28,7 @@ public class AdminController {
     private final GenreService genreService;
     private final ReviewService reviewService;
     private final UserService userService;
+
 
     @Autowired
     public AdminController(MovieService movieService, DirectorService directorService, ActorService actorService, GenreService genreService, ReviewService reviewService, UserService userService) {
@@ -240,7 +244,7 @@ public class AdminController {
                               Model model) {
         try {
             // Set photo upload path
-            String uploadPath = "static/uploads/persons/"; // Replace with the actual path
+            String uploadPath = "uploads/persons/"; // Replace with the actual path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
@@ -347,5 +351,3 @@ public class AdminController {
     }
 
 }
-
-

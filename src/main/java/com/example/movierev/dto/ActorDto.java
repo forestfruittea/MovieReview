@@ -49,6 +49,7 @@ public class ActorDto {
                                 .id(movie.getId())
                                 .title(movie.getTitle())
                                 .releaseDate(movie.getReleaseDate())
+                                .posterPath(movie.getPosterPath())
                                 .build())
                         .toList()
                         : null)

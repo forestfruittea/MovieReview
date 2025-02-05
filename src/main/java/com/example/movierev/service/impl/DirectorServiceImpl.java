@@ -11,6 +11,7 @@ import com.example.movierev.service.DirectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class DirectorServiceImpl implements DirectorService{
         this.directorMapper = directorMapper;
     }
     @Override
+    @Transactional(readOnly = true)
     public DirectorDto save(DirectorDto directorDto) {
         DirectorEntity directorEntity = directorMapper.toEntity(directorDto);
         directorEntity = directorRepository.save(directorEntity);
@@ -43,17 +45,20 @@ public class DirectorServiceImpl implements DirectorService{
 //    }
 
     @Override
+    @Transactional(readOnly = true)
     public void delete(Long directorId) {
         directorRepository.deleteById(directorId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<DirectorDto> findById(Long directorId) {
         Optional<DirectorEntity> directorEntity = directorRepository.findById(directorId);
         log.debug("finds director by id");
         return directorEntity.map(DirectorDto::of);
     }
     @Override
+    @Transactional(readOnly = true)
     public List<DirectorDto> findAllSorted() {
         List<DirectorEntity> directorEntities = directorRepository.findAllSortedByName();
         return directorEntities.stream()
@@ -62,6 +67,7 @@ public class DirectorServiceImpl implements DirectorService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DirectorDto> findAll() {
         List<DirectorEntity> directorEntities = directorRepository.findAll();
         log.debug("finds all directors");
@@ -71,6 +77,7 @@ public class DirectorServiceImpl implements DirectorService{
     }
 
     @Override
+    @Transactional
     public DirectorDto findOrSave(DirectorDto directorDto) {
         Optional<DirectorEntity> existing = directorRepository.findByName(directorDto.getName());
         if (existing.isPresent()) {

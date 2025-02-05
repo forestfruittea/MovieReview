@@ -2,9 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setBundle basename="i18n.messages" scope="session"/>
-<c:out value="${sessionScope.locale}" />
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <html>
 
@@ -30,27 +29,31 @@
         </c:choose>
 
         <!-- Language Dropdown -->
-        <div class="dropdown">
-            <button class="dropbtn"><fmt:message key="headerLanguage" /></button>
-            <div class="dropdown-content">
-                <a href="?lang=en">English</a>
-                <a href="?lang=ru">Русский</a>
+        <form action="${pageContext.request.contextPath}/locate" method="post" class="language-form">
+            <div class="dropdown">
+                <button type="button" class="dropbtn"><fmt:message key="headerLanguage" /></button>
+                <div class="dropdown-content">
+                    <!-- English -->
+                    <button type="submit" name="lang" value="en_US">English</button>
+                    <!-- Russian -->
+                    <button type="submit" name="lang" value="ru_RU">Русский</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </nav>
 
-<script>
-    document.querySelectorAll('.dropdown-content a').forEach(function(element) {
-        element.addEventListener('click', function(event) {
-            event.preventDefault();
-            const lang = this.href.split('=')[1];
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', lang);
-            window.location.href = url.toString();
-        });
-    });
-</script>
+<%--<script>--%>
+<%--    document.querySelectorAll('.dropdown-content a').forEach(function(element) {--%>
+<%--        element.addEventListener('click', function(event) {--%>
+<%--            event.preventDefault();--%>
+<%--            const lang = this.href.split('=')[1];--%>
+<%--            const url = new URL(window.location.href);--%>
+<%--            url.searchParams.set('lang', lang);--%>
+<%--            window.location.href = url.toString();--%>
+<%--        });--%>
+<%--    });--%>
+<%--</script>--%>
 
 <style>
     body {

@@ -7,6 +7,7 @@ import com.example.movierev.dto.UserDto;
 import com.example.movierev.service.RatingService;
 import com.example.movierev.service.ReviewService;
 import com.example.movierev.service.UserService;
+import com.example.movierev.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,8 +59,7 @@ public class UserController {
     }
     @GetMapping("/account")
     public String getAccountDetails(Model model) {
-//        Long userId = userService.getLoggedInUserId(); // Adjust logic for fetching logged-in user ID
-        Long userId = 1L;
+        Long userId = SecurityUtil.getLoggedInUserId();
         Optional<UserDto> userOptional = userService.findById(userId);
 
         if (userOptional.isPresent()) {
@@ -74,8 +74,7 @@ public class UserController {
     // Display all reviews made by the logged-in user
     @GetMapping("/account/reviews")
     public String getAccountReviews(Model model) {
-//        Long userId = userService.getLoggedInUserId(); // Placeholder logic for now
-        Long userId = 1L;
+        Long userId = SecurityUtil.getLoggedInUserId();
         List<ReviewDto> reviews = reviewService.findAllForUser(userId);
 
         model.addAttribute("reviews", reviews);

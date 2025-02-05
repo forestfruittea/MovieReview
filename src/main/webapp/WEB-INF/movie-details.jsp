@@ -189,12 +189,12 @@
         <c:choose>
             <c:when test="${not empty sessionScope.userId}">
                 <p>Your Rating: ${userRating != null ? userRating.rating : "Not Rated"}</p>
-                <form method="post" action="${pageContext.request.contextPath}/movie">
-                    <input type="hidden" name="id" value="${movie.id}">
+                <form action="${pageContext.request.contextPath}/ratings/rate" method="post">
+                    <input type="hidden" name="movieId" value="${movie.id}">
                     <label for="rating">Rate the Movie (1-100):</label>
                     <input type="number" id="rating" name="rating" min="1" max="100"
                            value="${userRating != null ? userRating.rating : ''}" required>
-                    <button type="submit" name="action" value="rate">Submit Rating</button>
+                    <button type="submit">Submit Rating</button>
                 </form>
             </c:when>
 
@@ -221,10 +221,10 @@
         </c:forEach>
 
         <c:if test="${not empty sessionScope.userId}">
-            <form method="post" action="${pageContext.request.contextPath}/movie">
-                <input type="hidden" name="id" value="${movie.id}">
+            <form action="${pageContext.request.contextPath}/reviews/add" method="post">
+                <input type="hidden" name="movieId" value="${movie.id}">
                 <textarea name="content" placeholder="Write your review..." required></textarea>
-                <button type="submit" name="action" value="review">Submit Review</button>
+                <button type="submit">Submit Review</button>
             </form>
         </c:if>
     </div>

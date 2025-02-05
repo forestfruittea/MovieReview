@@ -5,6 +5,7 @@ import com.example.movierev.repository.UserRepository;
 import com.example.movierev.filter.Role;
 
 import com.example.movierev.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/register")
+@Slf4j
 public class RegistrationController {
 
     private final UserService userService;
@@ -25,12 +26,14 @@ public class RegistrationController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping
+    @GetMapping("/register")
     public String showRegistrationPage(Model model) {
 //        model.addAttribute("roles", Role.values()); // Pass roles to JSP
+        log.info("register page was achieved");
         return "register"; // This should map to register.jsp
+
     }
-    @PostMapping
+    @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password) {
         if (userService.findByUsername(username).isPresent()) {
             return "redirect:/register?error";
@@ -39,9 +42,9 @@ public class RegistrationController {
         UserDto newUser = new UserDto();
         newUser.setUsername(username);
         newUser.setPassword(hashedPassword);
-        newUser.setRole(Role.CUSTOMER);
+        newUser.setRole(Role.ROLE_CUSTOMER);
 
         userService.registerUser(newUser);
-        return "redirect:/login";
+        return "redirect:/register";
     }
 }

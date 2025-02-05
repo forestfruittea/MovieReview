@@ -8,13 +8,14 @@ import com.example.movierev.service.RatingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 @Slf4j
 public class RatingServiceImpl implements RatingService {
     private final RatingRepository ratingRepository;
@@ -26,6 +27,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     // Find rating by user and movie
+    @Transactional(readOnly = true)
     @Override
     public Optional<RatingDto> findByUserAndMovie(Long userId, Long movieId) {
         Optional<RatingEntity> ratingEntity = ratingRepository.findByUserIdAndMovieId(userId, movieId);
@@ -45,6 +47,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    @Transactional
     public RatingDto save(RatingDto ratingDto) {
         RatingEntity ratingEntity = ratingMapper.toEntity(ratingDto);
         ratingEntity = ratingRepository.save(ratingEntity);
@@ -54,6 +57,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public double calculateAverageRating(Long movieId) {
         List<RatingEntity> ratings = ratingRepository.findByMovieId(movieId);
         log.debug("calculates average rating for movie");
@@ -65,10 +69,11 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    @Transactional
     public RatingDto update(RatingDto ratingDto) {
         RatingEntity ratingEntity = ratingMapper.toEntity(ratingDto);
         ratingEntity = ratingRepository.save(ratingEntity);
         log.debug("updates rate");
-        return ratingMapper.toDto(ratingEntity);
+        return RatingDto.of(ratingEntity);
     }
 }

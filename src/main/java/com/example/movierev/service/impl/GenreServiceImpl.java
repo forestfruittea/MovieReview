@@ -1,6 +1,7 @@
 package com.example.movierev.service.impl;
 
 import com.example.movierev.dto.GenreDto;
+import com.example.movierev.dto.RatingDto;
 import com.example.movierev.entity.GenreEntity;
 import com.example.movierev.mapper.impl.GenreMapper;
 import com.example.movierev.repository.GenreRepository;
@@ -8,6 +9,7 @@ import com.example.movierev.service.GenreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +27,12 @@ public class GenreServiceImpl implements GenreService {
         this.genreMapper = genreMapper;
     }
     @Override
+    @Transactional
     public GenreDto save(GenreDto genreDto) {
         GenreEntity genreEntity = genreMapper.toEntity(genreDto);
         genreEntity = genreRepository.save(genreEntity);
         log.debug("saves genre");
-        return genreMapper.toDto(genreEntity);
+        return GenreDto.of(genreEntity);
     }
 //TODO
 //    @Override
@@ -41,18 +44,21 @@ public class GenreServiceImpl implements GenreService {
 //    }
 
     @Override
+    @Transactional(readOnly = true)
     public void delete(Long genreId) {
         log.debug("deletes genre");
         genreRepository.deleteById(genreId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<GenreDto> findById(Long genreId) {
         Optional<GenreEntity> genreEntity = genreRepository.findById(genreId);
         log.debug("finds genre by id");
         return genreEntity.map(GenreDto::of);
     }
     @Override
+    @Transactional(readOnly = true)
     public List<GenreDto> findAllByMovieId(Long movieId){
         List<GenreEntity> genreEntities = genreRepository.findAllByMovieId(movieId);
         log.debug("finds all genres by movie id");
@@ -62,6 +68,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GenreDto> findAll() {
         List<GenreEntity> genreEntities = genreRepository.findAll();
         log.debug("finds all genres");
@@ -70,6 +77,7 @@ public class GenreServiceImpl implements GenreService {
                 .collect(Collectors.toList());
     }
     @Override
+    @Transactional(readOnly = true)
     public List<GenreDto> findAllSorted() {
         List<GenreEntity> genreEntities = genreRepository.findAllSortedByName();
         return genreEntities.stream()
@@ -78,6 +86,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional
     public GenreDto findOrSave(GenreDto genreDto) {
         Optional<GenreEntity> existing = genreRepository.findByName(genreDto.getName());
         if (existing.isPresent()) {
@@ -89,6 +98,7 @@ public class GenreServiceImpl implements GenreService {
         return genreMapper.toDto(savedGenre);
     }
     @Override
+    @Transactional(readOnly = true)
     public List<GenreDto> getGenresByNames(List<String> genreNames) {
         // Find genres by their names
         return genreRepository.findByNameIn(genreNames).stream()

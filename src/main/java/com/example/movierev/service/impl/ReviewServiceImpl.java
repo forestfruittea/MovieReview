@@ -39,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public void save(ReviewDto reviewDto) {
         Optional<MovieEntity> movieOptional = movieRepository.findById(reviewDto.getMovie().getId());
         if (movieOptional.isEmpty()) {
@@ -63,6 +64,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.save(reviewEntity);
         }
     @Override
+    @Transactional(readOnly = true)
     public void delete(Long reviewId) {
         reviewRepository.deleteById(reviewId);
         log.debug("deletes review");
@@ -89,6 +91,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toList());
     }
     @Override
+    @Transactional(readOnly = true)
     public List<ReviewDto> findAllSortedByUsernameAndMovieTitle() {
         log.debug("finds all reviews sorted by username and movie title");
 

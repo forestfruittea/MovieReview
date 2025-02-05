@@ -1,8 +1,7 @@
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<fmt:setBundle basename="i18n.messages"/>
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale :'en'}" />
+
 <!DOCTYPE html>
 <html lang="en">
 
